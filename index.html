@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Numerologia · Portret Complet</title>
+<title>NumeroLogIA — Numerologie + IA</title>
 <style>
 :root{
   --bg:#0a0d18; --bg2:#0d1120; --surf:#12172a; --surf2:#171d33; --line:#262d47;
@@ -160,6 +160,38 @@ table.t tr:hover td{background:var(--surf2)}
 .xbtn.del:hover{border-color:var(--bad); color:var(--bad)}
 .toast{position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px); background:var(--surf); border:1px solid var(--gild2); color:var(--ink); padding:11px 20px; border-radius:10px; font-size:14px; box-shadow:var(--sh); opacity:0; transition:.3s; z-index:50; pointer-events:none}
 .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+#reportView{display:none}
+body.report-open{overflow:hidden}
+body.report-open #reportView{display:block;position:fixed;inset:0;z-index:9999;overflow:auto;background:var(--bg);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#reportView .report-toolbar{position:sticky;top:0;display:flex;gap:10px;justify-content:flex-end;padding:13px 20px;background:var(--surf);border-bottom:1px solid var(--line);z-index:2}
+#reportView .report-body{max-width:820px;margin:0 auto;padding:28px 28px 60px}
+#reportView .rpt-head{text-align:center;border-bottom:2px solid var(--gild);padding-bottom:15px;margin-bottom:6px}
+#reportView .rpt-mark{font-family:var(--mono);letter-spacing:.28em;text-transform:uppercase;font-size:11px;color:var(--gild)}
+#reportView .rpt-head h1{font-family:var(--serif);font-size:29px;margin:8px 0 4px;color:var(--ink)}
+#reportView .rpt-sub{font-size:15px;color:var(--cele);margin:2px 0}
+#reportView .rpt-date{font-size:11.5px;color:var(--mut);margin:6px 0 0}
+#reportView .rpt-sec{margin-top:20px;break-inside:avoid}
+#reportView .rpt-sec h2{font-family:var(--serif);font-size:18px;color:var(--gild);border-bottom:1px solid var(--line);padding-bottom:5px;margin:0 0 9px}
+#reportView .rpt-row{display:flex;gap:12px;align-items:baseline;padding:5px 0;border-bottom:1px dotted var(--line)}
+#reportView .rpt-row .rl{width:180px;font-size:13px;color:var(--mut);flex-shrink:0}
+#reportView .rpt-row .rv{font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
+#reportView .rpt-row .rn{font-size:13px;color:var(--cele)}
+#reportView .rpt-pills{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+#reportView .rpt-pill{flex:1;min-width:88px;text-align:center;border:1px solid var(--line);border-radius:10px;padding:9px 6px;background:var(--surf)}
+#reportView .rpt-pill .pl{font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.08em}
+#reportView .rpt-pill .pc{font-family:var(--serif);font-size:25px;color:var(--gild);margin:3px 0}
+#reportView .rpt-pill .pm{font-size:10px;color:var(--mut)}
+#reportView .rpt-chart{max-width:340px;margin:8px auto 0}
+#reportView .rpt-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+#reportView .rpt-tbl th,#reportView .rpt-tbl td{border:1px solid var(--line);padding:6px 9px;text-align:left}
+#reportView .rpt-tbl th{background:var(--surf);color:var(--cele);font-weight:600}
+#reportView .rpt-score{font-size:15px;margin:4px 0 8px;color:var(--ink)}
+#reportView .rpt-foot{margin-top:24px;font-size:11.5px;color:var(--mut);border-top:1px solid var(--line);padding-top:10px}
+@media print{
+  body.report-open .wrap,body.report-open header.top{display:none!important}
+  body.report-open #reportView{position:static!important;overflow:visible!important;background:#fff!important;display:block!important}
+  body.report-open .report-toolbar{display:none!important}
+}
 @media print{
   #sky,header.top .controls,nav.tabs,.btn-row,.icon-btn,.natal-bar .btn,.note,.toast{display:none!important}
   body{background:#fff; color:#000}
@@ -183,7 +215,7 @@ table.t tr:hover td{background:var(--surf2)}
         <g stroke-opacity=".5"><line x1="50" y1="8" x2="50" y2="92"/><line x1="11" y1="27" x2="89" y2="73"/><line x1="89" y1="27" x2="11" y2="73"/></g>
       </svg>
     </div>
-    <h1 data-i="appTitle">Numerologia<span class="sub" data-i="appSub">Portret numeric complet</span></h1>
+    <h1 data-i="appTitle">NumeroLogIA</h1>
   </div>
   <div class="controls">
     <select class="lang-sel" id="langSel" aria-label="Language">
@@ -208,6 +240,8 @@ table.t tr:hover td{background:var(--surf2)}
   <button data-tab="compat" data-i="tabCompat">Compatibilitate</button>
   <button data-tab="univers" data-i="tabUniverse">Universal &amp; Referință</button>
   <button data-tab="bazi" data-i="tabBazi">BaZi</button>
+  <button data-tab="bio" data-i="tabBio">Bioritm</button>
+  <button data-tab="ia" data-i="tabIA">IA</button>
   <button data-tab="salvate" data-i="tabSaved">Salvate</button>
 </nav>
 <div class="card natal-bar" id="natalBar">
@@ -225,6 +259,7 @@ table.t tr:hover td{background:var(--surf2)}
     <button class="btn ghost" id="saveBtn" data-i="btnSave">Salvează portretul</button>
     <button class="btn ghost" id="shareBtn" data-i="btnShare">Copiază link partajabil</button>
     <button class="btn ghost" id="demoBtn" data-i="btnDemo">Exemplu</button>
+    <button class="btn ghost" id="reportBtn" data-i="btnReport">Raport PDF</button>
   </div>
 </div>
 <div id="numDetail" class="card" style="display:none;position:relative" role="region" aria-live="polite"></div>
@@ -286,6 +321,8 @@ table.t tr:hover td{background:var(--surf2)}
   <div class="ref-grid" id="refGrid"></div>
 </section>
 <section class="panel" id="panel-bazi"><div id="baziOut"></div></section>
+<section class="panel" id="panel-bio"><div id="bioOut"></div></section>
+<section class="panel" id="panel-ia"><div id="aiOut"></div></section>
 <section class="panel" id="panel-salvate">
   <div class="card">
     <p class="eyebrow" data-i="savedEye">Portrete păstrate local</p>
@@ -300,6 +337,7 @@ table.t tr:hover td{background:var(--surf2)}
 </p>
 </div>
 <div class="toast" id="toast"></div>
+<div id="reportView" data-theme="light" role="dialog" aria-modal="true"></div>
 <script>
 "use strict";
 /* ===== Letter value maps ===== */
@@ -409,6 +447,23 @@ function ratePair(a,b){
   const ga=(COMPAT[a]&&COMPAT[a][b]!==undefined)?COMPAT[a][b]:1;
   const gb=(COMPAT[b]&&COMPAT[b][a]!==undefined)?COMPAT[b][a]:1;
   return Math.round((ga+gb)/2);
+}
+/* Chinese zodiac compatibility by branch index (0=Rat..11=Pig) -> rating 0..3 */
+function animalCompat(a,b){
+  if(a===b)return 2;
+  if((a+6)%12===b)return 0;                         /* 六沖 clash */
+  const sixHe={0:1,1:0,2:11,11:2,3:10,10:3,4:9,9:4,5:8,8:5,6:7,7:6};
+  if(sixHe[a]===b)return 3;                          /* 六合 harmony */
+  const trine=[[0,4,8],[1,5,9],[2,6,10],[3,7,11]];
+  for(const tr of trine){if(tr.indexOf(a)>=0&&tr.indexOf(b)>=0)return 3;} /* 三合 trine */
+  return 1;
+}
+/* Western sun-sign compatibility by sign index (0=Aries..11=Pisces) -> rating 0..3 */
+function signCompat(s1,s2){
+  const e1=s1%4,e2=s2%4;                              /* 0 fire,1 earth,2 air,3 water */
+  if(e1===e2)return 3;
+  if((e1===0&&e2===2)||(e1===2&&e2===0)||(e1===1&&e2===3)||(e1===3&&e2===1))return 2;
+  return 1;
 }
 /* ===== Core number meanings ===== */
 const CORE={
@@ -1207,6 +1262,7 @@ function renderCycles(){
   const cur=root(pc.py.v);
   for(let i=1;i<=9;i++){const on=i===cur;h+='<div class="med" data-type="personalYear" data-val="'+i+'" data-label="'+t('personalYear')+' '+i+'" style="padding:12px 8px'+(on?'':';opacity:.55')+'"><div class="disc" style="width:54px;height:54px;margin-bottom:0'+(on?';border-color:var(--gild);box-shadow:0 0 16px -4px var(--gild)':'')+'"><span class="num" style="font-size:24px">'+i+'</span></div>'+(on?'<div class="root" style="color:var(--gild);margin-top:5px">'+t('now')+'</div>':'')+'</div>';}
   h+='</div>';
+  h+='<div class="card" style="margin:0 0 4px 0"><p class="eyebrow">'+t('cycleWaveTitle')+'</p>'+cycleWaveSVG(P.date.m,P.date.d,fd.y)+'</div>';
   h+='<h3 class="sec-h">'+t('pinnTitle')+'</h3><p class="sec-sub">'+t('pinnDesc')+'</p><div class="tl">';
   for(let i=0;i<4;i++){
     const a=P.pc.ages[i]; const isNow=age>=a.from&&(a.to===null||age<a.to);
@@ -1329,6 +1385,23 @@ function renderCompat(){
   aspects.forEach(a=>{const r=ratePair(a[1],a[2]);h+='<tr><td>'+t(a[0])+'</td><td><span class="v">'+badge(a[1])+'</span></td><td><span class="v">'+badge(a[2])+'</span></td><td><span class="pill '+rc[r]+'">'+rl[r]+'</span></td></tr>';});
   h+='</tbody></table>';
   h+='<p style="margin:14px 0 0;font-size:14px;color:var(--ink)">'+compatText(ratePair(lp1,lp2),lp1,lp2)+'</p></div>';
+  /* --- astrological compatibility (Chinese zodiac + Western sun sign) --- */
+  const an1=bzPillars(d1.y,d1.m,d1.d,false,12,0).year.b, an2=bzPillars(d2.y,d2.m,d2.d,false,12,0).year.b;
+  const ss1=Math.floor(solarLong(bzJDN(d1.y,d1.m,d1.d))/30)%12, ss2=Math.floor(solarLong(bzJDN(d2.y,d2.m,d2.d))/30)%12;
+  const zr=animalCompat(an1,an2), sr=signCompat(ss1,ss2), AN=bzLoc(BZ_ANIMAL), WS=bzLoc(WSIGN);
+  h+='<div class="card"><h3 class="sec-h" style="margin-top:0">'+t('astroCompatTitle')+'</h3>';
+  h+='<table class="t"><thead><tr><th>'+t('aspect')+'</th><th>'+(n1?esc(n1):t('person1'))+'</th><th>'+(n2?esc(n2):t('person2'))+'</th><th>'+t('rating')+'</th></tr></thead><tbody>';
+  h+='<tr><td>'+t('zodiacTitle')+'</td><td>'+AN[an1]+'</td><td>'+AN[an2]+'</td><td><span class="pill '+rc[zr]+'">'+rl[zr]+'</span></td></tr>';
+  h+='<tr><td>'+t('sunTitle')+'</td><td>'+WS[ss1]+'</td><td>'+WS[ss2]+'</td><td><span class="pill '+rc[sr]+'">'+rl[sr]+'</span></td></tr>';
+  h+='</tbody></table><p class="sec-sub" style="margin:8px 0 0 0">'+t('astroCompatNote')+'</p></div>';
+  h+=bioCompatHTML(d1,d2);
+  const radarAx=[{label:t('rxLife'),value:ratePair(lp1,lp2)}];
+  if(n1&&n2){const b1=nameNumbers(n1,state.sys,state.ymode),b2=nameNumbers(n2,state.sys,state.ymode);radarAx.push({label:t('rxExpr'),value:ratePair(b1.expression.v,b2.expression.v)});radarAx.push({label:t('rxSoul'),value:ratePair(b1.soul.v,b2.soul.v)});}
+  radarAx.push({label:t('rxZodiac'),value:zr});radarAx.push({label:t('rxSun'),value:sr});
+  let bsum=0;const jd1=bzJDN(d1.y,d1.m,d1.d),jd2=bzJDN(d2.y,d2.m,d2.d);for(let i=0;i<3;i++){bsum+=(Math.cos(2*Math.PI*(jd2-jd1)/BIO_RHYTHMS[i].period)+1)/2;}
+  radarAx.push({label:t('rxBio'),value:bsum});
+  h+='<div class="card" style="text-align:center"><p class="eyebrow" style="text-align:left">'+t('compatRadarTitle')+'</p>'+radarSVG(radarAx,3,'#d4af6a')+'</div>';
+  h+='<div style="text-align:center;margin-top:4px"><button class="btn ghost" onclick="reportCompare()">'+t('btnReportCompare')+'</button></div>';
   box.innerHTML=h;
 }
 
@@ -1359,17 +1432,18 @@ window.loadSaved=function(i){const it=getSaved()[i];if(!it)return;$('inName').va
 window.delSaved=function(i){if(!confirm(t('confirmDel')))return;const list=getSaved();list.splice(i,1);setSaved(list);renderSaved();};
 
 /* ---------- tabs + dispatch ---------- */
-const NATAL_TABS=['profil','cicluri','grila','bazi'];
+const NATAL_TABS=['profil','cicluri','grila','bazi','bio','ia'];
 function renderTab(name){
   if(name==='profil')renderProfile(); else if(name==='cicluri')renderCycles(); else if(name==='grila')renderGrid();
   else if(name==='nume'){renderName();renderCmp();} else if(name==='compat')renderCompat();
   else if(name==='univers')renderUniverse(); else if(name==='salvate')renderSaved();
-  else if(name==='bazi')renderBazi();
+  else if(name==='bazi')renderBazi(); else if(name==='bio')renderBio(); else if(name==='ia')renderAI();
 }
 function switchTab(name){
   document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id==='panel-'+name));
   $('natalBar').style.display=NATAL_TABS.indexOf(name)>=0?'block':'none';
+  if(name==='compat'&&$('p1date')&&!$('p1date').value&&$('inDate').value){$('p1date').value=$('inDate').value;if(!$('p1name').value)$('p1name').value=$('inName').value;}
   $('numDetail').style.display='none'; state.tab=name; renderTab(name);
 }
 
@@ -1580,7 +1654,9 @@ function renderBazi(){
   for(let i=0;i<5;i++){const pct=tot?Math.round(tally[i]/tot*100):0;out+='<div style="display:flex;align-items:center;gap:10px;margin:5px 0"><div style="width:78px;font-size:13px">'+E[i]+'</div><div style="flex:1;background:var(--surf2);border-radius:6px;overflow:hidden;height:14px"><div style="width:'+pct+'%;height:100%;background:var(--gild)"></div></div><div style="font-family:var(--mono);font-size:12px;width:40px;text-align:right">'+pct+'%</div></div>';}
   out+='<p style="margin:11px 0 0 0;font-size:13.5px"><b style="color:var(--cele)">'+t('strongestLbl')+':</b> '+E[maxi]+' <span style="color:var(--mut)">('+esc(loc(ELEM_KW[maxi]))+')</span> &nbsp;·&nbsp; <b style="color:var(--cele)">'+t('weakestLbl')+':</b> '+E[mini]+'</p>';
   const resE=(dmE+4)%5, supp=tally[dmE]+tally[resE], suppPct=tot?Math.round(supp/tot*100):0, verdict=suppPct>=55?t('dmStrong'):(suppPct>=45?t('dmBalanced'):t('dmWeak'));
-  out+='<p style="margin:8px 0 0 0;font-size:13.5px"><b style="color:var(--cele)">'+t('dmSupportLbl')+':</b> '+suppPct+'% — '+verdict+'</p><p class="sec-sub" style="margin:4px 0 0 0">'+t('dmSupportNote')+'</p></div></div>';
+  out+='<p style="margin:8px 0 0 0;font-size:13.5px"><b style="color:var(--cele)">'+t('dmSupportLbl')+':</b> '+suppPct+'% — '+verdict+'</p><p class="sec-sub" style="margin:4px 0 0 0">'+t('dmSupportNote')+'</p>';
+  const feAxes=[0,1,2,3,4].map(i=>({label:E[i],value:tally[i]})),feMax=Math.max.apply(null,tally)||1;
+  out+='<div style="margin-top:12px">'+radarSVG(feAxes,feMax,'#d4af6a')+'</div></div></div>';
   /* --- Chinese Zodiac --- */
   const zEl=Math.floor(p.year.s/2),zPol=p.year.s%2;
   out+='<div class="card"><p class="eyebrow">'+t('zodiacEye')+'</p><h3 class="sec-h" style="margin-top:2px">'+t('zodiacTitle')+'</h3><p class="sec-sub" style="margin:2px 0 12px 0">'+t('zodiacDesc')+'</p><div class="readout"><h4>'+E[zEl]+' '+P[zPol]+' '+A[p.year.b]+' · '+GZ_BRANCH_CHAR[p.year.b]+'</h4><p>'+esc(loc(ANIMAL_TXT[p.year.b]))+'</p></div></div>';
@@ -1614,6 +1690,400 @@ Object.assign(I18N.fr,{tabBazi:"BaZi",fldTime:"Heure de naissance (facultative)"
 Object.assign(I18N.pt,{tabBazi:"BaZi",fldTime:"Hora de nascimento (opcional)",baziEye:"Os Quatro Pilares do Destino · 八字",baziTitle:"BaZi — Os Quatro Pilares",baziDesc:"O momento do seu nascimento expresso como quatro pilares de Troncos Celestes e Ramos Terrestres — o fundamento da astrologia chinesa. A hora de nascimento acrescenta o pilar da Hora.",baziNeedDate:"Introduza uma data de nascimento na barra superior para calcular os Quatro Pilares.",pillarYear:"Ano",pillarMonth:"Mês",pillarDay:"Dia",pillarHour:"Hora",hourNeedTime:"Acrescente uma hora de nascimento acima para revelar o pilar da Hora.",dayMasterLbl:"Mestre do Dia 日主",dayMasterTitle:"Mestre do Dia — o seu eu essencial",fiveElemTitle:"Equilíbrio dos Cinco Elementos",fiveElemDesc:"Como os cinco elementos se distribuem pelos seus pilares. O mais forte molda a sua natureza; o mais fraco mostra o que cultivar.",strongestLbl:"Mais forte",weakestLbl:"Mais fraco",zodiacEye:"Animal e elemento do ano",zodiacTitle:"Zodíaco Chinês",zodiacDesc:"O animal do seu ano e o seu elemento, ajustado a Lìchūn — o início solar do ano, por volta de 4 de fevereiro.",sunEye:"Zodíaco tropical por data",sunTitle:"Signo Solar Ocidental",sunDesc:"O seu signo solar pela data de nascimento, com o seu elemento e modalidade.",mayanEye:"Calendário sagrado de 260 dias",mayanTitle:"Tzolk'in Maia — Signo do Dia",mayanDesc:"O seu signo do dia e tom no Tzolk'in (correlação GMT, 584283).",toneLbl:"Tom",baziMethodNote:"Convenções: o ano muda no Lìchūn (~4 fev.), os meses seguem os termos solares, o dia muda à meia-noite e a hora é usada tal como introduzida (sem conversão de fuso). Perto de um limite, verifique com uma calculadora localizada."});
 Object.assign(I18N.ca,{tabBazi:"BaZi",fldTime:"Hora de naixement (opcional)",baziEye:"Els Quatre Pilars del Destí · 八字",baziTitle:"BaZi — Els Quatre Pilars",baziDesc:"El moment del teu naixement expressat com quatre pilars de Troncs Celestes i Branques Terrestres — el fonament de l'astrologia xinesa. L'hora de naixement afegeix el pilar de l'Hora.",baziNeedDate:"Introdueix una data de naixement a la barra superior per calcular els Quatre Pilars.",pillarYear:"Any",pillarMonth:"Mes",pillarDay:"Dia",pillarHour:"Hora",hourNeedTime:"Afegeix una hora de naixement a dalt per revelar el pilar de l'Hora.",dayMasterLbl:"Amo del Dia 日主",dayMasterTitle:"Amo del Dia — el teu jo essencial",fiveElemTitle:"Equilibri dels Cinc Elements",fiveElemDesc:"Com es distribueixen els cinc elements en els teus pilars. El més fort modela la teva natura; el més feble mostra què cultivar.",strongestLbl:"El més fort",weakestLbl:"El més feble",zodiacEye:"Animal i element de l'any",zodiacTitle:"Zodíac Xinès",zodiacDesc:"L'animal del teu any i el seu element, ajustat a Lìchūn — l'inici solar de l'any, cap al 4 de febrer.",sunEye:"Zodíac tropical per data",sunTitle:"Signe Solar Occidental",sunDesc:"El teu signe solar segons la data de naixement, amb el seu element i modalitat.",mayanEye:"Calendari sagrat de 260 dies",mayanTitle:"Tzolk'in Maia — Signe del Dia",mayanDesc:"El teu signe del dia i to en el Tzolk'in (correlació GMT, 584283).",toneLbl:"To",baziMethodNote:"Convencions: l'any canvia a Lìchūn (~4 feb.), els mesos segueixen els termes solars, el dia canvia a mitjanit i l'hora s'usa tal com s'introdueix (sense conversió de fus). A prop d'un límit, verifica amb una calculadora localitzada."});
 
+[["en",{astroCompatTitle:"Chinese Zodiac & Sun Sign match",astroCompatNote:"Chinese zodiac uses the San-He trines, Liu-He harmonies and clashes; sun signs use elemental affinity. A playful complement to the numerology above."}],
+["ro",{astroCompatTitle:"Potrivire Zodiac Chinezesc & Zodie Solară",astroCompatNote:"Zodiacul chinezesc folosește triunghiurile San-He, armoniile Liu-He și conflictele; zodiile solare folosesc afinitatea elementelor. Un complement jucăuș pentru numerologia de mai sus."}],
+["it",{astroCompatTitle:"Affinità Zodiaco Cinese & Segno Solare",astroCompatNote:"Lo zodiaco cinese usa i trigoni San-He, le armonie Liu-He e i conflitti; i segni solari usano l'affinità degli elementi. Un complemento giocoso alla numerologia sopra."}],
+["es",{astroCompatTitle:"Afinidad Zodíaco Chino y Signo Solar",astroCompatNote:"El zodíaco chino usa los trígonos San-He, las armonías Liu-He y los choques; los signos solares usan la afinidad de los elementos. Un complemento lúdico a la numerología de arriba."}],
+["fr",{astroCompatTitle:"Affinité Zodiaque Chinois & Signe Solaire",astroCompatNote:"Le zodiaque chinois utilise les trigones San-He, les harmonies Liu-He et les conflits ; les signes solaires utilisent l'affinité des éléments. Un complément ludique à la numérologie ci-dessus."}],
+["pt",{astroCompatTitle:"Afinidade Zodíaco Chinês & Signo Solar",astroCompatNote:"O zodíaco chinês usa os trígonos San-He, as harmonias Liu-He e os conflitos; os signos solares usam a afinidade dos elementos. Um complemento lúdico à numerologia acima."}],
+["ca",{astroCompatTitle:"Afinitat Zodíac Xinès i Signe Solar",astroCompatNote:"El zodíac xinès usa els trígons San-He, les harmonies Liu-He i els conflictes; els signes solars usen l'afinitat dels elements. Un complement lúdic a la numerologia de dalt."}]
+].forEach(function(e){Object.assign(I18N[e[0]],e[1]);});
+
+/* ============================================================
+   Reusable charts: radar (spider) + personal-year cycle wave
+   All paints via style= so CSS variables resolve in SVG.
+   ============================================================ */
+function radarSVG(axes,maxVal,color){
+  const W=340,H=300,cx=W/2,cy=H/2+4,R=Math.min(W,H)/2-50,N=axes.length;
+  const ang=i=>(-Math.PI/2+i*2*Math.PI/N);
+  const pt=(i,r)=>[cx+Math.cos(ang(i))*r, cy+Math.sin(ang(i))*r];
+  let s='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="display:block;max-width:360px;margin:0 auto" xmlns="http://www.w3.org/2000/svg">';
+  [0.25,0.5,0.75,1].forEach(f=>{let p='';for(let i=0;i<N;i++){const q=pt(i,R*f);p+=q[0].toFixed(1)+','+q[1].toFixed(1)+' ';}s+='<polygon points="'+p.trim()+'" style="fill:none;stroke:var(--line);stroke-width:0.6"/>';});
+  for(let i=0;i<N;i++){const e=pt(i,R);s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+e[0].toFixed(1)+'" y2="'+e[1].toFixed(1)+'" style="stroke:var(--line);stroke-width:0.5"/>';
+    const l=pt(i,R+15),co=Math.cos(ang(i)),anch=Math.abs(co)<0.3?'middle':(co>0?'start':'end');
+    s+='<text x="'+l[0].toFixed(1)+'" y="'+(l[1]+3).toFixed(1)+'" text-anchor="'+anch+'" font-size="10.5" style="fill:var(--mut)">'+esc(axes[i].label)+'</text>';}
+  let dp='';const vv=[];for(let i=0;i<N;i++){const r=R*Math.max(0,Math.min(1,maxVal?axes[i].value/maxVal:0));const q=pt(i,r);vv.push(q);dp+=q[0].toFixed(1)+','+q[1].toFixed(1)+' ';}
+  s+='<polygon points="'+dp.trim()+'" style="fill:'+color+'33;stroke:'+color+';stroke-width:2;stroke-linejoin:round"/>';
+  vv.forEach(q=>{s+='<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="3" style="fill:'+color+'"/>';});
+  return s+'</svg>';
+}
+function cycleWaveSVG(bm,bd,cy){
+  const W=720,H=180,pl=28,pr=14,ptp=16,pb=24,pw=W-pl-pr,ph=H-ptp-pb;
+  const y0=cy-6,y1=cy+6;
+  const X=y=>pl+(y-y0)/(y1-y0)*pw, Y=v=>ptp+(9-v)/8*ph;
+  const pyOf=year=>root(reduce(root(bm)+root(bd)+root(year)).v);
+  let s='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="display:block" xmlns="http://www.w3.org/2000/svg">';
+  [1,5,9].forEach(v=>{const yy=Y(v);s+='<line x1="'+pl+'" y1="'+yy.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+yy.toFixed(1)+'" style="stroke:var(--line);stroke-width:0.5"/><text x="'+(pl-5)+'" y="'+(yy+3).toFixed(1)+'" text-anchor="end" font-size="9" style="fill:var(--mut)">'+v+'</text>';});
+  let pts='';const dots=[];for(let yr=y0;yr<=y1;yr++){const v=pyOf(yr),x=X(yr),yy=Y(v);pts+=x.toFixed(1)+','+yy.toFixed(1)+' ';dots.push([x,yy,yr,v]);}
+  s+='<polyline points="'+pts.trim()+'" style="fill:none;stroke:var(--gild);stroke-width:1.6;opacity:0.45;stroke-linejoin:round"/>';
+  dots.forEach(d=>{const cur=d[2]===cy;s+='<circle cx="'+d[0].toFixed(1)+'" cy="'+d[1].toFixed(1)+'" r="'+(cur?5:2.6)+'" style="fill:'+(cur?'var(--gild)':'var(--cele)')+'"/>';
+    s+='<text x="'+d[0].toFixed(1)+'" y="'+(H-pb+13)+'" text-anchor="middle" font-size="8.5" style="fill:'+(cur?'var(--gild)':'var(--mut)')+'">\u2019'+(d[2]+'').slice(-2)+'</text>';
+    if(cur)s+='<text x="'+d[0].toFixed(1)+'" y="'+(d[1]-9).toFixed(1)+'" text-anchor="middle" font-size="11" style="fill:var(--gild);font-weight:bold">'+d[3]+'</text>';});
+  return s+'</svg>';
+}
+
+/* --- chart labels (7 languages) --- */
+[["en",{compatRadarTitle:"Compatibility at a glance",cycleWaveTitle:"Personal-year wave",rxLife:"Path",rxExpr:"Expression",rxSoul:"Soul",rxZodiac:"Zodiac",rxSun:"Sun",rxBio:"Bio"}],
+["ro",{compatRadarTitle:"Compatibilitate pe scurt",cycleWaveTitle:"Unda anului personal",rxLife:"Drum",rxExpr:"Expresie",rxSoul:"Suflet",rxZodiac:"Zodiac",rxSun:"Soare",rxBio:"Bioritm"}],
+["it",{compatRadarTitle:"Compatibilità a colpo d'occhio",cycleWaveTitle:"Onda dell'anno personale",rxLife:"Cammino",rxExpr:"Espressione",rxSoul:"Anima",rxZodiac:"Zodiaco",rxSun:"Sole",rxBio:"Bioritmo"}],
+["es",{compatRadarTitle:"Compatibilidad de un vistazo",cycleWaveTitle:"Onda del año personal",rxLife:"Camino",rxExpr:"Expresión",rxSoul:"Alma",rxZodiac:"Zodíaco",rxSun:"Sol",rxBio:"Biorritmo"}],
+["fr",{compatRadarTitle:"Compatibilité en un coup d'œil",cycleWaveTitle:"Onde de l'année personnelle",rxLife:"Chemin",rxExpr:"Expression",rxSoul:"Âme",rxZodiac:"Zodiaque",rxSun:"Soleil",rxBio:"Biorythme"}],
+["pt",{compatRadarTitle:"Compatibilidade num relance",cycleWaveTitle:"Onda do ano pessoal",rxLife:"Caminho",rxExpr:"Expressão",rxSoul:"Alma",rxZodiac:"Zodíaco",rxSun:"Sol",rxBio:"Biorritmo"}],
+["ca",{compatRadarTitle:"Compatibilitat d'un cop d'ull",cycleWaveTitle:"Ona de l'any personal",rxLife:"Camí",rxExpr:"Expressió",rxSoul:"Ànima",rxZodiac:"Zodíac",rxSun:"Sol",rxBio:"Biorritme"}]
+].forEach(function(e){Object.assign(I18N[e[0]],e[1]);});
+
+/* ============================================================
+   Biorhythm (live SVG charts) + biorhythm compatibility
+   ============================================================ */
+const BIO_RHYTHMS=[
+ {key:"bioPhysical",period:23,color:"#e0707a"},
+ {key:"bioEmotional",period:28,color:"#d4af6a"},
+ {key:"bioIntellectual",period:33,color:"#6aa6d4"},
+ {key:"bioIntuitive",period:38,color:"#9a86d4"},
+ {key:"bioAesthetic",period:43,color:"#6ad4a6"},
+ {key:"bioSpiritual",period:53,color:"#d49a6a"}];
+function bioVal(days,period){return Math.sin(2*Math.PI*days/period);}
+function jdnToDate(jdn){
+  let a=jdn+32044, b=Math.floor((4*a+3)/146097), c=a-Math.floor(146097*b/4);
+  let d=Math.floor((4*c+3)/1461), e=c-Math.floor(1461*d/4), m=Math.floor((5*e+2)/153);
+  const day=e-Math.floor((153*m+2)/5)+1, month=m+3-12*Math.floor(m/10), year=100*b+d-4800+Math.floor(m/10);
+  return {y:year,m:month,d:day};
+}
+function bioSVG(birth,target){
+  const W=720,H=270,pl=40,pr=14,ptp=14,pb=26, pw=W-pl-pr, ph=H-ptp-pb;
+  const t0=target-15,t1=target+15;
+  const X=d=>pl+(d-t0)/(t1-t0)*pw, Y=v=>ptp+(1-v)/2*ph;
+  let s='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="display:block" xmlns="http://www.w3.org/2000/svg">';
+  [-1,-0.5,0,0.5,1].forEach(v=>{const y=Y(v).toFixed(1);s+='<line x1="'+pl+'" y1="'+y+'" x2="'+(W-pr)+'" y2="'+y+'" style="stroke:var(--line);stroke-width:'+(v===0?1.2:0.6)+(v===0?'':';stroke-dasharray:3 4')+'"/>';});
+  [100,50,0,-50,-100].forEach(p=>{const y=(Y(p/100)+3).toFixed(1);s+='<text x="'+(pl-6)+'" y="'+y+'" text-anchor="end" font-size="9" style="fill:var(--mut)">'+p+'</text>';});
+  for(let k=-15;k<=15;k+=5){const x=X(target+k).toFixed(1);s+='<line x1="'+x+'" y1="'+ptp+'" x2="'+x+'" y2="'+(H-pb)+'" style="stroke:var(--line);stroke-width:0.4;stroke-dasharray:2 5"/><text x="'+x+'" y="'+(H-pb+13)+'" text-anchor="middle" font-size="9" style="fill:var(--mut)">'+(k>0?"+"+k:k)+'</text>';}
+  const cx=X(target).toFixed(1);
+  s+='<line x1="'+cx+'" y1="'+ptp+'" x2="'+cx+'" y2="'+(H-pb)+'" style="stroke:var(--gild);stroke-width:1.2;stroke-dasharray:4 3;opacity:0.75"/>';
+  for(let i=0;i<3;i++){const r=BIO_RHYTHMS[i];let pts="";for(let d=t0;d<=t1+0.001;d+=0.25){pts+=X(d).toFixed(1)+","+Y(bioVal(d-birth,r.period)).toFixed(1)+" ";}
+    s+='<polyline points="'+pts.trim()+'" style="fill:none;stroke:'+r.color+';stroke-width:2;stroke-linejoin:round"/>';
+    const vt=bioVal(target-birth,r.period);s+='<circle cx="'+cx+'" cy="'+Y(vt).toFixed(1)+'" r="3.6" style="fill:'+r.color+'"/>';}
+  return s+'</svg>';
+}
+function renderBio(){
+  const box=$('bioOut'); const dt=readDate($('inDate').value);
+  if(!dt){box.innerHTML='<div class="card"><div class="empty-note"><span class="big">&#8767;</span>'+t('bioNeedDate')+'</div></div>';return;}
+  let h='<div class="card"><p class="eyebrow">'+t('bioEye')+'</p><h3 class="sec-h" style="margin-top:2px">'+t('bioTitle')+'</h3><p class="sec-sub" style="margin:2px 0 12px 0">'+t('bioDesc')+'</p>';
+  h+='<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px">';
+  h+='<label style="font-size:13px;color:var(--mut)">'+t('bioTargetLbl')+'</label>';
+  h+='<input type="range" id="bioSlider" min="-60" max="60" value="0" step="1" oninput="bioUpdate()" style="flex:1;min-width:170px;accent-color:var(--gild)">';
+  h+='<button class="btn ghost" style="padding:6px 12px" onclick="var s=document.getElementById(\'bioSlider\');s.value=0;bioUpdate();">'+t('bioToday')+'</button>';
+  h+='<span id="bioDateLbl" style="font-family:var(--mono);font-size:13px;color:var(--gild);min-width:130px;text-align:right"></span></div>';
+  h+='<div id="bioChart" style="margin:4px 0"></div>';
+  h+='<div id="bioVals" class="med-grid" style="margin-top:8px"></div>';
+  h+='<div id="bioExtra" class="sec-sub" style="margin-top:10px"></div>';
+  h+='<p class="sec-sub" style="margin-top:6px">'+t('bioCriticalNote')+'</p></div>';
+  box.innerHTML=h; bioUpdate();
+}
+window.renderBio=renderBio;
+function bioUpdate(){
+  const dt=readDate($('inDate').value); if(!dt)return;
+  const sl=$('bioSlider'); const off=sl?(parseInt(sl.value,10)||0):0;
+  const now=new Date(); const todayJDN=bzJDN(now.getFullYear(),now.getMonth()+1,now.getDate());
+  const birth=bzJDN(dt.y,dt.m,dt.d), target=todayJDN+off, days=target-birth;
+  const td=jdnToDate(target); if($('bioDateLbl'))$('bioDateLbl').textContent=fmtDate({d:td.d,m:td.m,y:td.y})+(off===0?' · '+t('bioToday'):'');
+  if($('bioChart'))$('bioChart').innerHTML=bioSVG(birth,target);
+  let v='';
+  for(let i=0;i<3;i++){const r=BIO_RHYTHMS[i],val=bioVal(days,r.period),pct=Math.round(val*100);
+    const st=Math.abs(val)<0.12?t('bioCritical'):(val>=0?t('bioHigh'):t('bioLow'));
+    const stc=Math.abs(val)<0.12?'var(--wine)':(val>=0?'var(--good)':'var(--mut)');
+    v+='<div class="med" style="cursor:default"><div class="lbl"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:'+r.color+';margin-right:5px;vertical-align:middle"></span>'+t(r.key)+'</div><div class="disc"><span class="num" style="font-size:30px;color:'+r.color+'">'+(pct>0?"+":"")+pct+'</span></div><div class="name" style="color:'+stc+'">'+st+'</div></div>';}
+  if($('bioVals'))$('bioVals').innerHTML=v;
+  const ex=[]; for(let i=3;i<6;i++){const r=BIO_RHYTHMS[i],pct=Math.round(bioVal(days,r.period)*100);ex.push(t(r.key)+': '+(pct>0?"+":"")+pct+'%');}
+  if($('bioExtra'))$('bioExtra').innerHTML=t('bioDaysAlive')+': <b>'+days.toLocaleString()+'</b> &nbsp;·&nbsp; '+ex.join(' &nbsp;·&nbsp; ');
+}
+window.bioUpdate=bioUpdate;
+function bioCompatHTML(d1,d2){
+  const j1=bzJDN(d1.y,d1.m,d1.d), j2=bzJDN(d2.y,d2.m,d2.d), diff=j2-j1; let sum=0,rows='';
+  for(let i=0;i<3;i++){const r=BIO_RHYTHMS[i],phi=2*Math.PI*diff/r.period,c=Math.round((Math.cos(phi)+1)/2*100);sum+=c;
+    rows+='<div style="display:flex;align-items:center;gap:10px;margin:5px 0"><div style="width:100px;font-size:13px"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:'+r.color+';margin-right:5px;vertical-align:middle"></span>'+t(r.key)+'</div><div style="flex:1;background:var(--surf2);border-radius:6px;overflow:hidden;height:14px"><div style="width:'+c+'%;height:100%;background:'+r.color+'"></div></div><div style="font-family:var(--mono);font-size:12px;width:40px;text-align:right">'+c+'%</div></div>';}
+  const overall=Math.round(sum/3);
+  return '<div class="card"><h3 class="sec-h" style="margin-top:0">'+t('bioCompatTitle')+'</h3><p class="sec-sub" style="margin:0 0 10px 0">'+t('bioCompatDesc')+'</p>'+rows+'<p style="margin:10px 0 0 0;font-size:13.5px"><b style="color:var(--cele)">'+t('overallCompat')+':</b> '+overall+'%</p></div>';
+}
+
+/* --- biorhythm UI strings (7 languages) --- */
+[["en",{tabBio:"Biorhythm",bioEye:"Physical · emotional · intellectual cycles",bioTitle:"Biorhythm — live cycles",bioDesc:"Three sine cycles running from your birth: physical (23 days), emotional (28) and intellectual (33). Drag the slider to move through time.",bioNeedDate:"Enter a birth date in the bar above to chart your biorhythms.",bioTargetLbl:"Date",bioToday:"today",bioDaysAlive:"Days alive",bioCriticalNote:"'Critical' days are when a curve crosses zero — the cycle switches phase and feels less stable. Positive = high (discharging) phase, negative = low (recharging) phase.",bioCompatTitle:"Biorhythm compatibility",bioCompatDesc:"How closely two people's cycles stay in phase (independent of date) — higher means more naturally in sync.",bioHigh:"high",bioLow:"low",bioCritical:"critical",bioPhysical:"Physical",bioEmotional:"Emotional",bioIntellectual:"Intellectual",bioIntuitive:"Intuitive",bioAesthetic:"Aesthetic",bioSpiritual:"Spiritual"}],
+["ro",{tabBio:"Bioritm",bioEye:"Cicluri fizic · emoțional · intelectual",bioTitle:"Bioritm — cicluri live",bioDesc:"Trei cicluri sinusoidale care pornesc de la naștere: fizic (23 zile), emoțional (28) și intelectual (33). Trage cursorul ca să te miști în timp.",bioNeedDate:"Introdu o dată de naștere în bara de sus pentru a-ți trasa bioritmurile.",bioTargetLbl:"Data",bioToday:"azi",bioDaysAlive:"Zile trăite",bioCriticalNote:"Zilele 'critice' sunt cele când o curbă trece prin zero — ciclul își schimbă faza și e mai puțin stabil. Pozitiv = fază înaltă (de consum), negativ = fază joasă (de refacere).",bioCompatTitle:"Compatibilitate de bioritm",bioCompatDesc:"Cât de aproape rămân în fază ciclurile a două persoane (independent de dată) — mai mult înseamnă mai sincronizat natural.",bioHigh:"ridicat",bioLow:"scăzut",bioCritical:"critic",bioPhysical:"Fizic",bioEmotional:"Emoțional",bioIntellectual:"Intelectual",bioIntuitive:"Intuitiv",bioAesthetic:"Estetic",bioSpiritual:"Spiritual"}],
+["it",{tabBio:"Bioritmo",bioEye:"Cicli fisico · emotivo · intellettuale",bioTitle:"Bioritmo — cicli live",bioDesc:"Tre cicli sinusoidali dalla nascita: fisico (23 giorni), emotivo (28) e intellettuale (33). Trascina il cursore per muoverti nel tempo.",bioNeedDate:"Inserisci una data di nascita nella barra in alto per tracciare i tuoi bioritmi.",bioTargetLbl:"Data",bioToday:"oggi",bioDaysAlive:"Giorni vissuti",bioCriticalNote:"I giorni 'critici' sono quando una curva attraversa lo zero — il ciclo cambia fase ed è meno stabile. Positivo = fase alta (di scarica), negativo = fase bassa (di recupero).",bioCompatTitle:"Compatibilità del bioritmo",bioCompatDesc:"Quanto restano in fase i cicli di due persone (indipendente dalla data) — più alto significa più naturalmente in sincrono.",bioHigh:"alto",bioLow:"basso",bioCritical:"critico",bioPhysical:"Fisico",bioEmotional:"Emotivo",bioIntellectual:"Intellettuale",bioIntuitive:"Intuitivo",bioAesthetic:"Estetico",bioSpiritual:"Spirituale"}],
+["es",{tabBio:"Biorritmo",bioEye:"Ciclos físico · emocional · intelectual",bioTitle:"Biorritmo — ciclos en vivo",bioDesc:"Tres ciclos sinusoidales desde tu nacimiento: físico (23 días), emocional (28) e intelectual (33). Arrastra el control para moverte en el tiempo.",bioNeedDate:"Introduce una fecha de nacimiento en la barra superior para trazar tus biorritmos.",bioTargetLbl:"Fecha",bioToday:"hoy",bioDaysAlive:"Días vividos",bioCriticalNote:"Los días 'críticos' son cuando una curva cruza el cero — el ciclo cambia de fase y es menos estable. Positivo = fase alta (de descarga), negativo = fase baja (de recarga).",bioCompatTitle:"Compatibilidad de biorritmo",bioCompatDesc:"Cuánto se mantienen en fase los ciclos de dos personas (independiente de la fecha) — más alto significa más sincronizado de forma natural.",bioHigh:"alto",bioLow:"bajo",bioCritical:"crítico",bioPhysical:"Físico",bioEmotional:"Emocional",bioIntellectual:"Intelectual",bioIntuitive:"Intuitivo",bioAesthetic:"Estético",bioSpiritual:"Espiritual"}],
+["fr",{tabBio:"Biorythme",bioEye:"Cycles physique · émotionnel · intellectuel",bioTitle:"Biorythme — cycles en direct",bioDesc:"Trois cycles sinusoïdaux depuis votre naissance : physique (23 jours), émotionnel (28) et intellectuel (33). Glissez le curseur pour avancer dans le temps.",bioNeedDate:"Saisissez une date de naissance dans la barre du haut pour tracer vos biorythmes.",bioTargetLbl:"Date",bioToday:"aujourd'hui",bioDaysAlive:"Jours vécus",bioCriticalNote:"Les jours 'critiques' sont ceux où une courbe traverse le zéro — le cycle change de phase et est moins stable. Positif = phase haute (de décharge), négatif = phase basse (de recharge).",bioCompatTitle:"Compatibilité des biorythmes",bioCompatDesc:"À quel point les cycles de deux personnes restent en phase (indépendant de la date) — plus élevé signifie plus naturellement synchronisé.",bioHigh:"haut",bioLow:"bas",bioCritical:"critique",bioPhysical:"Physique",bioEmotional:"Émotionnel",bioIntellectual:"Intellectuel",bioIntuitive:"Intuitif",bioAesthetic:"Esthétique",bioSpiritual:"Spirituel"}],
+["pt",{tabBio:"Biorritmo",bioEye:"Ciclos físico · emocional · intelectual",bioTitle:"Biorritmo — ciclos ao vivo",bioDesc:"Três ciclos sinusoidais desde o seu nascimento: físico (23 dias), emocional (28) e intelectual (33). Arraste o cursor para avançar no tempo.",bioNeedDate:"Introduza uma data de nascimento na barra superior para traçar os seus biorritmos.",bioTargetLbl:"Data",bioToday:"hoje",bioDaysAlive:"Dias vividos",bioCriticalNote:"Os dias 'críticos' são quando uma curva cruza o zero — o ciclo muda de fase e fica menos estável. Positivo = fase alta (de descarga), negativo = fase baixa (de recarga).",bioCompatTitle:"Compatibilidade de biorritmo",bioCompatDesc:"Quão em fase permanecem os ciclos de duas pessoas (independente da data) — mais alto significa mais naturalmente sincronizado.",bioHigh:"alto",bioLow:"baixo",bioCritical:"crítico",bioPhysical:"Físico",bioEmotional:"Emocional",bioIntellectual:"Intelectual",bioIntuitive:"Intuitivo",bioAesthetic:"Estético",bioSpiritual:"Espiritual"}],
+["ca",{tabBio:"Biorritme",bioEye:"Cicles físic · emocional · intel·lectual",bioTitle:"Biorritme — cicles en directe",bioDesc:"Tres cicles sinusoïdals des del teu naixement: físic (23 dies), emocional (28) i intel·lectual (33). Arrossega el control per moure't en el temps.",bioNeedDate:"Introdueix una data de naixement a la barra superior per traçar els teus biorritmes.",bioTargetLbl:"Data",bioToday:"avui",bioDaysAlive:"Dies viscuts",bioCriticalNote:"Els dies 'crítics' són quan una corba travessa el zero — el cicle canvia de fase i és menys estable. Positiu = fase alta (de descàrrega), negatiu = fase baixa (de recàrrega).",bioCompatTitle:"Compatibilitat de biorritme",bioCompatDesc:"Com de en fase es mantenen els cicles de dues persones (independent de la data) — més alt significa més sincronitzat de manera natural.",bioHigh:"alt",bioLow:"baix",bioCritical:"crític",bioPhysical:"Físic",bioEmotional:"Emocional",bioIntellectual:"Intel·lectual",bioIntuitive:"Intuïtiu",bioAesthetic:"Estètic",bioSpiritual:"Espiritual"}]
+].forEach(function(e){Object.assign(I18N[e[0]],e[1]);});
+
+/* ============================================================
+   IA — optional LLM oracle. Privacy-first: talks ONLY to the
+   endpoint the user configures (local Ollama / LM Studio /
+   llama.cpp, or any OpenAI-compatible URL). Nothing is bundled,
+   nothing is sent anywhere else. Fully offline with a local model.
+   ============================================================ */
+function aiGet(k){try{return localStorage.getItem('num_ai_'+k);}catch(e){return null;}}
+function aiSet(k,v){try{localStorage.setItem('num_ai_'+k,v);}catch(e){}}
+function aiLangName(){return ({en:'English',ro:'Romanian',it:'Italian',es:'Spanish',fr:'French',pt:'Portuguese',ca:'Catalan'})[state.lang]||'English';}
+function aiParseSSELine(line){
+  line=(line||'').trim(); if(!line)return null;
+  if(line.indexOf('data:')===0)line=line.slice(5).trim();
+  if(line==='[DONE]')return '__DONE__';
+  try{const o=JSON.parse(line);const ch=o.choices&&o.choices[0];if(!ch)return null;const d=ch.delta?ch.delta.content:(ch.message?ch.message.content:undefined);return (typeof d==='string')?d:null;}catch(e){return null;}
+}
+async function aiChat(messages,onToken,onDone,onError){
+  const base=(aiGet('base')||'http://localhost:11434/v1').replace(/\/+$/,'');
+  const model=aiGet('model')||'llama3.2'; const key=aiGet('key')||'';
+  const url=base+'/chat/completions';
+  const headers={'Content-Type':'application/json'}; if(key)headers['Authorization']='Bearer '+key;
+  try{
+    const res=await fetch(url,{method:'POST',headers:headers,body:JSON.stringify({model:model,messages:messages,stream:true,temperature:0.75})});
+    if(!res.ok){let tx='';try{tx=await res.text();}catch(e){} onError('HTTP '+res.status+(tx?': '+tx.slice(0,160):'')); return;}
+    if(!res.body||!res.body.getReader){ try{const j=await res.json();const c=j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content;if(c)onToken(c);onDone();}catch(e){onError(String(e&&e.message||e));} return; }
+    const reader=res.body.getReader(),dec=new TextDecoder(); let buf='';
+    while(true){const r=await reader.read(); if(r.done)break; buf+=dec.decode(r.value,{stream:true});
+      let idx; while((idx=buf.indexOf('\n'))>=0){const line=buf.slice(0,idx); buf=buf.slice(idx+1);
+        const tok=aiParseSSELine(line); if(tok==='__DONE__'){onDone();return;} if(tok)onToken(tok);}}
+    const last=aiParseSSELine(buf); if(last&&last!=='__DONE__')onToken(last);
+    onDone();
+  }catch(e){onError(String(e&&e.message||e)+' — '+ (typeof t==='function'?t('aiHint'):''));}
+}
+function aiContext(){
+  const P=profile; if(!P||!P.hasDate)return null; const D=P.date,L=[];
+  const SE=['Wood','Fire','Earth','Metal','Water'],POL=['Yang','Yin'];
+  const ANI=['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
+  const SGN=['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'];
+  L.push('Birth date: '+D.y+'-'+('0'+D.m).slice(-2)+'-'+('0'+D.d).slice(-2));
+  if(P.name)L.push('Name: '+P.name);
+  L.push('Numerology system: '+(state.sys==='chal'?'Chaldean':'Pythagorean'));
+  L.push('Life Path: '+P.lp.primary.v);
+  if(P.hasName){L.push('Expression: '+P.nn.expression.v);L.push('Soul Urge: '+P.nn.soul.v);L.push('Personality: '+P.nn.personality.v);}
+  L.push('Birthday number: '+P.birthday.v);
+  if(P.maturity)L.push('Maturity: '+P.maturity.v);
+  const fd=readDate(todayISO())||readDate('2000-01-01'); const pc=personalCycles(D.d,D.m,fd.y,fd.m,fd.d);
+  L.push('Personal Year now: '+pc.py.v+'; Personal Day today: '+pc.pd.v);
+  L.push('Age: '+ageNow(D.d,D.m,D.y));
+  const tv=$('inTime')?$('inTime').value:''; let hasT=false,h=12,mi=0; if(tv&&/^\d{1,2}:\d{2}/.test(tv)){const pp=tv.split(':');h=+pp[0];mi=+pp[1]||0;if(h>=0&&h<24)hasT=true;}
+  const bp=bzPillars(D.y,D.m,D.d,hasT,h,mi); const dmE=Math.floor(bp.day.s/2),dmP=bp.day.s%2;
+  L.push('BaZi Day Master: '+POL[dmP]+' '+SE[dmE]);
+  L.push('BaZi year animal: '+ANI[bp.year.b]+' ('+POL[bp.year.s%2]+' '+SE[Math.floor(bp.year.s/2)]+')');
+  const tal=bzElementTally(bp),tot=tal.reduce((a,b)=>a+b,0)||1;
+  L.push('Five Elements: '+SE.map((n,i)=>n+' '+Math.round(tal[i]/tot*100)+'%').join(', '));
+  const now=new Date(),tj=bzJDN(now.getFullYear(),now.getMonth()+1,now.getDate()),da=tj-bzJDN(D.y,D.m,D.d);
+  L.push('Biorhythm today: Physical '+Math.round(bioVal(da,23)*100)+'%, Emotional '+Math.round(bioVal(da,28)*100)+'%, Intellectual '+Math.round(bioVal(da,33)*100)+'%');
+  L.push('Western Sun Sign: '+SGN[Math.floor(solarLong(bzJDN(D.y,D.m,D.d))/30)%12]);
+  L.push('Maya Tzolkin tone: '+tzolkin(bzJDN(D.y,D.m,D.d)).tone);
+  return L.join('\n');
+}
+function aiCompatContext(){
+  const d1=readDate($('p1date').value),d2=readDate($('p2date').value); if(!d1||!d2)return null;
+  const n1=$('p1name').value.trim(),n2=$('p2name').value.trim();
+  const ANI=['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
+  const SGN=['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'];
+  const lp1=lifePath(d1.d,d1.m,d1.y).primary.v,lp2=lifePath(d2.d,d2.m,d2.y).primary.v;
+  const an1=bzPillars(d1.y,d1.m,d1.d,false,12,0).year.b,an2=bzPillars(d2.y,d2.m,d2.d,false,12,0).year.b;
+  const ss1=Math.floor(solarLong(bzJDN(d1.y,d1.m,d1.d))/30)%12,ss2=Math.floor(solarLong(bzJDN(d2.y,d2.m,d2.d))/30)%12;
+  const L=[];
+  L.push('Person 1'+(n1?' ('+n1+')':'')+': Life Path '+lp1+', Chinese '+ANI[an1]+', Sun '+SGN[ss1]);
+  L.push('Person 2'+(n2?' ('+n2+')':'')+': Life Path '+lp2+', Chinese '+ANI[an2]+', Sun '+SGN[ss2]);
+  if(n1&&n2){const a1=nameNumbers(n1,state.sys,state.ymode),a2=nameNumbers(n2,state.sys,state.ymode);L.push('Expression '+a1.expression.v+' & '+a2.expression.v+'; Soul Urge '+a1.soul.v+' & '+a2.soul.v);}
+  return L.join('\n');
+}
+async function aiRun(task){
+  const out=$('aiResp'); if(!out)return; if(aiBusy)return;
+  const sys={role:'system',content:'You are a warm, perceptive guide blending numerology, Chinese BaZi, biorhythm and astrology. Respond in '+aiLangName()+'. Be specific and grounded; weave the figures into a coherent insight rather than listing them. Frame everything as reflective self-exploration and entertainment, never as deterministic prediction or as medical, financial or legal advice. Keep a kind, encouraging tone.'};
+  let messages=null;
+  if(task==='ask'){const q=$('aiAsk')?$('aiAsk').value.trim():''; if(!q){out.textContent=t('aiNeedQuestion');return;} const ctx=aiContext(); messages=[sys,{role:'user',content:(ctx?('Context about me:\n'+ctx+'\n\n'):'')+'Question: '+q}];}
+  else if(task==='compat'){const c=aiCompatContext(); if(!c){out.textContent=t('aiNeedCompat');return;} messages=[sys,{role:'user',content:'Two people:\n'+c+'\n\nWrite a nuanced relationship reading: shared strengths, likely friction points, and a little practical advice. Stay balanced and kind. About 3 short paragraphs.'}];}
+  else {const ctx=aiContext(); if(!ctx){out.textContent=t('aiNeedProfile');return;} const instr=(task==='daily')?'Give brief, practical guidance for today, grounded in the personal day number and the current biorhythm. At most two short paragraphs.':'Write a cohesive personality portrait that integrates the numerology core, the BaZi Day Master and element balance, and the astrological signs into one picture. About three short paragraphs.'; messages=[sys,{role:'user',content:'My data:\n'+ctx+'\n\n'+instr}];}
+  out.textContent=t('aiThinking'); aiBusy=true;
+  let acc='',first=true;
+  aiChat(messages,function(tok){if(first){acc='';first=false;}acc+=tok;out.textContent=acc;},function(){aiBusy=false;if(first)out.textContent=t('aiEmpty');},function(err){aiBusy=false;out.innerHTML='<span style="color:var(--wine)">'+esc(t('aiError')+': '+err)+'</span>';});
+}
+function renderAI(){
+  const box=$('aiOut');
+  const base=esc(aiGet('base')||'http://localhost:11434/v1'),model=esc(aiGet('model')||'llama3.2'),key=esc(aiGet('key')||'');
+  let h='<div class="card"><p class="eyebrow">'+t('aiEye')+'</p><h3 class="sec-h" style="margin-top:2px">'+t('aiTitle')+'</h3><p class="sec-sub" style="margin:2px 0 10px 0">'+t('aiDesc')+'</p>';
+  h+='<p class="sec-sub" style="margin:0 0 12px 0;border-left:2px solid var(--gild);padding-left:11px">'+t('aiPrivacy')+'</p>';
+  h+='<details style="margin-bottom:14px"><summary style="cursor:pointer;font-size:13.5px;color:var(--cele)">'+t('aiSettings')+'</summary><div style="margin-top:10px">';
+  h+='<div class="field"><label>'+t('aiBaseLbl')+'</label><input type="text" id="aiBase" value="'+base+'" autocomplete="off" spellcheck="false"></div>';
+  h+='<div class="field" style="margin-top:8px"><label>'+t('aiModelLbl')+'</label><input type="text" id="aiModel" value="'+model+'" autocomplete="off" spellcheck="false"></div>';
+  h+='<div class="field" style="margin-top:10px"><label>'+t('aiInstalledLbl')+'</label><div style="display:flex;gap:8px"><select id="aiModelList" onchange="aiPickModel()" style="flex:1"><option value="">—</option></select><button class="btn ghost" style="padding:7px 12px" onclick="aiRefreshModels()">'+t('aiRefresh')+'</button></div></div>';
+  h+='<div class="field" style="margin-top:10px"><label>'+t('aiPullLbl')+'</label><div style="display:flex;gap:8px"><input type="text" id="aiPullName" value="'+model+'" autocomplete="off" spellcheck="false" style="flex:1"><button class="btn" style="padding:7px 14px" onclick="aiPullModel()">'+t('aiPullBtn')+'</button></div></div>';
+  h+='<div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">'+["llama3.2:1b","llama3.2","qwen2.5:3b","gemma2:2b","phi3.5"].map(function(m){return '<button onclick="aiSetPull(&#39;'+m+'&#39;)" style="font-size:12px;padding:4px 9px;border:1px solid var(--line);border-radius:99px;background:var(--surf);color:var(--cele);cursor:pointer">'+m+'</button>';}).join('')+'</div>';
+  h+='<div id="aiPullBar" style="height:8px;background:var(--surf2);border-radius:99px;overflow:hidden;margin-top:8px"><div id="aiPullBarFill" style="height:100%;width:0;background:var(--gild);transition:width .3s"></div></div>';
+  h+='<div id="aiPullStatus" style="font-size:12px;color:var(--mut);margin-top:5px;min-height:14px"></div>';
+  h+='<p class="sec-sub" style="margin-top:4px">'+t('aiDownloadHint')+'</p>';
+  h+='<div class="field" style="margin-top:8px"><label>'+t('aiKeyLbl')+'</label><input type="password" id="aiKey" value="'+key+'" autocomplete="off" spellcheck="false"></div>';
+  h+='<div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button class="btn ghost" style="padding:7px 14px" onclick="aiSaveSettings()">'+t('aiSave')+'</button><button class="btn ghost" style="padding:7px 14px" onclick="aiTest()">'+t('aiTest')+'</button><span id="aiStatus" style="font-size:12.5px;color:var(--mut)"></span></div>';
+  h+='<p class="sec-sub" style="margin-top:10px">'+t('aiSetupHint')+'</p>';
+  h+='</div></details>';
+  h+='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px"><button class="btn" onclick="aiPortrait()">'+t('aiBtnPortrait')+'</button><button class="btn" onclick="aiDaily()">'+t('aiBtnDaily')+'</button><button class="btn" onclick="aiCompatRun()">'+t('aiBtnCompat')+'</button></div>';
+  h+='<div class="field"><label>'+t('aiAskLbl')+'</label><div style="display:flex;gap:8px"><input type="text" id="aiAsk" placeholder="'+esc(t('aiAskPh'))+'" autocomplete="off" style="flex:1" onkeydown="aiAskKey(event)"><button class="btn" onclick="aiAsk()">'+t('aiAskBtn')+'</button></div></div>';
+  h+='<div id="aiResp" style="margin-top:14px;white-space:pre-wrap;line-height:1.62;font-size:14.5px;min-height:8px"></div>';
+  h+='<p class="sec-sub" style="margin-top:14px">'+t('aiDisclaimer')+'</p></div>';
+  box.innerHTML=h;
+}
+window.renderAI=renderAI;
+window.aiRun=aiRun;
+window.aiPortrait=function(){aiRun('portrait');};
+window.aiDaily=function(){aiRun('daily');};
+window.aiCompatRun=function(){aiRun('compat');};
+window.aiAsk=function(){aiRun('ask');};
+window.aiAskKey=function(e){if(e&&e.key==='Enter')aiRun('ask');};
+window.aiSaveSettings=function(){aiSet('base',$('aiBase').value.trim());aiSet('model',$('aiModel').value.trim());aiSet('key',$('aiKey').value);const s=$('aiStatus');if(s){s.style.color='var(--good)';s.textContent=t('aiSaved');}};
+window.aiTest=function(){const s=$('aiStatus');window.aiSaveSettings();if(s){s.style.color='var(--mut)';s.textContent=t('aiTesting');}let got='';aiChat([{role:'user',content:'Reply with just the word OK.'}],function(tok){got+=tok;},function(){if(s){s.style.color='var(--good)';s.textContent=t('aiTestOk')+(got?(' — '+got.trim().slice(0,40)):'');}},function(err){if(s){s.style.color='var(--wine)';s.textContent=t('aiTestFail')+': '+err;}});};
+
+/* --- IA UI strings + app rename (7 languages) --- */
+[["en",{tabIA:"AI",aiEye:"Local AI oracle · bring your own model",aiTitle:"AI synthesis & oracle",aiDesc:"Turn all your numbers, pillars and rhythms into a flowing reading, using a language model that runs on your own machine.",aiPrivacy:"Privacy: this talks only to the endpoint you set below. With a local model (Ollama, LM Studio, llama.cpp) nothing ever leaves your computer — no keys bundled, no telemetry.",aiSettings:"Connection settings",aiBaseLbl:"Endpoint base URL (OpenAI-compatible)",aiModelLbl:"Model",aiKeyLbl:"API key (optional — leave empty for local)",aiSave:"Save",aiTest:"Test connection",aiSaved:"Saved",aiTesting:"Testing…",aiTestOk:"Connected",aiTestFail:"Failed",aiSetupHint:"Tip: install Ollama and run e.g. 'ollama run llama3.2'. If this page is on a website (not a local file), start Ollama with OLLAMA_ORIGINS=* so the browser may connect.",aiBtnPortrait:"Portrait synthesis",aiBtnDaily:"Guidance for today",aiBtnCompat:"Compatibility reading",aiAskLbl:"Ask anything (your chart is the context)",aiAskBtn:"Ask",aiAskPh:"e.g. What should I focus on this year?",aiNeedProfile:"Enter a birth date in the bar above first.",aiNeedCompat:"Fill both people's dates in the Compatibility tab first.",aiNeedQuestion:"Type a question first.",aiThinking:"Thinking…",aiEmpty:"No response received. Check the model name and connection settings.",aiError:"Error",aiHint:"is the endpoint running and reachable?",aiDisclaimer:"AI text is generated by your chosen model and may be wrong or invented. For reflection and fun — not advice.",appTitle:"NumeroLog<span style='color:var(--gild)'>IA</span><span class='sub'>Numerology · BaZi · biorhythm · AI</span>"}],
+["ro",{tabIA:"IA",aiEye:"Oracol IA local · adu-ți propriul model",aiTitle:"Sinteză și oracol IA",aiDesc:"Transformă toate numerele, stâlpii și ritmurile într-o interpretare fluidă, cu un model lingvistic care rulează pe propriul tău calculator.",aiPrivacy:"Confidențialitate: comunică doar cu adresa setată mai jos. Cu un model local (Ollama, LM Studio, llama.cpp) nimic nu părăsește calculatorul tău — fără chei incluse, fără telemetrie.",aiSettings:"Setări conexiune",aiBaseLbl:"Adresă endpoint (compatibil OpenAI)",aiModelLbl:"Model",aiKeyLbl:"Cheie API (opțional — gol pentru local)",aiSave:"Salvează",aiTest:"Testează conexiunea",aiSaved:"Salvat",aiTesting:"Se testează…",aiTestOk:"Conectat",aiTestFail:"Eșuat",aiSetupHint:"Sfat: instalează Ollama și rulează ex. 'ollama run llama3.2'. Dacă pagina e pe un site (nu fișier local), pornește Ollama cu OLLAMA_ORIGINS=* ca browserul să se poată conecta.",aiBtnPortrait:"Sinteză de portret",aiBtnDaily:"Ghidaj pentru azi",aiBtnCompat:"Interpretare compatibilitate",aiAskLbl:"Întreabă orice (harta ta e contextul)",aiAskBtn:"Întreabă",aiAskPh:"ex. Pe ce să mă concentrez anul acesta?",aiNeedProfile:"Introdu mai întâi o dată de naștere în bara de sus.",aiNeedCompat:"Completează mai întâi datele ambelor persoane în tab-ul Compatibilitate.",aiNeedQuestion:"Scrie mai întâi o întrebare.",aiThinking:"Se gândește…",aiEmpty:"Niciun răspuns. Verifică numele modelului și setările de conexiune.",aiError:"Eroare",aiHint:"rulează și e accesibil endpoint-ul?",aiDisclaimer:"Textul IA e generat de modelul ales și poate fi greșit sau inventat. Pentru reflecție și distracție — nu un sfat.",appTitle:"NumeroLog<span style='color:var(--gild)'>IA</span><span class='sub'>Numerologie · BaZi · bioritm · IA</span>"}],
+["it",{tabIA:"IA",aiEye:"Oracolo IA locale · porta il tuo modello",aiTitle:"Sintesi e oracolo IA",aiDesc:"Trasforma tutti i tuoi numeri, pilastri e ritmi in una lettura fluida, usando un modello linguistico che gira sul tuo computer.",aiPrivacy:"Privacy: comunica solo con l'indirizzo impostato qui sotto. Con un modello locale (Ollama, LM Studio, llama.cpp) nulla lascia il tuo computer — nessuna chiave inclusa, nessuna telemetria.",aiSettings:"Impostazioni connessione",aiBaseLbl:"URL endpoint (compatibile OpenAI)",aiModelLbl:"Modello",aiKeyLbl:"Chiave API (facoltativa — vuota per locale)",aiSave:"Salva",aiTest:"Prova connessione",aiSaved:"Salvato",aiTesting:"Verifica…",aiTestOk:"Connesso",aiTestFail:"Fallito",aiSetupHint:"Suggerimento: installa Ollama e avvia es. 'ollama run llama3.2'. Se la pagina è su un sito (non un file locale), avvia Ollama con OLLAMA_ORIGINS=* per permettere la connessione del browser.",aiBtnPortrait:"Sintesi del ritratto",aiBtnDaily:"Guida per oggi",aiBtnCompat:"Lettura compatibilità",aiAskLbl:"Chiedi qualsiasi cosa (il contesto è il tuo profilo)",aiAskBtn:"Chiedi",aiAskPh:"es. Su cosa concentrarmi quest'anno?",aiNeedProfile:"Inserisci prima una data di nascita nella barra in alto.",aiNeedCompat:"Compila prima le date di entrambe le persone nella scheda Compatibilità.",aiNeedQuestion:"Scrivi prima una domanda.",aiThinking:"Sto pensando…",aiEmpty:"Nessuna risposta. Controlla il nome del modello e le impostazioni di connessione.",aiError:"Errore",aiHint:"l'endpoint è in esecuzione e raggiungibile?",aiDisclaimer:"Il testo IA è generato dal modello scelto e può essere errato o inventato. Per riflessione e divertimento — non un consiglio.",appTitle:"NumeroLog<span style='color:var(--gild)'>IA</span><span class='sub'>Numerologia · BaZi · bioritmo · IA</span>"}],
+["es",{tabIA:"IA",aiEye:"Oráculo IA local · trae tu propio modelo",aiTitle:"Síntesis y oráculo IA",aiDesc:"Convierte todos tus números, pilares y ritmos en una lectura fluida, usando un modelo de lenguaje que corre en tu propia máquina.",aiPrivacy:"Privacidad: solo se comunica con la dirección que configures abajo. Con un modelo local (Ollama, LM Studio, llama.cpp) nada sale de tu ordenador — sin claves incluidas, sin telemetría.",aiSettings:"Ajustes de conexión",aiBaseLbl:"URL del endpoint (compatible con OpenAI)",aiModelLbl:"Modelo",aiKeyLbl:"Clave API (opcional — vacía para local)",aiSave:"Guardar",aiTest:"Probar conexión",aiSaved:"Guardado",aiTesting:"Probando…",aiTestOk:"Conectado",aiTestFail:"Falló",aiSetupHint:"Consejo: instala Ollama y ejecuta p.ej. 'ollama run llama3.2'. Si la página está en un sitio (no un archivo local), inicia Ollama con OLLAMA_ORIGINS=* para que el navegador pueda conectarse.",aiBtnPortrait:"Síntesis del retrato",aiBtnDaily:"Guía para hoy",aiBtnCompat:"Lectura de compatibilidad",aiAskLbl:"Pregunta lo que sea (tu carta es el contexto)",aiAskBtn:"Preguntar",aiAskPh:"ej. ¿En qué enfocarme este año?",aiNeedProfile:"Introduce primero una fecha de nacimiento en la barra superior.",aiNeedCompat:"Completa primero las fechas de ambas personas en la pestaña Compatibilidad.",aiNeedQuestion:"Escribe primero una pregunta.",aiThinking:"Pensando…",aiEmpty:"No se recibió respuesta. Revisa el nombre del modelo y los ajustes de conexión.",aiError:"Error",aiHint:"¿está el endpoint en marcha y accesible?",aiDisclaimer:"El texto de IA lo genera el modelo elegido y puede ser erróneo o inventado. Para reflexión y diversión — no un consejo.",appTitle:"NumeroLog<span style='color:var(--gild)'>IA</span><span class='sub'>Numerología · BaZi · biorritmo · IA</span>"}],
+["fr",{tabIA:"IA",aiEye:"Oracle IA local · apportez votre modèle",aiTitle:"Synthèse et oracle IA",aiDesc:"Transformez tous vos nombres, piliers et rythmes en une lecture fluide, avec un modèle de langage qui tourne sur votre propre machine.",aiPrivacy:"Confidentialité : ne communique qu'avec l'adresse que vous définissez ci-dessous. Avec un modèle local (Ollama, LM Studio, llama.cpp) rien ne quitte votre ordinateur — aucune clé incluse, aucune télémétrie.",aiSettings:"Paramètres de connexion",aiBaseLbl:"URL de l'endpoint (compatible OpenAI)",aiModelLbl:"Modèle",aiKeyLbl:"Clé API (facultative — vide pour local)",aiSave:"Enregistrer",aiTest:"Tester la connexion",aiSaved:"Enregistré",aiTesting:"Test…",aiTestOk:"Connecté",aiTestFail:"Échec",aiSetupHint:"Astuce : installez Ollama et lancez par ex. 'ollama run llama3.2'. Si la page est sur un site (pas un fichier local), démarrez Ollama avec OLLAMA_ORIGINS=* pour autoriser la connexion du navigateur.",aiBtnPortrait:"Synthèse du portrait",aiBtnDaily:"Conseils pour aujourd'hui",aiBtnCompat:"Lecture de compatibilité",aiAskLbl:"Demandez ce que vous voulez (votre thème est le contexte)",aiAskBtn:"Demander",aiAskPh:"ex. Sur quoi me concentrer cette année ?",aiNeedProfile:"Saisissez d'abord une date de naissance dans la barre du haut.",aiNeedCompat:"Renseignez d'abord les dates des deux personnes dans l'onglet Compatibilité.",aiNeedQuestion:"Écrivez d'abord une question.",aiThinking:"Réflexion…",aiEmpty:"Aucune réponse reçue. Vérifiez le nom du modèle et les paramètres de connexion.",aiError:"Erreur",aiHint:"le point de terminaison est-il actif et accessible ?",aiDisclaimer:"Le texte IA est généré par le modèle choisi et peut être erroné ou inventé. Pour la réflexion et le plaisir — pas un conseil.",appTitle:"NumeroLog<span style='color:var(--gild)'>IA</span><span class='sub'>Numérologie · BaZi · biorythme · IA</span>"}],
+["pt",{tabIA:"IA",aiEye:"Oráculo IA local · traga o seu modelo",aiTitle:"Síntese e oráculo IA",aiDesc:"Transforme todos os seus números, pilares e ritmos numa leitura fluida, com um modelo de linguagem que corre no seu próprio computador.",aiPrivacy:"Privacidade: comunica apenas com o endereço que definir abaixo. Com um modelo local (Ollama, LM Studio, llama.cpp) nada sai do seu computador — sem chaves incluídas, sem telemetria.",aiSettings:"Definições de ligação",aiBaseLbl:"URL do endpoint (compatível com OpenAI)",aiModelLbl:"Modelo",aiKeyLbl:"Chave API (opcional — vazia para local)",aiSave:"Guardar",aiTest:"Testar ligação",aiSaved:"Guardado",aiTesting:"A testar…",aiTestOk:"Ligado",aiTestFail:"Falhou",aiSetupHint:"Dica: instale o Ollama e execute ex. 'ollama run llama3.2'. Se a página estiver num site (não um ficheiro local), inicie o Ollama com OLLAMA_ORIGINS=* para o navegador poder ligar-se.",aiBtnPortrait:"Síntese do retrato",aiBtnDaily:"Orientação para hoje",aiBtnCompat:"Leitura de compatibilidade",aiAskLbl:"Pergunte qualquer coisa (o seu mapa é o contexto)",aiAskBtn:"Perguntar",aiAskPh:"ex. Em que me focar este ano?",aiNeedProfile:"Introduza primeiro uma data de nascimento na barra superior.",aiNeedCompat:"Preencha primeiro as datas de ambas as pessoas no separador Compatibilidade.",aiNeedQuestion:"Escreva primeiro uma pergunta.",aiThinking:"A pensar…",aiEmpty:"Nenhuma resposta recebida. Verifique o nome do modelo e as definições de ligação.",aiError:"Erro",aiHint:"o endpoint está ativo e acessível?",aiDisclaimer:"O texto de IA é gerado pelo modelo escolhido e pode estar errado ou inventado. Para reflexão e diversão — não um conselho.",appTitle:"NumeroLog<span style='color:var(--gild)'>IA</span><span class='sub'>Numerologia · BaZi · biorritmo · IA</span>"}],
+["ca",{tabIA:"IA",aiEye:"Oracle IA local · porta el teu model",aiTitle:"Síntesi i oracle IA",aiDesc:"Converteix tots els teus números, pilars i ritmes en una lectura fluida, amb un model de llenguatge que s'executa al teu propi ordinador.",aiPrivacy:"Privadesa: només es comunica amb l'adreça que configuris a sota. Amb un model local (Ollama, LM Studio, llama.cpp) res no surt del teu ordinador — sense claus incloses, sense telemetria.",aiSettings:"Configuració de connexió",aiBaseLbl:"URL de l'endpoint (compatible amb OpenAI)",aiModelLbl:"Model",aiKeyLbl:"Clau API (opcional — buida per a local)",aiSave:"Desa",aiTest:"Prova la connexió",aiSaved:"Desat",aiTesting:"Provant…",aiTestOk:"Connectat",aiTestFail:"Ha fallat",aiSetupHint:"Consell: instal·la Ollama i executa p.ex. 'ollama run llama3.2'. Si la pàgina és en un lloc web (no un fitxer local), inicia Ollama amb OLLAMA_ORIGINS=* perquè el navegador s'hi pugui connectar.",aiBtnPortrait:"Síntesi del retrat",aiBtnDaily:"Guia per avui",aiBtnCompat:"Lectura de compatibilitat",aiAskLbl:"Pregunta qualsevol cosa (la teva carta és el context)",aiAskBtn:"Pregunta",aiAskPh:"ex. En què centrar-me aquest any?",aiNeedProfile:"Introdueix primer una data de naixement a la barra superior.",aiNeedCompat:"Omple primer les dates de totes dues persones a la pestanya Compatibilitat.",aiNeedQuestion:"Escriu primer una pregunta.",aiThinking:"Pensant…",aiEmpty:"No s'ha rebut cap resposta. Comprova el nom del model i la configuració de connexió.",aiError:"Error",aiHint:"l'endpoint està actiu i accessible?",aiDisclaimer:"El text d'IA el genera el model triat i pot ser erroni o inventat. Per a reflexió i diversió — no un consell.",appTitle:"NumeroLog<span style='color:var(--gild)'>IA</span><span class='sub'>Numerologia · BaZi · biorritme · IA</span>"}]
+].forEach(function(e){Object.assign(I18N[e[0]],e[1]);});
+
+/* ============================================================
+   Local model management via Ollama (download + list + run).
+   Talks only to the user's local Ollama daemon. Opt-in.
+   ============================================================ */
+let aiBusy=false;
+function aiHost(){return (aiGet('base')||'http://localhost:11434/v1').replace(/\/v1\/?$/,'').replace(/\/+$/,'');}
+async function aiTags(){const key=aiGet('key')||'';const h=key?{'Authorization':'Bearer '+key}:{};try{const r=await fetch(aiHost()+'/api/tags',{headers:h});if(!r.ok)return null;const j=await r.json();return (j&&j.models)?j.models.map(m=>m.name):[];}catch(e){return null;}}
+async function aiPull(model,onProg,onDone,onErr){
+  const key=aiGet('key')||'';const headers={'Content-Type':'application/json'};if(key)headers['Authorization']='Bearer '+key;
+  try{
+    const res=await fetch(aiHost()+'/api/pull',{method:'POST',headers:headers,body:JSON.stringify({name:model,stream:true})});
+    if(!res.ok){let tx='';try{tx=await res.text();}catch(e){} onErr('HTTP '+res.status+(tx?': '+tx.slice(0,160):'')); return;}
+    if(!res.body||!res.body.getReader){try{const j=await res.json();if(j&&j.error){onErr(j.error);return;}onDone();}catch(e){onErr(String(e&&e.message||e));}return;}
+    const reader=res.body.getReader(),dec=new TextDecoder();let buf='';
+    while(true){const r=await reader.read();if(r.done)break;buf+=dec.decode(r.value,{stream:true});
+      let idx;while((idx=buf.indexOf('\n'))>=0){const line=buf.slice(0,idx).trim();buf=buf.slice(idx+1);if(!line)continue;
+        try{const o=JSON.parse(line);if(o.error){onErr(o.error);return;}onProg(o);}catch(e){}}}
+    if(buf.trim()){try{const o=JSON.parse(buf.trim());if(o.error){onErr(o.error);return;}onProg(o);}catch(e){}}
+    onDone();
+  }catch(e){onErr(String(e&&e.message||e)+' — '+(typeof t==='function'?t('aiHint'):''));}
+}
+window.aiRefreshModels=async function(){const sel=$('aiModelList'),st=$('aiPullStatus');if(st){st.style.color='var(--mut)';st.textContent=t('aiListing');}const list=await aiTags();if(!sel)return;if(list===null){if(st){st.style.color='var(--wine)';st.textContent=t('aiTestFail');}return;}if(!list.length){if(st)st.textContent=t('aiNoModels');sel.innerHTML='<option value="">—</option>';return;}sel.innerHTML=list.map(function(m){return '<option value="'+esc(m)+'">'+esc(m)+'</option>';}).join('');const cur=aiGet('model');if(cur&&list.indexOf(cur)>=0)sel.value=cur;if(st)st.textContent='';};
+window.aiPickModel=function(){const sel=$('aiModelList');if(!sel||!sel.value)return;if($('aiModel'))$('aiModel').value=sel.value;if($('aiPullName'))$('aiPullName').value=sel.value;aiSet('model',sel.value);const st=$('aiPullStatus');if(st){st.style.color='var(--good)';st.textContent=t('aiSaved');}};
+window.aiSetPull=function(m){if($('aiPullName'))$('aiPullName').value=m;};
+window.aiPullModel=function(){const name=($('aiPullName')?$('aiPullName').value.trim():'');if(!name)return;const st=$('aiPullStatus'),bar=$('aiPullBarFill');if(bar)bar.style.width='0%';if(st){st.style.color='var(--mut)';st.textContent=t('aiPulling');}
+  aiPull(name,
+    function(o){const pct=(o.total&&o.completed)?Math.round(o.completed/o.total*100):null;if(st)st.textContent=(o.status||'')+(pct!==null?(' '+pct+'%'):'');if(bar&&pct!==null)bar.style.width=pct+'%';},
+    function(){if(bar)bar.style.width='100%';if($('aiModel'))$('aiModel').value=name;aiSet('model',name);if(st){st.style.color='var(--good)';st.textContent=t('aiPullDone');}window.aiRefreshModels();},
+    function(err){if(st){st.style.color='var(--wine)';st.textContent=t('aiPullFail')+': '+err;}});};
+
+/* --- model-download UI strings (7 languages) --- */
+[["en",{aiInstalledLbl:"Installed models (pick to use)",aiRefresh:"Refresh",aiPullLbl:"Download a model (runs locally)",aiPullBtn:"Download",aiPulling:"Downloading…",aiPullDone:"Downloaded and selected",aiPullFail:"Download failed",aiListing:"Listing…",aiNoModels:"No models yet — download one below",aiDownloadHint:"Downloads happen through your local Ollama and stay on your machine. Pick a small model if unsure."}],
+["ro",{aiInstalledLbl:"Modele instalate (alege pentru a folosi)",aiRefresh:"Reîmprospătează",aiPullLbl:"Descarcă un model (rulează local)",aiPullBtn:"Descarcă",aiPulling:"Se descarcă…",aiPullDone:"Descărcat și selectat",aiPullFail:"Descărcarea a eșuat",aiListing:"Se listează…",aiNoModels:"Niciun model încă — descarcă unul mai jos",aiDownloadHint:"Descărcările se fac prin Ollama local și rămân pe calculatorul tău. Alege un model mic dacă nu ești sigur."}],
+["it",{aiInstalledLbl:"Modelli installati (scegli per usare)",aiRefresh:"Aggiorna",aiPullLbl:"Scarica un modello (gira in locale)",aiPullBtn:"Scarica",aiPulling:"Scaricamento…",aiPullDone:"Scaricato e selezionato",aiPullFail:"Scaricamento fallito",aiListing:"Elenco…",aiNoModels:"Ancora nessun modello — scaricane uno sotto",aiDownloadHint:"I download passano dal tuo Ollama locale e restano sul tuo computer. Scegli un modello piccolo se non sei sicuro."}],
+["es",{aiInstalledLbl:"Modelos instalados (elige para usar)",aiRefresh:"Actualizar",aiPullLbl:"Descargar un modelo (corre en local)",aiPullBtn:"Descargar",aiPulling:"Descargando…",aiPullDone:"Descargado y seleccionado",aiPullFail:"La descarga falló",aiListing:"Listando…",aiNoModels:"Aún no hay modelos — descarga uno abajo",aiDownloadHint:"Las descargas pasan por tu Ollama local y se quedan en tu equipo. Elige un modelo pequeño si no estás seguro."}],
+["fr",{aiInstalledLbl:"Modèles installés (choisir pour utiliser)",aiRefresh:"Actualiser",aiPullLbl:"Télécharger un modèle (tourne en local)",aiPullBtn:"Télécharger",aiPulling:"Téléchargement…",aiPullDone:"Téléchargé et sélectionné",aiPullFail:"Échec du téléchargement",aiListing:"Liste…",aiNoModels:"Aucun modèle pour l'instant — téléchargez-en un ci-dessous",aiDownloadHint:"Les téléchargements passent par votre Ollama local et restent sur votre machine. Choisissez un petit modèle en cas de doute."}],
+["pt",{aiInstalledLbl:"Modelos instalados (escolha para usar)",aiRefresh:"Atualizar",aiPullLbl:"Descarregar um modelo (corre localmente)",aiPullBtn:"Descarregar",aiPulling:"A descarregar…",aiPullDone:"Descarregado e selecionado",aiPullFail:"Falha ao descarregar",aiListing:"A listar…",aiNoModels:"Ainda sem modelos — descarregue um abaixo",aiDownloadHint:"As descargas passam pelo seu Ollama local e ficam no seu computador. Escolha um modelo pequeno se não tiver a certeza."}],
+["ca",{aiInstalledLbl:"Models instal·lats (tria per usar)",aiRefresh:"Actualitza",aiPullLbl:"Descarrega un model (s'executa en local)",aiPullBtn:"Descarrega",aiPulling:"S'està descarregant…",aiPullDone:"Descarregat i seleccionat",aiPullFail:"La descàrrega ha fallat",aiListing:"S'està llistant…",aiNoModels:"Encara cap model — descarrega'n un a sota",aiDownloadHint:"Les descàrregues passen pel teu Ollama local i es queden al teu ordinador. Tria un model petit si no n'estàs segur."}]
+].forEach(function(e){Object.assign(I18N[e[0]],e[1]);});
+
+/* ============================================================
+   PDF reports (print / save-as-PDF). Personal + comparative.
+   Rendered in a forced light theme for legibility on paper.
+   ============================================================ */
+function reportHead(title,sub){
+  return '<div class="rpt-head"><div class="rpt-mark">NumeroLogIA</div><h1>'+esc(title)+'</h1>'+(sub?'<p class="rpt-sub">'+esc(sub)+'</p>':'')+'<p class="rpt-date">'+t('rptGenerated')+' '+esc(new Date().toLocaleString())+'</p></div>';
+}
+function rptSection(title,inner){return '<section class="rpt-sec"><h2>'+esc(title)+'</h2>'+inner+'</section>';}
+function rptRow(label,val,note){return '<div class="rpt-row"><span class="rl">'+esc(label)+'</span><span class="rv">'+val+'</span>'+(note?'<span class="rn">'+esc(note)+'</span>':'')+'</div>';}
+function buildPersonalReport(){
+  const P=profile; if(!P||!P.hasDate)return null; const D=P.date;
+  const fmt=(typeof fmtDate==='function')?fmtDate({d:D.d,m:D.m,y:D.y}):(D.y+'-'+D.m+'-'+D.d);
+  let h=reportHead(P.name||t('noName'), t('born')+': '+fmt);
+  let nums=rptRow(t('lifePath'),badge(P.lp.primary.v),loc(coreFor(P.lp.primary.v)).t);
+  if(P.hasName){nums+=rptRow(t('expression'),badge(P.nn.expression.v),loc(coreFor(P.nn.expression.v)).t);nums+=rptRow(t('soulUrge'),badge(P.nn.soul.v),loc(coreFor(P.nn.soul.v)).t);nums+=rptRow(t('personality'),badge(P.nn.personality.v),loc(coreFor(P.nn.personality.v)).t);}
+  nums+=rptRow(t('birthday'),badge(P.birthday.v),loc(coreFor(P.birthday.v)).t);
+  if(P.maturity)nums+=rptRow(t('maturity'),badge(P.maturity.v),loc(coreFor(P.maturity.v)).t);
+  h+=rptSection(t('rptNumbers'),nums);
+  const fd=readDate(todayISO())||readDate('2000-01-01'); const pc=personalCycles(D.d,D.m,fd.y,fd.m,fd.d);
+  let cyc=rptRow(t('personalYear'),badge(pc.py.v),loc(PYEAR[root(pc.py.v)]).t)+rptRow(t('personalDay'),badge(pc.pd.v),'');
+  const age=ageNow(D.d,D.m,D.y);
+  if(P.pc){for(let i=0;i<4;i++){const a=P.pc.ages[i];if(age>=a.from&&(a.to===null||age<a.to)){cyc+=rptRow(t('pinnacle')+' '+(i+1),badge(P.pc.pin[i].v)+' · '+t('challenge')+' '+P.pc.chal[i],loc(PINN[P.pc.pin[i].v]));break;}}}
+  h+=rptSection(t('rptCycles'),cyc);
+  const tv=$('inTime')?$('inTime').value:''; let hasT=false,hh=12,mi=0; if(tv&&/^\d{1,2}:\d{2}/.test(tv)){const pp=tv.split(':');hh=+pp[0];mi=+pp[1]||0;if(hh>=0&&hh<24)hasT=true;}
+  const bp=bzPillars(D.y,D.m,D.d,hasT,hh,mi);
+  const E=bzLoc(BZ_ELEM),POL=bzLoc(BZ_POL),AN=bzLoc(BZ_ANIMAL);
+  const pill=function(lbl,c){return '<div class="rpt-pill"><div class="pl">'+esc(lbl)+'</div><div class="pc">'+GZ_STEM_CHAR[c.s]+GZ_BRANCH_CHAR[c.b]+'</div><div class="pm">'+GZ_STEM_PIN[c.s]+' '+GZ_BRANCH_PIN[c.b]+'</div><div class="pm">'+esc(E[Math.floor(c.s/2)]+' / '+AN[c.b])+'</div></div>';};
+  let bz='<div class="rpt-pills">'+pill(t('pillarYear'),bp.year)+pill(t('pillarMonth'),bp.month)+pill(t('pillarDay'),bp.day)+(bp.hour?pill(t('pillarHour'),bp.hour):'')+'</div>';
+  const dmE=Math.floor(bp.day.s/2),dmP=bp.day.s%2; bz+=rptRow(t('dayMasterTitle'),esc(POL[dmP]+' '+E[dmE]),'');
+  const tal=bzElementTally(bp),tot=tal.reduce((a,b)=>a+b,0)||1;
+  bz+=rptRow(t('fiveElemTitle'),esc(E.map(function(n,i){return n+' '+Math.round(tal[i]/tot*100)+'%';}).join(' · ')),'');
+  bz+='<div class="rpt-chart">'+radarSVG([0,1,2,3,4].map(function(i){return {label:E[i],value:tal[i]};}),Math.max.apply(null,tal)||1,'#a8801f')+'</div>';
+  h+=rptSection(t('tabBazi'),bz);
+  const now=new Date(),tj=bzJDN(now.getFullYear(),now.getMonth()+1,now.getDate()),da=tj-bzJDN(D.y,D.m,D.d);
+  let bio=rptRow(t('bioPhysical'),Math.round(bioVal(da,23)*100)+'%','')+rptRow(t('bioEmotional'),Math.round(bioVal(da,28)*100)+'%','')+rptRow(t('bioIntellectual'),Math.round(bioVal(da,33)*100)+'%','');
+  h+=rptSection(t('tabBio'),bio);
+  const ss=Math.floor(solarLong(bzJDN(D.y,D.m,D.d))/30)%12, WS=bzLoc(WSIGN), tz=tzolkin(bzJDN(D.y,D.m,D.d));
+  let ast=rptRow(t('zodiacTitle'),esc(E[Math.floor(bp.year.s/2)]+' '+AN[bp.year.b]),'')+rptRow(t('sunTitle'),esc(WS[ss]),'')+rptRow(t('mayanTitle'),esc(t('toneLbl')+' '+tz.tone+' · '+MAYAN_NAME[tz.sign]),'');
+  h+=rptSection(t('rptAstro'),ast);
+  return h+'<p class="rpt-foot">'+t('rptDisclaimer')+'</p>';
+}
+function buildCompareReport(){
+  const d1=readDate($('p1date').value),d2=readDate($('p2date').value); if(!d1||!d2)return null;
+  const n1=$('p1name').value.trim(),n2=$('p2name').value.trim(); const t1=(n1||t('person1')),t2=(n2||t('person2'));
+  let h=reportHead(t('rptCompareTitle'),t1+'  ·  '+t2);
+  const rl=[t('ratingChallenging'),t('ratingComplex'),t('ratingGood'),t('ratingExcellent')];
+  const lp1=lifePath(d1.d,d1.m,d1.y).primary.v,lp2=lifePath(d2.d,d2.m,d2.y).primary.v;
+  let aspects=[[t('lpCompat'),lp1,lp2,ratePair(lp1,lp2)]];
+  if(n1&&n2){const a1=nameNumbers(n1,state.sys,state.ymode),a2=nameNumbers(n2,state.sys,state.ymode);aspects.push([t('exprCompat'),a1.expression.v,a2.expression.v,ratePair(a1.expression.v,a2.expression.v)]);aspects.push([t('soulCompat'),a1.soul.v,a2.soul.v,ratePair(a1.soul.v,a2.soul.v)]);}
+  let sum=0,rows='';aspects.forEach(function(a){sum+=a[3];rows+='<tr><td>'+esc(a[0])+'</td><td>'+badge(a[1])+'</td><td>'+badge(a[2])+'</td><td>'+esc(rl[a[3]])+'</td></tr>';});
+  const score=Math.round(sum/(aspects.length*3)*100);
+  const head='<thead><tr><th>'+t('aspect')+'</th><th>'+esc(t1)+'</th><th>'+esc(t2)+'</th><th>'+t('rating')+'</th></tr></thead>';
+  h+=rptSection(t('compatTitle'),'<p class="rpt-score">'+t('overallCompat')+': <b>'+score+'%</b></p><table class="rpt-tbl">'+head+'<tbody>'+rows+'</tbody></table>');
+  const an1=bzPillars(d1.y,d1.m,d1.d,false,12,0).year.b,an2=bzPillars(d2.y,d2.m,d2.d,false,12,0).year.b;
+  const ss1=Math.floor(solarLong(bzJDN(d1.y,d1.m,d1.d))/30)%12,ss2=Math.floor(solarLong(bzJDN(d2.y,d2.m,d2.d))/30)%12;
+  const AN=bzLoc(BZ_ANIMAL),WS=bzLoc(WSIGN),zr=animalCompat(an1,an2),sr=signCompat(ss1,ss2);
+  let atbl='<table class="rpt-tbl">'+head+'<tbody><tr><td>'+t('zodiacTitle')+'</td><td>'+esc(AN[an1])+'</td><td>'+esc(AN[an2])+'</td><td>'+esc(rl[zr])+'</td></tr><tr><td>'+t('sunTitle')+'</td><td>'+esc(WS[ss1])+'</td><td>'+esc(WS[ss2])+'</td><td>'+esc(rl[sr])+'</td></tr></tbody></table>';
+  h+=rptSection(t('astroCompatTitle'),atbl);
+  const j1=bzJDN(d1.y,d1.m,d1.d),j2=bzJDN(d2.y,d2.m,d2.d);let bsum=0,brows='';
+  [['bioPhysical',23],['bioEmotional',28],['bioIntellectual',33]].forEach(function(r){const c=Math.round((Math.cos(2*Math.PI*(j2-j1)/r[1])+1)/2*100);bsum+=c;brows+=rptRow(t(r[0]),c+'%','');});
+  h+=rptSection(t('bioCompatTitle'),brows+'<p class="rpt-score">'+t('overallCompat')+': <b>'+Math.round(bsum/3)+'%</b></p>');
+  const radarAx=[{label:t('rxLife'),value:ratePair(lp1,lp2)}];
+  if(n1&&n2){const b1=nameNumbers(n1,state.sys,state.ymode),b2=nameNumbers(n2,state.sys,state.ymode);radarAx.push({label:t('rxExpr'),value:ratePair(b1.expression.v,b2.expression.v)});radarAx.push({label:t('rxSoul'),value:ratePair(b1.soul.v,b2.soul.v)});}
+  radarAx.push({label:t('rxZodiac'),value:zr});radarAx.push({label:t('rxSun'),value:sr});
+  let bb=0;for(let i=0;i<3;i++){bb+=(Math.cos(2*Math.PI*(j2-j1)/BIO_RHYTHMS[i].period)+1)/2;}radarAx.push({label:t('rxBio'),value:bb});
+  h+=rptSection(t('compatRadarTitle'),'<div class="rpt-chart">'+radarSVG(radarAx,3,'#a8801f')+'</div>');
+  return h+'<p class="rpt-foot">'+t('rptDisclaimer')+'</p>';
+}
+function openReport(kind){
+  const v=$('reportView'); if(!v)return;
+  const html=(kind==='compare')?buildCompareReport():buildPersonalReport();
+  if(!html){toast(kind==='compare'?t('aiNeedCompat'):t('aiNeedProfile'));return;}
+  v.innerHTML='<div class="report-toolbar"><button class="btn" onclick="reportPrint()">'+t('rptPrint')+'</button><button class="btn ghost" onclick="closeReport()">'+t('rptClose')+'</button></div><div class="report-body">'+html+'</div>';
+  document.body.classList.add('report-open');
+}
+window.openReport=openReport;
+window.reportPersonal=function(){openReport('personal');};
+window.reportCompare=function(){openReport('compare');};
+window.reportPrint=function(){window.print();};
+window.closeReport=function(){document.body.classList.remove('report-open');const v=$('reportView');if(v)v.innerHTML='';};
+
+/* --- report UI strings (7 languages) --- */
+[["en",{rptNumbers:"Core numbers",rptCycles:"Cycles now",rptAstro:"Astrology",rptGenerated:"Generated",rptDisclaimer:"NumeroLogIA — for reflection and entertainment, not deterministic prediction or professional advice.",rptPrint:"Save as PDF / Print",rptClose:"Close",rptCompareTitle:"Compatibility report",btnReport:"PDF report",btnReportCompare:"Comparative PDF report"}],
+["ro",{rptNumbers:"Numere de bază",rptCycles:"Cicluri acum",rptAstro:"Astrologie",rptGenerated:"Generat",rptDisclaimer:"NumeroLogIA — pentru reflecție și divertisment, nu o predicție deterministă sau un sfat profesional.",rptPrint:"Salvează ca PDF / Printează",rptClose:"Închide",rptCompareTitle:"Raport de compatibilitate",btnReport:"Raport PDF",btnReportCompare:"Raport comparativ PDF"}],
+["it",{rptNumbers:"Numeri principali",rptCycles:"Cicli ora",rptAstro:"Astrologia",rptGenerated:"Generato",rptDisclaimer:"NumeroLogIA — per riflessione e intrattenimento, non una previsione deterministica o un consiglio professionale.",rptPrint:"Salva come PDF / Stampa",rptClose:"Chiudi",rptCompareTitle:"Rapporto di compatibilità",btnReport:"Rapporto PDF",btnReportCompare:"Rapporto comparativo PDF"}],
+["es",{rptNumbers:"Números clave",rptCycles:"Ciclos ahora",rptAstro:"Astrología",rptGenerated:"Generado",rptDisclaimer:"NumeroLogIA — para reflexión y entretenimiento, no una predicción determinista ni un consejo profesional.",rptPrint:"Guardar como PDF / Imprimir",rptClose:"Cerrar",rptCompareTitle:"Informe de compatibilidad",btnReport:"Informe PDF",btnReportCompare:"Informe comparativo PDF"}],
+["fr",{rptNumbers:"Nombres clés",rptCycles:"Cycles actuels",rptAstro:"Astrologie",rptGenerated:"Généré",rptDisclaimer:"NumeroLogIA — pour la réflexion et le divertissement, pas une prédiction déterministe ni un conseil professionnel.",rptPrint:"Enregistrer en PDF / Imprimer",rptClose:"Fermer",rptCompareTitle:"Rapport de compatibilité",btnReport:"Rapport PDF",btnReportCompare:"Rapport comparatif PDF"}],
+["pt",{rptNumbers:"Números principais",rptCycles:"Ciclos agora",rptAstro:"Astrologia",rptGenerated:"Gerado",rptDisclaimer:"NumeroLogIA — para reflexão e entretenimento, não uma previsão determinista nem um conselho profissional.",rptPrint:"Guardar como PDF / Imprimir",rptClose:"Fechar",rptCompareTitle:"Relatório de compatibilidade",btnReport:"Relatório PDF",btnReportCompare:"Relatório comparativo PDF"}],
+["ca",{rptNumbers:"Números clau",rptCycles:"Cicles ara",rptAstro:"Astrologia",rptGenerated:"Generat",rptDisclaimer:"NumeroLogIA — per a reflexió i entreteniment, no una predicció determinista ni un consell professional.",rptPrint:"Desa com a PDF / Imprimeix",rptClose:"Tanca",rptCompareTitle:"Informe de compatibilitat",btnReport:"Informe PDF",btnReportCompare:"Informe comparatiu PDF"}]
+].forEach(function(e){Object.assign(I18N[e[0]],e[1]);});
+
 /* ---------- events ---------- */
 $('langSel').addEventListener('change',()=>{state.lang=$('langSel').value;prefSet('lang',state.lang);$('numDetail').style.display='none';applyI18N();renderTab(state.tab);updateHash();});
 document.querySelectorAll('#sysSeg button').forEach(b=>b.addEventListener('click',()=>{state.sys=b.dataset.sys;prefSet('sys',state.sys);document.querySelectorAll('#sysSeg button').forEach(x=>x.classList.toggle('on',x===b));$('numDetail').style.display='none';computeProfile();renderTab(state.tab);updateHash();}));
@@ -1624,14 +2094,17 @@ $('calcBtn').addEventListener('click',()=>{computeProfile();renderTab(state.tab)
 $('saveBtn').addEventListener('click',()=>{const name=$('inName').value.trim(),date=$('inDate').value,time=$('inTime')?$('inTime').value:'';if(!name&&!date){toast(t('saveNeedData'));return;}const list=getSaved();list.unshift({name:name,date:date,time:time});setSaved(list.slice(0,50));toast(t('saveOk'));});
 $('shareBtn').addEventListener('click',()=>{computeProfile();updateHash();const url=location.href;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>toast(t('shareOk')),()=>toast(t('shareFail')));}else toast(t('shareFail'));});
 $('demoBtn').addEventListener('click',()=>{$('inName').value=t('demoName');$('inDate').value='1988-07-23';if($('inTime'))$('inTime').value='14:30';computeProfile();switchTab('profil');updateHash();});
+$('reportBtn').addEventListener('click',()=>openReport('personal'));
 $('wordBtn').addEventListener('click',renderName);
 $('cmpBtn').addEventListener('click',renderCmp);
 $('compatBtn').addEventListener('click',renderCompat);
+['p1name','p1date','p2name','p2date'].forEach(id=>{const el=$(id);if(el){el.addEventListener('input',renderCompat);el.addEventListener('change',renderCompat);}});
 $('toggleCmp').addEventListener('click',()=>{const card=$('compareNamesCard');const open=card.style.display!=='none';card.style.display=open?'none':'block';$('toggleCmp').textContent=open?t('btnShowCmp'):t('btnHideCmp');});
 ['inName','inDate','inTime'].forEach(id=>{const el=$(id);if(el)el.addEventListener('keydown',e=>{if(e.key==='Enter'){computeProfile();renderTab(state.tab);updateHash();}});});
 $('inWord').addEventListener('keydown',e=>{if(e.key==='Enter')renderName();});
 document.addEventListener('click',e=>{const m=e.target.closest?e.target.closest('[data-type][data-val]'):null;if(m){showDetail(m.getAttribute('data-type'),+m.getAttribute('data-val'),m.getAttribute('data-label')||'');}});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const m=e.target.closest?e.target.closest('[data-type][data-val]'):null;if(m){e.preventDefault();showDetail(m.getAttribute('data-type'),+m.getAttribute('data-val'),m.getAttribute('data-label')||'');}}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('report-open'))closeReport();});
 window.addEventListener('resize',drawSky);
 window.addEventListener('hashchange',()=>{});
 
