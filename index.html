@@ -42,6 +42,13 @@ header.top{display:flex; align-items:flex-end; justify-content:space-between; ga
 .seg button:not(.on):hover{color:var(--ink)}
 .icon-btn{background:var(--surf); border:1px solid var(--line); color:var(--mut); width:36px; height:34px; border-radius:9px; cursor:pointer; font-size:15px; display:grid; place-items:center; transition:.15s;}
 .icon-btn:hover{color:var(--gild); border-color:var(--gild2)}
+.lang-sel{background:var(--surf); border:1px solid var(--line); color:var(--ink); font-family:var(--sans); font-size:13px; padding:7px 28px 7px 12px; border-radius:999px; cursor:pointer; appearance:none; -webkit-appearance:none; background-image:linear-gradient(45deg,transparent 50%,var(--gild) 50%),linear-gradient(135deg,var(--gild) 50%,transparent 50%); background-position:calc(100% - 14px) center,calc(100% - 9px) center; background-size:5px 5px,5px 5px; background-repeat:no-repeat;}
+.lang-sel:hover{border-color:var(--gild2)}
+.lang-sel:focus{outline:none; border-color:var(--gild); box-shadow:0 0 0 3px rgba(212,175,106,.16)}
+.detail-close{position:absolute; top:12px; right:14px; width:30px; height:30px; border-radius:8px; border:1px solid var(--line); background:var(--surf2); color:var(--mut); font-size:20px; line-height:1; cursor:pointer; transition:.15s; z-index:2}
+.detail-close:hover{color:var(--gild); border-color:var(--gild2)}
+:focus-visible{outline:2px solid var(--gild); outline-offset:2px; border-radius:4px}
+.med:focus-visible,.mini:focus-visible{outline:2px solid var(--gild); outline-offset:2px}
 nav.tabs{display:flex; gap:4px; flex-wrap:wrap; border-bottom:1px solid var(--line); margin:6px 0 22px;}
 nav.tabs button{background:none; border:none; border-bottom:2px solid transparent; color:var(--mut); font-family:var(--sans); font-size:14px; padding:11px 15px 12px; cursor:pointer; letter-spacing:.02em; transition:.15s; margin-bottom:-1px; white-space:nowrap;}
 nav.tabs button:hover{color:var(--ink)}
@@ -179,7 +186,15 @@ table.t tr:hover td{background:var(--surf2)}
     <h1 data-i="appTitle">Numerologia<span class="sub" data-i="appSub">Portret numeric complet</span></h1>
   </div>
   <div class="controls">
-    <div class="seg" id="langSeg"><button data-lang="ro" class="on">RO</button><button data-lang="en">EN</button></div>
+    <select class="lang-sel" id="langSel" aria-label="Language">
+      <option value="en">English</option>
+      <option value="ro">Română</option>
+      <option value="it">Italiano</option>
+      <option value="es">Español</option>
+      <option value="fr">Français</option>
+      <option value="pt">Português</option>
+      <option value="ca">Català</option>
+    </select>
     <div class="seg" id="sysSeg" title="Sistem"><button data-sys="pyth" class="on">Pythagoras</button><button data-sys="chal">Chaldean</button></div>
     <button class="icon-btn" id="themeBtn" title="Theme">&#9680;</button>
     <button class="icon-btn" id="printBtn" title="Print">&#9113;</button>
@@ -192,6 +207,7 @@ table.t tr:hover td{background:var(--surf2)}
   <button data-tab="nume" data-i="tabName">Calculator nume</button>
   <button data-tab="compat" data-i="tabCompat">Compatibilitate</button>
   <button data-tab="univers" data-i="tabUniverse">Universal &amp; Referință</button>
+  <button data-tab="bazi" data-i="tabBazi">BaZi</button>
   <button data-tab="salvate" data-i="tabSaved">Salvate</button>
 </nav>
 <div class="card natal-bar" id="natalBar">
@@ -202,6 +218,7 @@ table.t tr:hover td{background:var(--surf2)}
       <span class="hint" data-i="hintName">Folosește numele complet de la naștere pentru rezultate clasice. Diacriticele sunt normalizate.</span>
     </div>
     <div class="field" style="flex:1 1 180px"><label data-i="fldBirth">Data nașterii</label><input id="inDate" type="date" min="1500-01-01" max="2200-12-31"></div>
+    <div class="field" style="flex:0 1 150px"><label data-i="fldTime">Ora nașterii (opțional)</label><input id="inTime" type="time"></div>
     <div class="field" style="flex:0 0 auto; min-width:auto"><label>&nbsp;</label><button class="btn" id="calcBtn" data-i="btnCalc">Dezvăluie portretul</button></div>
   </div>
   <div class="btn-row">
@@ -210,7 +227,7 @@ table.t tr:hover td{background:var(--surf2)}
     <button class="btn ghost" id="demoBtn" data-i="btnDemo">Exemplu</button>
   </div>
 </div>
-<div id="numDetail" class="card" style="display:none"></div>
+<div id="numDetail" class="card" style="display:none;position:relative" role="region" aria-live="polite"></div>
 <section class="panel on" id="panel-profil"><div id="profileOut"></div></section>
 <section class="panel" id="panel-cicluri"><div id="cyclesOut"></div></section>
 <section class="panel" id="panel-grila"><div id="gridOut"></div></section>
@@ -268,6 +285,7 @@ table.t tr:hover td{background:var(--surf2)}
   <p class="sec-sub" data-i="refDesc">Sensul fiecărui număr, plus corespondențele tradiționale.</p>
   <div class="ref-grid" id="refGrid"></div>
 </section>
+<section class="panel" id="panel-bazi"><div id="baziOut"></div></section>
 <section class="panel" id="panel-salvate">
   <div class="card">
     <p class="eyebrow" data-i="savedEye">Portrete păstrate local</p>
@@ -290,7 +308,7 @@ const CHAL={A:1,B:2,C:3,D:4,E:5,F:8,G:3,H:5,I:1,J:1,K:2,L:3,M:4,N:5,O:7,P:8,Q:1,
 const MASTERS=[11,22,33], KARMIC=[13,14,16,19], VOWELS="AEIOU";
 const GRID=[[3,6,9],[2,5,8],[1,4,7]];
 const ARROWS=[{cells:[3,6,9],key:'mind'},{cells:[2,5,8],key:'emotion'},{cells:[1,4,7],key:'practical'},{cells:[3,2,1],key:'planner'},{cells:[6,5,4],key:'will'},{cells:[9,8,7],key:'action'},{cells:[3,5,7],key:'spirit'},{cells:[1,5,9],key:'determination'}];
-const MONTHS={ro:["ian","feb","mar","apr","mai","iun","iul","aug","sep","oct","noi","dec"],en:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]};
+const MONTHS={ro:["ian","feb","mar","apr","mai","iun","iul","aug","sep","oct","noi","dec"],en:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],it:["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"],es:["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"],fr:["janv","févr","mars","avr","mai","juin","juil","août","sept","oct","nov","déc"],pt:["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"],ca:["gen","febr","març","abr","maig","juny","jul","ag","set","oct","nov","des"]};
 
 /* ===== Core helpers ===== */
 function digitSum(n){let s=0;n=Math.abs(n);while(n>0){s+=n%10;n=Math.floor(n/10);}return s;}
@@ -319,9 +337,9 @@ function nameNumbers(full,sys,ymode){
   const breakdown=[];
   words.forEach(w=>{
     for(let i=0;i<w.length;i++){
-      const ch=w[i], val=map[ch]||0, vw=isVowelAt(w,i,ymode);
+      const ch=w[i], val=map[ch]||0, pval=PYTH[ch]||0, vw=isVowelAt(w,i,ymode);
       allSum+=val; if(vw)allV+=val; else allC+=val;
-      if(tally[val]!==undefined)tally[val]+=1;
+      if(tally[pval]!==undefined)tally[pval]+=1;
       breakdown.push({ch:ch,val:val,vowel:vw});
     }
     breakdown.push({space:true});
@@ -563,7 +581,7 @@ const I18N={
   uniEye:"Energia colectivă a momentului",uniTitle:"Numerele universale de azi",universalYear:"Anul Universal",universalMonth:"Luna Universală",universalDay:"Ziua Universală",refTitle:"Referință completă a numerelor",refDesc:"Sensul fiecărui număr, plus corespondențele tradiționale.",
   planet:"Planetă",element:"Element",color:"Culoare",gem:"Piatră",weekday:"Zi",tarot:"Tarot",zodiac:"Zodie",bodyA:"Corp",career:"Vocații",harmony:"Numere armonioase",
   savedEye:"Portrete păstrate local",savedTitle:"Portretele tale salvate",savedDesc:"Salvate doar în acest browser (fără server, fără telemetrie).",noSaved:"Niciun portret salvat încă. Calculează un portret și apasă „Salvează”.",load:"Încarcă",del:"Șterge",confirmDel:"Ștergi acest portret salvat?",saveOk:"Portret salvat.",saveNeedData:"Completează numele sau data nașterii înainte de a salva.",shareOk:"Link copiat în clipboard.",shareFail:"Nu am putut copia automat — copiază din bara de adrese.",
-  themeT:"Comută tema",printT:"Tipărește / salvează PDF",
+  themeT:"Comută tema",printT:"Tipărește / salvează PDF",close:"Închide",demoName:"Maria Ionescu",
   note1:"<b>Despre metodă:</b> aplicația folosește numerologia pitagoreică (cu opțiune chaldeană), păstrând numerele maestru 11/22/33 și marcând datoriile karmice 13/14/16/19. Calculele sunt afișate transparent, pas cu pas.",
   note2:"<b>Notă onestă:</b> numerologia este un sistem simbolic tradițional, oferit pentru reflecție personală și explorare culturală — nu o știință. Folosește-l ca oglindă, nu ca predicție."},
  en:{appTitle:"Numerology",appSub:"Complete numeric portrait",
@@ -589,23 +607,473 @@ const I18N={
   uniEye:"The collective energy of the moment",uniTitle:"Today's universal numbers",universalYear:"Universal Year",universalMonth:"Universal Month",universalDay:"Universal Day",refTitle:"Complete number reference",refDesc:"The meaning of each number, plus its traditional correspondences.",
   planet:"Planet",element:"Element",color:"Color",gem:"Gemstone",weekday:"Weekday",tarot:"Tarot",zodiac:"Zodiac",bodyA:"Body",career:"Callings",harmony:"Harmonious numbers",
   savedEye:"Portraits kept locally",savedTitle:"Your saved portraits",savedDesc:"Saved only in this browser (no server, no telemetry).",noSaved:"No saved portraits yet. Calculate a portrait and press \u201cSave\u201d.",load:"Load",del:"Delete",confirmDel:"Delete this saved portrait?",saveOk:"Portrait saved.",saveNeedData:"Enter a name or date of birth before saving.",shareOk:"Link copied to clipboard.",shareFail:"Couldn't copy automatically — copy it from the address bar.",
-  themeT:"Toggle theme",printT:"Print / save PDF",
+  themeT:"Toggle theme",printT:"Print / save PDF",close:"Close",demoName:"Mary Johnson",
   note1:"<b>On method:</b> the app uses Pythagorean numerology (with a Chaldean option), preserving master numbers 11/22/33 and flagging karmic debts 13/14/16/19. Every calculation is shown transparently, step by step.",
   note2:"<b>An honest note:</b> numerology is a traditional symbolic system, offered for personal reflection and cultural exploration — not a science. Use it as a mirror, not a prediction."}};
+/* ===== Romance language packs (merged into base objects with EN fallback) ===== */
+const EXTRA={};
+
+/* ---------------- ITALIAN ---------------- */
+I18N.it={appTitle:"Numerologia",appSub:"Ritratto numerico completo",
+ tabProfile:"Profilo",tabCycles:"Cicli",tabGrid:"Griglia di nascita",tabName:"Calcolatore nomi",tabCompat:"Compatibilità",tabUniverse:"Universale & Riferimento",tabSaved:"Salvati",
+ fldName:"Nome completo di nascita",hintName:"Usa il nome completo di nascita per risultati classici. I segni diacritici vengono normalizzati.",fldBirth:"Data di nascita",phName:"es. Maria Rossi",phWord:"es. Eco delle Corde",phOpt:"facoltativo",
+ btnCalc:"Rivela il ritratto",btnSave:"Salva ritratto",btnShare:"Copia link condivisibile",btnDemo:"Esempio",
+ profileFor:"Ritratto di",born:"nato/a il",coreTriad:"La triade centrale",lifePath:"Sentiero di Vita",expression:"Espressione / Destino",soulUrge:"Desiderio dell'Anima",personality:"Personalità",birthday:"Numero del Giorno",maturity:"Maturità",balance:"Equilibrio",rational:"Pensiero Razionale",
+ moreNumbers:"Tutti i numeri del ritratto",karmicTitle:"Debiti e lezioni karmiche",noKarmicDebt:"Nessun numero di debito karmico (13/14/16/19) nei calcoli di base — un sentiero senza gravami karmici maggiori in queste posizioni.",karmicDebtFound:"Debiti karmici rilevati",karmicLessons:"Lezioni karmiche (numeri assenti dal nome)",noKarmicLessons:"Il nome contiene tutte le cifre 1–9 — nessuna lezione karmica classica. Una cassetta degli attrezzi interiore completa.",
+ hiddenPassion:"Passione Nascosta",subconscious:"Sé Subconscio",cornerstone:"Pietra Angolare",capstone:"Pietra di Volta",firstVowel:"Prima Vocale",letterTraits:"Tratti delle lettere",
+ detailRead:"Lettura dettagliata",detailEye:"Significato del numero",light:"Luce",shadow:"Ombra",master:"Numero maestro",karmicDebtTag:"debito karmico",methodNote:"Metodo: riduciamo separatamente giorno, mese e anno, poi li sommiamo.",method2note:"Il metodo alternativo (somma diretta delle cifre) dà",
+ fillPrompt:"Inserisci un nome e/o una data di nascita nella barra in alto, poi premi \u201cRivela il ritratto\u201d.",fillPromptShort:"Inserisci prima la data di nascita nella scheda Profilo.",fillPromptName:"Questo pannello richiede un nome. Inseriscine uno nella scheda Profilo.",
+ cyclesIntro:"I tuoi cicli personali",cyclesDesc:"L'energia dell'anno, del mese e del giorno attuali, più i grandi cicli di vita.",personalYear:"Anno Personale",personalMonth:"Mese Personale",personalDay:"Giorno Personale",forecastFor:"Previsione per la data",
+ pinnTitle:"Apici e Sfide",pinnDesc:"Quattro grandi periodi di vita, ciascuno con un'energia dominante (apice) e una lezione da equilibrare (sfida).",pinnacle:"Apice",challenge:"Sfida",ages:"Età",now:"ora",yearsOld:"anni",
+ cycleNineTitle:"Il ciclo di nove anni",cycleNineDesc:"Dove ti trovi nel cerchio di nove anni degli anni personali (da 1 a 9).",
+ essenceTitle:"Essenza e Transiti",essenceDesc:"Le lettere del tuo nome si attivano a turno con l'età, formando l'\u201cessenza\u201d dell'anno attuale.",physical:"Transito fisico (nome)",mentalT:"Transito mentale (centro)",spiritualT:"Transito spirituale (cognome)",essence:"Essenza dell'anno",ageNow:"Età ora",
+ gridIntro:"Griglia di nascita (Lo Shu)",gridDesc:"Le cifre della tua data di nascita disposte nel quadrato magico pitagorico. Le ripetizioni mostrano i punti di forza, le assenze le lezioni. Le linee complete sono \u201cfrecce\u201d.",missingNumbers:"Numeri assenti dalla data",repeatedNumbers:"Numeri accentuati (ripetuti)",arrowsTitle:"Le frecce di Pitagora",arrowsPresent:"Frecce presenti (punti di forza)",arrowsAbsent:"Frecce assenti (lezioni)",noArrows:"Nessuna freccia completa in questa data.",none:"nessuno",
+ nameEye:"Calcolatore di valore numerico",nameTitle:"Qualsiasi nome o parola",nameDesc:"Vedi il valore in entrambi i sistemi, scomposto lettera per lettera, con vocali e consonanti separate.",fldWord:"Nome / parola",btnCalcWord:"Calcola",
+ vowels:"Vocali (anima)",consonants:"Consonanti (personalità)",total:"Totale (espressione)",letterByLetter:"Lettera per lettera",pyth:"Pitagorico",chal:"Caldeo",sysLabel:"Sistema",
+ cmpEye:"Analisi del cambio di nome",cmpTitle:"Confronta due nomi",cmpDesc:"Utile per nomi d'arte, nomi da sposati o pseudonimi.",cmpA:"Nome A (nascita)",cmpB:"Nome B (attuale/d'arte)",btnCompare:"Confronta",btnShowCmp:"Apri il confronto dei nomi ▾",btnHideCmp:"Chiudi il confronto ▴",cmpHeader:"Come cambiano i numeri",unchanged:"invariato",shifts:"cambia",
+ compatEye:"Numerologia della relazione",compatTitle:"Compatibilità tra due persone",compatDesc:"Confronta Sentiero di Vita, Espressione e Desiderio dell'Anima. Il nome è facoltativo.",pAName:"Persona 1 — nome",pABirth:"Persona 1 — data di nascita",pBName:"Persona 2 — nome",pBBirth:"Persona 2 — data di nascita",btnCompat:"Analizza l'intesa",
+ overallCompat:"Intesa generale",aspectCompat:"Per aspetto",aspect:"Aspetto",person1:"Persona 1",person2:"Persona 2",rating:"Intesa",lpCompat:"Sentiero di Vita",exprCompat:"Espressione",soulCompat:"Desiderio dell'Anima",needTwoDates:"Inserisci almeno le date di nascita di entrambe le persone.",noName:"(senza nome)",
+ ratingExcellent:"Eccellente",ratingGood:"Buona",ratingComplex:"Complessa",ratingChallenging:"Impegnativa",
+ uniEye:"L'energia collettiva del momento",uniTitle:"I numeri universali di oggi",universalYear:"Anno Universale",universalMonth:"Mese Universale",universalDay:"Giorno Universale",refTitle:"Riferimento completo dei numeri",refDesc:"Il significato di ogni numero, più le sue corrispondenze tradizionali.",
+ planet:"Pianeta",element:"Elemento",color:"Colore",gem:"Pietra",weekday:"Giorno",tarot:"Tarocco",zodiac:"Zodiaco",bodyA:"Corpo",career:"Vocazioni",harmony:"Numeri armoniosi",
+ savedEye:"Ritratti conservati localmente",savedTitle:"I tuoi ritratti salvati",savedDesc:"Salvati solo in questo browser (nessun server, nessuna telemetria).",noSaved:"Nessun ritratto salvato. Calcola un ritratto e premi \u201cSalva\u201d.",load:"Carica",del:"Elimina",confirmDel:"Eliminare questo ritratto salvato?",saveOk:"Ritratto salvato.",saveNeedData:"Inserisci un nome o una data di nascita prima di salvare.",shareOk:"Link copiato negli appunti.",shareFail:"Impossibile copiare automaticamente — copialo dalla barra degli indirizzi.",
+ themeT:"Cambia tema",printT:"Stampa / salva PDF",close:"Chiudi",demoName:"Maria Rossi",
+ note1:"<b>Sul metodo:</b> l'app usa la numerologia pitagorica (con opzione caldea), conservando i numeri maestri 11/22/33 e segnalando i debiti karmici 13/14/16/19. Ogni calcolo è mostrato in modo trasparente, passo dopo passo.",
+ note2:"<b>Nota onesta:</b> la numerologia è un sistema simbolico tradizionale, offerto per la riflessione personale e l'esplorazione culturale — non una scienza. Usalo come uno specchio, non come una previsione."};
+
+EXTRA.it={
+ CORE:{
+ 1:{t:"Il Pioniere",k:"indipendenza · iniziativa · leadership · originalità",d:"L'Uno è la scintilla che mette tutto in moto. Porta volontà, ambizione e il coraggio di andare per primo dove gli altri esitano. È l'energia del leader nato e del creatore che preferisce tracciare la propria strada.",light:"determinazione, autonomia, idee originali, coraggio",shadow:"egoismo, testardaggine, prepotenza, isolamento"},
+ 2:{t:"Il Diplomatico",k:"cooperazione · sensibilità · equilibrio · intuizione",d:"Il Due è il ponte tra le persone. Agisce con armonia, tatto e pazienza, percependo i bisogni altrui prima che vengano espressi. È l'energia del partner, del mediatore e di chi unisce ciò che era diviso.",light:"diplomazia, empatia, lealtà, cooperazione",shadow:"dipendenza, indecisione, ipersensibilità, passività"},
+ 3:{t:"Il Comunicatore",k:"creatività · espressione · gioia · socievolezza",d:"Il Tre è l'artista che dà voce al mondo interiore. Porta ottimismo, immaginazione e un fascino sociale che illumina ogni stanza. Parola, colore e suono sono i suoi strumenti.",light:"creatività, umorismo, espressività, ispirazione",shadow:"superficialità, dispersione, instabilità d'umore, evasione"},
+ 4:{t:"Il Costruttore",k:"stabilità · disciplina · lavoro · ordine",d:"Il Quattro è la fondamenta su cui tutto si erge. Porta metodo, pazienza ed etica del lavoro che trasforma i progetti in strutture durature. È l'energia di chi costruisce pietra su pietra.",light:"affidabilità, organizzazione, perseveranza, concretezza",shadow:"rigidità, testardaggine, ristrettezza, eccesso di lavoro"},
+ 5:{t:"L'Avventuriero",k:"libertà · cambiamento · curiosità · versatilità",d:"Il Cinque è il vento che non si può catturare. Porta sete di esperienza, adattabilità e una curiosità sconfinata. È l'energia dell'esploratore che vive nel movimento e nella libertà.",light:"adattabilità, magnetismo, audacia, progresso",shadow:"irrequietezza, eccesso, irresponsabilità, impulsività"},
+ 6:{t:"Il Nutritore",k:"responsabilità · amore · armonia · servizio",d:"Il Sei è il cuore che si prende cura. Porta devozione alla famiglia e alla comunità, senso del bello e desiderio di guarire ed equilibrare. È l'energia del protettore che fa della casa un rifugio.",light:"cura, lealtà, senso estetico, responsabilità",shadow:"sacrificio di sé, intromissione, perfezionismo, martirio"},
+ 7:{t:"Il Ricercatore",k:"analisi · introspezione · spiritualità · mistero",d:"Il Sette cerca verità nascoste. Porta una mente penetrante, bisogno di solitudine e attrazione per il mistero, la fede e la conoscenza profonda. È l'energia del pensatore e del mistico.",light:"saggezza, profondità, intuizione, discernimento",shadow:"distacco, scetticismo, isolamento, cinismo"},
+ 8:{t:"La Centrale di Potere",k:"potere · abbondanza · autorità · realizzazione",d:"L'Otto è la forza che domina il mondo materiale. Porta ambizione, padronanza delle risorse e capacità di guidare su larga scala. È l'energia del costruttore di imperi che bilancia spirito e materia.",light:"autorità, efficienza, visione, resilienza",shadow:"avidità, controllo, squilibrio, materialismo"},
+ 9:{t:"L'Umanitario",k:"compassione · idealismo · compimento · amore universale",d:"Il Nove è la saggezza che abbraccia tutto. Porta ampia compassione, idealismo e capacità di donare senza attendere. È l'energia dell'anima antica che chiude i cicli e serve il bene maggiore.",light:"generosità, idealismo, arte, saggezza",shadow:"martirio, distacco, volatilità, difficoltà a lasciar andare"},
+ 11:{t:"Il Visionario (Maestro)",k:"illuminazione · ispirazione · intuizione spirituale",d:"L'Undici è il canale tra cielo e terra. Eleva la sensibilità del Due in rara intuizione e in una vocazione a ispirare. Padroneggiato, diventa un faro per gli altri.",light:"ispirazione, visione, sensibilità spirituale, idealismo",shadow:"ansia, tensione nervosa, scarsa concretezza, estremi"},
+ 22:{t:"Il Maestro Costruttore",k:"sogno realizzato · visione su larga scala · idealismo concreto",d:"Il Ventidue unisce la visione dell'Undici alla fondamenta del Quattro: sogna in grande e poi costruisce. Ha il potere di trasformare vasti ideali in realtà concreta.",light:"grandi realizzazioni, visione pratica, maestria, potere",shadow:"sopraffazione, pressione, dubbio di sé, paralisi"},
+ 33:{t:"Il Maestro Insegnante",k:"servizio altruistico · guarigione · amore elevato",d:"Il Trentatré eleva la cura del Sei a livello universale: amore che guarisce e insegna senza condizioni. È il più raro dei numeri maestri, votato al servizio disinteressato.",light:"compassione, guarigione, devozione, elevazione",shadow:"fardello, sacrificio eccessivo, trascuratezza di sé"}},
+ CTX:{
+ lifePath:{1:"Il tuo cammino è quello dell'indipendenza e dell'iniziativa: sei qui per guidare, innovare e reggerti sulle tue gambe.",2:"Il tuo cammino è quello della cooperazione e della pace: impari il potere della pazienza, della collaborazione e della sensibilità.",3:"Il tuo cammino è quello dell'espressione creativa: sei qui per comunicare, ispirare gioia e donare i tuoi talenti.",4:"Il tuo cammino è quello della costruzione solida: con disciplina e lavoro paziente erigi strutture durature.",5:"Il tuo cammino è quello della libertà e del cambiamento: sei qui per sperimentare, adattarti e vivere pienamente.",6:"Il tuo cammino è quello della responsabilità amorevole: impari a prenderti cura, a guarire e a creare armonia.",7:"Il tuo cammino è quello della ricerca interiore: sei qui per analizzare, cercare la verità e sviluppare saggezza.",8:"Il tuo cammino è quello del potere e della realizzazione materiale: impari a padroneggiare il mondo concreto con equilibrio.",9:"Il tuo cammino è quello del servizio umanitario: sei qui per donare, chiudere cicli e amare senza condizioni.",11:"Cammino maestro: sei chiamato a ispirare e illuminare, trasformando una rara sensibilità in visione per gli altri.",22:"Cammino maestro: hai il potenziale per costruire qualcosa di grande portata al servizio di molti.",33:"Cammino maestro: la tua vocazione è l'amore che guarisce e insegna, elevando la comunità."},
+ expression:{1:"I tuoi talenti sono la leadership e l'originalità — sei fatto per aprire nuove strade.",2:"I tuoi talenti sono la diplomazia e la collaborazione — brilli lavorando con gli altri.",3:"I tuoi talenti sono la creatività e la comunicazione — parola e arte sono i tuoi strumenti naturali.",4:"I tuoi talenti sono l'organizzazione e la costanza — costruisci sistemi affidabili.",5:"I tuoi talenti sono la versatilità e l'adattamento — prosperi nella varietà.",6:"I tuoi talenti sono la cura e la responsabilità — sei sostegno e guaritore per chi ti circonda.",7:"I tuoi talenti sono l'analisi e l'intuizione — vai oltre la superficie dove gli altri si fermano.",8:"I tuoi talenti sono l'autorità e la visione pratica — sai guidare e gestire risorse.",9:"I tuoi talenti sono la compassione e l'ampia visione — ispiri con generosità e idealismo.",11:"Hai un dono di ispirazione e intuizione spirituale — puoi elevare e illuminare gli altri.",22:"Hai un raro dono di trasformare grandi ideali in realtà concrete e utili a molti.",33:"Hai un dono di insegnare e guarire attraverso l'amore — la tua espressione eleva un'intera comunità."},
+ soulUrge:{1:"Nel profondo aneli all'indipendenza e a essere il primo, lasciando la tua impronta.",2:"Nel profondo aneli all'amore, all'armonia e a un legame profondo.",3:"Nel profondo aneli a esprimerti, a creare e a portare gioia.",4:"Nel profondo aneli all'ordine, alla sicurezza e a uno scopo ben fondato.",5:"Nel profondo aneli alla libertà, alla varietà e a nuove esperienze.",6:"Nel profondo aneli alla famiglia, all'armonia e a essere utile ai tuoi cari.",7:"Nel profondo aneli alla comprensione, alla quiete e a verità profonde.",8:"Nel profondo aneli alla realizzazione, all'abbondanza e al riconoscimento del tuo potere.",9:"Nel profondo aneli a donare, a guarire il mondo e ad amare su larga scala.",11:"Nel profondo aneli a un senso spirituale e a ispirare ed elevare gli altri.",22:"Nel profondo aneli a costruire qualcosa di duraturo che lasci il mondo migliore.",33:"Nel profondo aneli a servire attraverso l'amore incondizionato e la guarigione."},
+ personality:{1:"Appari forte, indipendente e deciso.",2:"Appari caldo, gentile e accessibile.",3:"Appari affascinante, allegro ed espressivo.",4:"Appari serio, affidabile e ben organizzato.",5:"Appari dinamico, magnetico e libero.",6:"Appari premuroso, responsabile e protettivo.",7:"Appari riservato, profondo e un po' enigmatico.",8:"Appari autorevole, competente e di successo.",9:"Appari generoso, nobile e caldo con tutti.",11:"Appari ispirato, intuitivo e un po' idealista.",22:"Appari capace di grandi cose, solido e visionario.",33:"Appari profondamente premuroso, saggio e guaritore."}},
+ PYEAR:{
+ 1:{t:"Anno di inizi",d:"Pianti i semi di un nuovo ciclo di nove anni. È tempo di iniziativa, indipendenza e decisioni coraggiose. Avvia progetti e prendi l'iniziativa — ciò che inizi ora dà il tono agli anni a venire."},
+ 2:{t:"Anno di pazienza e legami",d:"Il ritmo rallenta. È un anno di cooperazione, relazioni e diplomazia. Coltiva collaborazioni, abbi pazienza con i dettagli e lascia maturare le cose."},
+ 3:{t:"Anno di creazione e gioia",d:"L'energia sale. L'anno favorisce espressione, socialità, arte e ottimismo. Comunica, crea e divertiti — ma attento a non disperderti."},
+ 4:{t:"Anno di lavoro e fondamenta",d:"È tempo di costruzione paziente. Metti a punto sistemi, lavora con costanza e cura i dettagli pratici. Pone basi solide per ciò che segue."},
+ 5:{t:"Anno di cambiamento e libertà",d:"Il vento del cambiamento soffia forte. Appaiono opportunità, viaggi e sorprese. Sii flessibile — ma evita decisioni impulsive."},
+ 6:{t:"Anno di responsabilità e casa",d:"L'attenzione si sposta su casa, relazioni e doveri. È un anno di amore, cura ed equilibrio. Non perderti nel sacrificio."},
+ 7:{t:"Anno di riflessione e interiorità",d:"Un anno più quieto, rivolto all'interno. Favorisce studio, introspezione, spiritualità e riposo. Ritirati un poco per ritrovarti."},
+ 8:{t:"Anno di raccolto e potere",d:"L'anno dei frutti materiali e delle realizzazioni. Favorisce carriera, denaro, autorità e grandi decisioni. Agisci con fiducia."},
+ 9:{t:"Anno di completamento e rilascio",d:"Fine di un ciclo. È tempo di lasciar andare ciò che non serve più, di concludere e donare. Fa spazio al nuovo inizio."}},
+ KDEBT:{
+ 13:{t:"13/4 — Il debito del lavoro",d:"La lezione: superare pigrizia, scorciatoie e caos con lavoro disciplinato e concentrato. Il successo nasce dallo sforzo costante, non dall'evitamento."},
+ 14:{t:"14/5 — Il debito della libertà",d:"La lezione: la temperanza di fronte agli eccessi e l'uso saggio della libertà. Impara l'adattabilità senza perdere il centro."},
+ 16:{t:"16/7 — Il debito dell'amore e dell'ego",d:"La lezione: il crollo dell'ego e delle illusioni per una ricostruzione spirituale autentica. Le perdite improvvise chiedono umiltà e fiducia."},
+ 19:{t:"19/1 — Il debito dell'indipendenza",d:"La lezione: equilibrare indipendenza e interdipendenza — imparare a ricevere e a dare, senza egoismo né isolamento."}}
+};
+EXTRA.it.PINN={1:"Periodo di indipendenza e iniziativa — impari a reggerti da solo e a guidare.",2:"Periodo di cooperazione e sensibilità — relazioni e pazienza al centro.",3:"Periodo di creatività ed espressione — fiorisce il talento sociale e artistico.",4:"Periodo di lavoro e consolidamento — costruisci fondamenta con sforzo costante.",5:"Periodo di cambiamento e libertà — movimento, opportunità ed esperienze nuove.",6:"Periodo di responsabilità e amore — famiglia e cura degli altri al centro.",7:"Periodo di introspezione e crescita interiore — cerchi senso e saggezza.",8:"Periodo di potere e realizzazione materiale — autorità, carriera e abbondanza.",9:"Periodo di compassione e ampia visione — servizio, ideali e conclusioni.",11:"Periodo di alta ispirazione — intuizione e vocazione a elevare gli altri.",22:"Periodo di vasta costruzione — il potenziale di realizzare qualcosa di duraturo.",33:"Periodo di servizio attraverso l'amore — guarigione ed elevazione della comunità."};
+EXTRA.it.CHALL={0:"La sfida dello zero: hai la libertà (e il peso) di scegliere la tua direzione, senza una debolezza imposta.",1:"La sfida di trovare la tua voce senza essere dominato né dominare — sviluppa la tua individualità con coraggio.",2:"La sfida dell'ipersensibilità — impara a non lasciarti sopraffare dalle emozioni altrui e a fidarti di te.",3:"La sfida dell'espressione — supera la paura del giudizio e la dispersione, e usa la tua creatività.",4:"La sfida della disciplina — impara ordine e pazienza senza diventare rigido o caotico.",5:"La sfida della libertà — gestisci il bisogno di cambiamento senza eccessi né fughe dagli impegni.",6:"La sfida della responsabilità — offri cura senza cadere nel sacrificio o nel perfezionismo.",7:"La sfida della fiducia — supera lo scetticismo e l'isolamento, e apriti agli altri.",8:"La sfida del potere — equilibra l'ambizione materiale con l'integrità e i valori interiori."};
+EXTRA.it.KLESS={1:"Lezione: sviluppa volontà, iniziativa e fiducia nel guidare — non dipendere troppo dagli altri.",2:"Lezione: coltiva tatto, pazienza e cooperazione — impara a lavorare con gli altri con gentilezza.",3:"Lezione: esprimiti liberamente e con ottimismo — supera la paura di mostrare la tua creatività.",4:"Lezione: costruisci disciplina, ordine e costanza — impara il valore del lavoro paziente.",5:"Lezione: abbraccia il cambiamento e la libertà con coraggio — non imprigionarti nelle abitudini.",6:"Lezione: assumi responsabilità e cura degli altri — impara la devozione equilibrata.",7:"Lezione: cerca profondità, conoscenza e quiete interiore — fai spazio alla riflessione e alla fede.",8:"Lezione: padroneggia il mondo materiale con equilibrio — impara gestione, autorità e autostima.",9:"Lezione: sviluppa compassione, generosità e ampia visione — impara a donare senza condizioni."};
+EXTRA.it.ARROW={
+ mind:{pres:{t:"Freccia della Mente",d:"Buona memoria, pensiero lucido e capacità di pianificare. La mente è uno strumento affilato."},abs:{t:"Mente ordinata assente",d:"Memoria capricciosa o difficoltà a trattenere i dettagli. Compensi con appunti e routine."}},
+ emotion:{pres:{t:"Freccia dell'Equilibrio Emotivo",d:"Stabilità affettiva, intuizione e sensibilità calma. Senti in profondità senza esserne travolto."},abs:{t:"Freccia della Sensibilità",d:"Emozioni intense e facilmente ferite; la vita ti insegna a costruire consapevolmente l'equilibrio."}},
+ practical:{pres:{t:"Freccia del Pratico",d:"Abilità fisica, senso pratico e capacità di fare cose con le proprie mani."},abs:{t:"Senso pratico assente",d:"Tendi a vivere più nelle idee che nel concreto; cresci imparando la pazienza dei dettagli."}},
+ planner:{pres:{t:"Freccia del Pianificatore",d:"La mente organizza bene pensieri e passi — vedi la struttura prima di agire."},abs:{t:"Pianificazione assente",d:"Preferisci la spontaneità; aiuta costruire sistemi semplici che tengano insieme le idee."}},
+ will:{pres:{t:"Freccia della Volontà",d:"Determinazione e capacità di portare le cose a termine nonostante gli ostacoli."},abs:{t:"Volontà ferma assente",d:"Puoi scoraggiarti facilmente; cresci imparando a persistere oltre la prima resistenza."}},
+ action:{pres:{t:"Freccia dell'Azione",d:"Energia di trasformare le idee in fatti; ti metti all'opera senza lunghe esitazioni."},abs:{t:"Freccia della Passività",d:"Tendenza a rimandare; aiuta fare il primo piccolo passo senza attendere condizioni perfette."}},
+ spirit:{pres:{t:"Freccia della Spiritualità",d:"Inclinazione naturale verso fede, compassione e comprensione dei sensi profondi."},abs:{t:"Freccia dello Scetticismo",d:"Vuoi prove prima di credere; la ricerca di senso diventa un tema di vita."}},
+ determination:{pres:{t:"Freccia della Risolutezza",d:"Tenacia rara: una volta deciso, vai fino in fondo con concentrazione incrollabile."},abs:{t:"Freccia della Procrastinazione",d:"Inizi molto e concludi con difficoltà; cresci imparando a portare a termine."}}};
+EXTRA.it.LETTER={A:"indipendente, deciso",B:"sensibile, riservato",C:"espressivo, socievole",D:"pratico, costante",E:"libero, curioso",F:"premuroso, responsabile",G:"introspettivo, disciplinato",H:"ambizioso, tenace",I:"sensibile, idealista",J:"giusto, ambizioso",K:"intuitivo, intenso",L:"adattabile, amichevole",M:"laborioso, casalingo",N:"immaginativo, duale",O:"disciplinato, premuroso",P:"intellettuale, riservato",Q:"originale, magnetico",R:"tollerante, umano",S:"emotivo, affascinante",T:"idealista, teso",U:"creativo, fortunato",V:"visionario, costruttivo",W:"socievole, energico",X:"sensuale, mutevole",Y:"libero, intuitivo",Z:"saggio, ottimista"};
+EXTRA.it.ASSOC={
+ 1:{planet:"Sole",el:"Fuoco",col:"Rosso, oro",gem:"Rubino",day:"Domenica",tarot:"Il Mago",zod:"Leone",body:"Cuore, colonna",car:"Imprenditore, leader, inventore"},
+ 2:{planet:"Luna",el:"Acqua",col:"Bianco, argento",gem:"Perla, pietra di luna",day:"Lunedì",tarot:"La Papessa",zod:"Cancro",body:"Stomaco, fluidi",car:"Diplomatico, mediatore, consigliere"},
+ 3:{planet:"Giove",el:"Fuoco",col:"Giallo, viola",gem:"Ametista, zaffiro giallo",day:"Giovedì",tarot:"L'Imperatrice",zod:"Sagittario",body:"Fegato, fianchi",car:"Artista, scrittore, comunicatore"},
+ 4:{planet:"Urano / Rahu",el:"Terra",col:"Verde, grigio",gem:"Smeraldo, essonite",day:"Sabato",tarot:"L'Imperatore",zod:"Acquario",body:"Ossa, struttura",car:"Ingegnere, architetto, amministratore"},
+ 5:{planet:"Mercurio",el:"Aria",col:"Blu, grigio chiaro",gem:"Diamante, smeraldo",day:"Mercoledì",tarot:"Il Papa",zod:"Gemelli / Vergine",body:"Sistema nervoso, polmoni",car:"Commerciante, giornalista, viaggiatore"},
+ 6:{planet:"Venere",el:"Terra / Acqua",col:"Rosa, blu, indaco",gem:"Diamante, quarzo rosa",day:"Venerdì",tarot:"Gli Amanti",zod:"Toro / Bilancia",body:"Gola, reni",car:"Guaritore, insegnante, designer"},
+ 7:{planet:"Nettuno / Ketu",el:"Acqua",col:"Viola, lilla",gem:"Ametista, occhio di gatto",day:"Lunedì",tarot:"Il Carro",zod:"Pesci",body:"Sistema linfatico",car:"Ricercatore, filosofo, mistico"},
+ 8:{planet:"Saturno",el:"Terra",col:"Nero, blu scuro",gem:"Zaffiro blu",day:"Sabato",tarot:"La Forza",zod:"Capricorno",body:"Scheletro, articolazioni",car:"Dirigente, finanziere, stratega"},
+ 9:{planet:"Marte",el:"Fuoco",col:"Rosso, cremisi",gem:"Corallo rosso",day:"Martedì",tarot:"L'Eremita",zod:"Ariete / Scorpione",body:"Muscoli, sangue",car:"Umanitario, artista, guida spirituale"}};
+/* ---------------- SPANISH ---------------- */
+I18N.es={appTitle:"Numerología",appSub:"Retrato numérico completo",
+ tabProfile:"Perfil",tabCycles:"Ciclos",tabGrid:"Cuadrícula de nacimiento",tabName:"Calculadora de nombres",tabCompat:"Compatibilidad",tabUniverse:"Universal y Referencia",tabSaved:"Guardados",
+ fldName:"Nombre completo de nacimiento",hintName:"Usa el nombre completo de nacimiento para resultados clásicos. Los diacríticos se normalizan.",fldBirth:"Fecha de nacimiento",phName:"ej. María García",phWord:"ej. Eco de las Cuerdas",phOpt:"opcional",
+ btnCalc:"Revelar el retrato",btnSave:"Guardar retrato",btnShare:"Copiar enlace para compartir",btnDemo:"Ejemplo",
+ profileFor:"Retrato de",born:"nacido/a el",coreTriad:"La tríada central",lifePath:"Camino de Vida",expression:"Expresión / Destino",soulUrge:"Anhelo del Alma",personality:"Personalidad",birthday:"Número del Día",maturity:"Madurez",balance:"Equilibrio",rational:"Pensamiento Racional",
+ moreNumbers:"Todos los números del retrato",karmicTitle:"Deudas y lecciones kármicas",noKarmicDebt:"Ningún número de deuda kármica (13/14/16/19) en los cálculos base — un camino sin grandes cargas kármicas en estas posiciones.",karmicDebtFound:"Deudas kármicas detectadas",karmicLessons:"Lecciones kármicas (números ausentes del nombre)",noKarmicLessons:"Tu nombre contiene todas las cifras 1–9 — sin lecciones kármicas clásicas. Un conjunto interior completo.",
+ hiddenPassion:"Pasión Oculta",subconscious:"Yo Subconsciente",cornerstone:"Piedra Angular",capstone:"Piedra de Cierre",firstVowel:"Primera Vocal",letterTraits:"Rasgos de las letras",
+ detailRead:"Lectura detallada",detailEye:"Significado del número",light:"Luz",shadow:"Sombra",master:"Número maestro",karmicDebtTag:"deuda kármica",methodNote:"Método: reducimos por separado día, mes y año, y luego los sumamos.",method2note:"El método alternativo (suma directa de cifras) da",
+ fillPrompt:"Introduce un nombre y/o una fecha de nacimiento en la barra superior, luego pulsa \u201cRevelar el retrato\u201d.",fillPromptShort:"Primero introduce la fecha de nacimiento en la pestaña Perfil.",fillPromptName:"Este panel necesita un nombre. Introdúcelo en la pestaña Perfil.",
+ cyclesIntro:"Tus ciclos personales",cyclesDesc:"La energía del año, el mes y el día actuales, más los grandes ciclos de vida.",personalYear:"Año Personal",personalMonth:"Mes Personal",personalDay:"Día Personal",forecastFor:"Pronóstico para la fecha",
+ pinnTitle:"Cimas y Desafíos",pinnDesc:"Cuatro grandes periodos de vida, cada uno con una energía dominante (cima) y una lección que equilibrar (desafío).",pinnacle:"Cima",challenge:"Desafío",ages:"Edades",now:"ahora",yearsOld:"años",
+ cycleNineTitle:"El ciclo de nueve años",cycleNineDesc:"Dónde estás en el círculo de nueve años de los años personales (de 1 a 9).",
+ essenceTitle:"Esencia y Tránsitos",essenceDesc:"Las letras de tu nombre se activan por turnos con la edad, formando la \u201cesencia\u201d del año actual.",physical:"Tránsito físico (nombre)",mentalT:"Tránsito mental (medio)",spiritualT:"Tránsito espiritual (apellido)",essence:"Esencia del año",ageNow:"Edad ahora",
+ gridIntro:"Cuadrícula de nacimiento (Lo Shu)",gridDesc:"Las cifras de tu fecha de nacimiento colocadas en el cuadrado mágico pitagórico. Las repeticiones muestran fortalezas, las ausencias lecciones. Las líneas completas son \u201cflechas\u201d.",missingNumbers:"Números ausentes de la fecha",repeatedNumbers:"Números acentuados (repetidos)",arrowsTitle:"Las flechas de Pitágoras",arrowsPresent:"Flechas presentes (fortalezas)",arrowsAbsent:"Flechas ausentes (lecciones)",noArrows:"Ninguna flecha completa en esta fecha.",none:"ninguno",
+ nameEye:"Calculadora de valor numérico",nameTitle:"Cualquier nombre o palabra",nameDesc:"Mira el valor en ambos sistemas, desglosado letra por letra, con vocales y consonantes separadas.",fldWord:"Nombre / palabra",btnCalcWord:"Calcular",
+ vowels:"Vocales (alma)",consonants:"Consonantes (personalidad)",total:"Total (expresión)",letterByLetter:"Letra por letra",pyth:"Pitagórico",chal:"Caldeo",sysLabel:"Sistema",
+ cmpEye:"Análisis de cambio de nombre",cmpTitle:"Compara dos nombres",cmpDesc:"Útil para nombres artísticos, de casada o seudónimos.",cmpA:"Nombre A (nacimiento)",cmpB:"Nombre B (actual/artístico)",btnCompare:"Comparar",btnShowCmp:"Abrir comparación de nombres ▾",btnHideCmp:"Cerrar comparación ▴",cmpHeader:"Cómo cambian los números",unchanged:"sin cambios",shifts:"cambia",
+ compatEye:"Numerología de la relación",compatTitle:"Compatibilidad entre dos personas",compatDesc:"Compara Camino de Vida, Expresión y Anhelo del Alma. El nombre es opcional.",pAName:"Persona 1 — nombre",pABirth:"Persona 1 — fecha de nacimiento",pBName:"Persona 2 — nombre",pBBirth:"Persona 2 — fecha de nacimiento",btnCompat:"Analizar la afinidad",
+ overallCompat:"Afinidad general",aspectCompat:"Por aspecto",aspect:"Aspecto",person1:"Persona 1",person2:"Persona 2",rating:"Afinidad",lpCompat:"Camino de Vida",exprCompat:"Expresión",soulCompat:"Anhelo del Alma",needTwoDates:"Introduce al menos las fechas de nacimiento de ambas personas.",noName:"(sin nombre)",
+ ratingExcellent:"Excelente",ratingGood:"Buena",ratingComplex:"Compleja",ratingChallenging:"Desafiante",
+ uniEye:"La energía colectiva del momento",uniTitle:"Los números universales de hoy",universalYear:"Año Universal",universalMonth:"Mes Universal",universalDay:"Día Universal",refTitle:"Referencia completa de los números",refDesc:"El significado de cada número, más sus correspondencias tradicionales.",
+ planet:"Planeta",element:"Elemento",color:"Color",gem:"Piedra",weekday:"Día",tarot:"Tarot",zodiac:"Zodíaco",bodyA:"Cuerpo",career:"Vocaciones",harmony:"Números armoniosos",
+ savedEye:"Retratos guardados localmente",savedTitle:"Tus retratos guardados",savedDesc:"Guardados solo en este navegador (sin servidor, sin telemetría).",noSaved:"Aún no hay retratos guardados. Calcula un retrato y pulsa \u201cGuardar\u201d.",load:"Cargar",del:"Eliminar",confirmDel:"¿Eliminar este retrato guardado?",saveOk:"Retrato guardado.",saveNeedData:"Introduce un nombre o una fecha de nacimiento antes de guardar.",shareOk:"Enlace copiado al portapapeles.",shareFail:"No se pudo copiar automáticamente — cópialo de la barra de direcciones.",
+ themeT:"Cambiar tema",printT:"Imprimir / guardar PDF",close:"Cerrar",demoName:"María García",
+ note1:"<b>Sobre el método:</b> la app usa numerología pitagórica (con opción caldea), conservando los números maestros 11/22/33 y señalando las deudas kármicas 13/14/16/19. Cada cálculo se muestra de forma transparente, paso a paso.",
+ note2:"<b>Nota honesta:</b> la numerología es un sistema simbólico tradicional, ofrecido para la reflexión personal y la exploración cultural — no una ciencia. Úsala como un espejo, no como una predicción."};
+
+EXTRA.es={
+ CORE:{
+ 1:{t:"El Pionero",k:"independencia · iniciativa · liderazgo · originalidad",d:"El Uno es la chispa que lo pone todo en marcha. Trae voluntad, ambición y el valor de ir primero donde otros dudan. Es la energía del líder nato y del creador que prefiere trazar su propio camino.",light:"determinación, autonomía, ideas originales, valor",shadow:"egoísmo, terquedad, dominación, aislamiento"},
+ 2:{t:"El Diplomático",k:"cooperación · sensibilidad · equilibrio · intuición",d:"El Dos es el puente entre las personas. Actúa con armonía, tacto y paciencia, percibiendo las necesidades ajenas antes de que se expresen. Es la energía del compañero y del mediador.",light:"diplomacia, empatía, lealtad, cooperación",shadow:"dependencia, indecisión, hipersensibilidad, pasividad"},
+ 3:{t:"El Comunicador",k:"creatividad · expresión · alegría · sociabilidad",d:"El Tres es el artista que da voz al mundo interior. Trae optimismo, imaginación y un encanto social que ilumina cualquier sala. Palabra, color y sonido son sus herramientas.",light:"creatividad, humor, expresividad, inspiración",shadow:"superficialidad, dispersión, cambios de humor, evasión"},
+ 4:{t:"El Constructor",k:"estabilidad · disciplina · trabajo · orden",d:"El Cuatro es el cimiento sobre el que todo se levanta. Trae método, paciencia y una ética del trabajo que convierte los planes en estructuras duraderas.",light:"fiabilidad, organización, perseverancia, sentido práctico",shadow:"rigidez, terquedad, estrechez, exceso de trabajo"},
+ 5:{t:"El Aventurero",k:"libertad · cambio · curiosidad · versatilidad",d:"El Cinco es el viento que no se puede atrapar. Trae sed de experiencia, adaptabilidad y una curiosidad sin límites. Es la energía del explorador que vive en el movimiento.",light:"adaptabilidad, magnetismo, audacia, progreso",shadow:"inquietud, exceso, irresponsabilidad, impulsividad"},
+ 6:{t:"El Cuidador",k:"responsabilidad · amor · armonía · servicio",d:"El Seis es el corazón que cuida. Trae devoción a la familia y la comunidad, sentido de la belleza y deseo de sanar y equilibrar. Hace del hogar un refugio.",light:"cuidado, lealtad, sentido estético, responsabilidad",shadow:"sacrificio propio, entrometimiento, perfeccionismo, martirio"},
+ 7:{t:"El Buscador",k:"análisis · introspección · espiritualidad · misterio",d:"El Siete busca verdades ocultas. Trae una mente penetrante, necesidad de soledad y atracción por el misterio, la fe y el conocimiento profundo. Es la energía del pensador y del místico.",light:"sabiduría, profundidad, intuición, discernimiento",shadow:"frialdad, escepticismo, aislamiento, cinismo"},
+ 8:{t:"La Potencia",k:"poder · abundancia · autoridad · logro",d:"El Ocho es la fuerza que domina el mundo material. Trae ambición, dominio de los recursos y capacidad de liderar a gran escala. Equilibra espíritu y materia.",light:"autoridad, eficiencia, visión, resiliencia",shadow:"avaricia, control, desequilibrio, materialismo"},
+ 9:{t:"El Humanitario",k:"compasión · idealismo · culminación · amor universal",d:"El Nueve es la sabiduría que todo lo abraza. Trae amplia compasión, idealismo y capacidad de dar sin esperar. Es el alma vieja que cierra ciclos y sirve al bien mayor.",light:"generosidad, idealismo, arte, sabiduría",shadow:"martirio, desapego, volatilidad, dificultad para soltar"},
+ 11:{t:"El Visionario (Maestro)",k:"iluminación · inspiración · intuición espiritual",d:"El Once es el canal entre el cielo y la tierra. Eleva la sensibilidad del Dos en intuición rara y vocación de inspirar. Dominado, se vuelve un faro para los demás.",light:"inspiración, visión, sensibilidad espiritual, idealismo",shadow:"ansiedad, tensión nerviosa, poca practicidad, extremos"},
+ 22:{t:"El Maestro Constructor",k:"sueño hecho realidad · visión a gran escala · idealismo práctico",d:"El Veintidós une la visión del Once con el cimiento del Cuatro: sueña en grande y luego construye. Tiene el poder de volver vastos ideales en realidad concreta.",light:"grandes logros, visión práctica, maestría, poder",shadow:"agobio, presión, dudas de sí mismo, parálisis"},
+ 33:{t:"El Maestro Maestro",k:"servicio altruista · sanación · amor elevado",d:"El Treinta y tres eleva el cuidado del Seis a un plano universal: amor que sana y enseña sin condiciones. Es el más raro de los números maestros, dedicado al servicio desinteresado.",light:"compasión, sanación, devoción, elevación",shadow:"carga, sacrificio excesivo, descuido de sí mismo"}},
+ CTX:{
+ lifePath:{1:"Tu camino es el de la independencia y la iniciativa: estás aquí para liderar, innovar y sostenerte por ti mismo.",2:"Tu camino es el de la cooperación y la paz: aprendes el poder de la paciencia, la colaboración y la sensibilidad.",3:"Tu camino es el de la expresión creativa: estás aquí para comunicar, inspirar alegría y entregar tus talentos.",4:"Tu camino es el de la construcción sólida: con disciplina y trabajo paciente levantas estructuras duraderas.",5:"Tu camino es el de la libertad y el cambio: estás aquí para experimentar, adaptarte y vivir plenamente.",6:"Tu camino es el de la responsabilidad amorosa: aprendes a cuidar, a sanar y a crear armonía.",7:"Tu camino es el de la búsqueda interior: estás aquí para analizar, buscar la verdad y desarrollar sabiduría.",8:"Tu camino es el del poder y el logro material: aprendes a dominar el mundo concreto con equilibrio.",9:"Tu camino es el del servicio humanitario: estás aquí para dar, cerrar ciclos y amar sin condiciones.",11:"Camino maestro: estás llamado a inspirar e iluminar, transformando una rara sensibilidad en visión para los demás.",22:"Camino maestro: llevas el potencial de construir algo de gran alcance al servicio de muchos.",33:"Camino maestro: tu vocación es el amor que sana y enseña, elevando a la comunidad."},
+ expression:{1:"Tus talentos son el liderazgo y la originalidad — estás hecho para abrir nuevos caminos.",2:"Tus talentos son la diplomacia y la colaboración — brillas trabajando con otros.",3:"Tus talentos son la creatividad y la comunicación — palabra y arte son tus herramientas naturales.",4:"Tus talentos son la organización y la constancia — construyes sistemas fiables.",5:"Tus talentos son la versatilidad y la adaptación — prosperas en la variedad.",6:"Tus talentos son el cuidado y la responsabilidad — eres apoyo y sanador para quienes te rodean.",7:"Tus talentos son el análisis y la intuición — llegas bajo la superficie donde otros se detienen.",8:"Tus talentos son la autoridad y la visión práctica — sabes liderar y gestionar recursos.",9:"Tus talentos son la compasión y la amplia visión — inspiras con generosidad e idealismo.",11:"Tienes un don de inspiración e intuición espiritual — puedes elevar e iluminar a otros.",22:"Tienes un raro don de convertir grandes ideales en realidades concretas y útiles para muchos.",33:"Tienes un don de enseñar y sanar mediante el amor — tu expresión eleva a toda una comunidad."},
+ soulUrge:{1:"En lo profundo anhelas independencia y ser el primero, dejando tu propia huella.",2:"En lo profundo anhelas amor, armonía y un vínculo profundo.",3:"En lo profundo anhelas expresarte, crear y traer alegría.",4:"En lo profundo anhelas orden, seguridad y un propósito bien fundado.",5:"En lo profundo anhelas libertad, variedad y nuevas experiencias.",6:"En lo profundo anhelas familia, armonía y ser útil a los tuyos.",7:"En lo profundo anhelas comprensión, calma y verdades profundas.",8:"En lo profundo anhelas logro, abundancia y reconocimiento de tu poder.",9:"En lo profundo anhelas dar, sanar el mundo y amar a gran escala.",11:"En lo profundo anhelas sentido espiritual e inspirar y elevar a otros.",22:"En lo profundo anhelas construir algo duradero que deje el mundo mejor.",33:"En lo profundo anhelas servir mediante el amor incondicional y la sanación."},
+ personality:{1:"Pareces fuerte, independiente y decidido.",2:"Pareces cálido, amable y accesible.",3:"Pareces encantador, alegre y expresivo.",4:"Pareces serio, fiable y bien organizado.",5:"Pareces dinámico, magnético y libre.",6:"Pareces atento, responsable y protector.",7:"Pareces reservado, profundo y algo enigmático.",8:"Pareces autoritario, competente y exitoso.",9:"Pareces generoso, noble y cálido con todos.",11:"Pareces inspirado, intuitivo y algo idealista.",22:"Pareces capaz de grandes cosas, sólido y visionario.",33:"Pareces profundamente atento, sabio y sanador."}},
+ PYEAR:{
+ 1:{t:"Año de comienzos",d:"Siembras las semillas de un nuevo ciclo de nueve años. Es tiempo de iniciativa, independencia y decisiones valientes. Inicia proyectos y toma el mando — lo que empiezas marca el tono de los años venideros."},
+ 2:{t:"Año de paciencia y vínculos",d:"El ritmo baja. Es un año de cooperación, relaciones y diplomacia. Cultiva alianzas, ten paciencia con los detalles y deja madurar las cosas."},
+ 3:{t:"Año de creación y alegría",d:"La energía sube. El año favorece expresión, socialización, arte y optimismo. Comunica, crea y disfruta — pero cuida de no dispersarte."},
+ 4:{t:"Año de trabajo y cimientos",d:"Es tiempo de construcción paciente. Pon a punto sistemas, trabaja con constancia y atiende los detalles prácticos. Sienta bases sólidas."},
+ 5:{t:"Año de cambio y libertad",d:"El viento del cambio sopla fuerte. Aparecen oportunidades, viajes y sorpresas. Sé flexible — pero evita decisiones impulsivas."},
+ 6:{t:"Año de responsabilidad y hogar",d:"La atención se vuelve al hogar, las relaciones y los deberes. Es un año de amor, cuidado y equilibrio. No te pierdas en el sacrificio."},
+ 7:{t:"Año de reflexión e interioridad",d:"Un año más calmo, vuelto hacia dentro. Favorece estudio, introspección, espiritualidad y descanso. Retírate un poco para reencontrarte."},
+ 8:{t:"Año de cosecha y poder",d:"El año de los frutos materiales y los logros. Favorece carrera, dinero, autoridad y grandes decisiones. Actúa con confianza."},
+ 9:{t:"Año de culminación y liberación",d:"Fin de un ciclo. Es tiempo de soltar lo que ya no sirve, concluir y dar. Hace sitio al nuevo comienzo."}},
+ KDEBT:{
+ 13:{t:"13/4 — La deuda del trabajo",d:"La lección: superar la pereza, los atajos y el caos con trabajo disciplinado y enfocado. El éxito nace del esfuerzo sostenido, no de la evitación."},
+ 14:{t:"14/5 — La deuda de la libertad",d:"La lección: la templanza ante los excesos y el uso sabio de la libertad. Aprende adaptabilidad sin perder tu centro."},
+ 16:{t:"16/7 — La deuda del amor y el ego",d:"La lección: el derrumbe del ego y las ilusiones para una reconstrucción espiritual auténtica. Las pérdidas súbitas piden humildad y confianza."},
+ 19:{t:"19/1 — La deuda de la independencia",d:"La lección: equilibrar independencia e interdependencia — aprender a recibir y a dar, sin egoísmo ni aislamiento."}}
+};
+EXTRA.es.PINN={1:"Periodo de independencia e iniciativa — aprendes a sostenerte y a liderar.",2:"Periodo de cooperación y sensibilidad — relaciones y paciencia en el centro.",3:"Periodo de creatividad y expresión — florece el talento social y artístico.",4:"Periodo de trabajo y consolidación — construyes cimientos con esfuerzo constante.",5:"Periodo de cambio y libertad — movimiento, oportunidades y experiencias nuevas.",6:"Periodo de responsabilidad y amor — familia y cuidado de otros en el centro.",7:"Periodo de introspección y crecimiento interior — buscas sentido y sabiduría.",8:"Periodo de poder y logro material — autoridad, carrera y abundancia.",9:"Periodo de compasión y amplia visión — servicio, ideales y cierres.",11:"Periodo de alta inspiración — intuición y vocación de elevar a otros.",22:"Periodo de vasta construcción — el potencial de lograr algo duradero.",33:"Periodo de servicio mediante el amor — sanación y elevación de la comunidad."};
+EXTRA.es.CHALL={0:"El desafío del cero: tienes la libertad (y la carga) de elegir tu dirección, sin una debilidad impuesta.",1:"El desafío de hallar tu voz sin ser dominado ni dominar — desarrolla tu individualidad con valor.",2:"El desafío de la hipersensibilidad — aprende a no dejarte abrumar por las emociones ajenas y a confiar en ti.",3:"El desafío de la expresión — supera el miedo al juicio y la dispersión, y usa tu creatividad.",4:"El desafío de la disciplina — aprende orden y paciencia sin volverte rígido o caótico.",5:"El desafío de la libertad — gestiona la necesidad de cambio sin excesos ni huir de los compromisos.",6:"El desafío de la responsabilidad — ofrece cuidado sin caer en el sacrificio o el perfeccionismo.",7:"El desafío de la confianza — supera el escepticismo y el aislamiento, y ábrete a otros.",8:"El desafío del poder — equilibra la ambición material con la integridad y los valores interiores."};
+EXTRA.es.KLESS={1:"Lección: desarrolla voluntad, iniciativa y confianza para liderar — no dependas demasiado de otros.",2:"Lección: cultiva tacto, paciencia y cooperación — aprende a trabajar con otros con amabilidad.",3:"Lección: exprésate libremente y con optimismo — supera el miedo a mostrar tu creatividad.",4:"Lección: construye disciplina, orden y constancia — aprende el valor del trabajo paciente.",5:"Lección: abraza el cambio y la libertad con valor — no te encierres en hábitos.",6:"Lección: asume responsabilidad y cuidado de otros — aprende la devoción equilibrada.",7:"Lección: busca profundidad, conocimiento y calma interior — haz sitio a la reflexión y la fe.",8:"Lección: domina el mundo material con equilibrio — aprende gestión, autoridad y autoestima.",9:"Lección: desarrolla compasión, generosidad y amplia visión — aprende a dar sin condiciones."};
+EXTRA.es.ARROW={
+ mind:{pres:{t:"Flecha de la Mente",d:"Buena memoria, pensamiento claro y capacidad de planificar. La mente es una herramienta afilada."},abs:{t:"Mente ordenada ausente",d:"Memoria caprichosa o dificultad para retener detalles. Compensas con notas y rutinas."}},
+ emotion:{pres:{t:"Flecha del Equilibrio Emocional",d:"Estabilidad afectiva, intuición y sensibilidad serena. Sientes hondo sin desbordarte."},abs:{t:"Flecha de la Sensibilidad",d:"Emociones intensas y fáciles de herir; la vida te enseña a construir el equilibrio conscientemente."}},
+ practical:{pres:{t:"Flecha de lo Práctico",d:"Destreza física, sentido práctico y capacidad de hacer cosas con tus propias manos."},abs:{t:"Sentido práctico ausente",d:"Tiendes a vivir más en las ideas que en lo concreto; creces aprendiendo paciencia con el detalle."}},
+ planner:{pres:{t:"Flecha del Planificador",d:"La mente organiza bien pensamientos y pasos — ves la estructura antes de actuar."},abs:{t:"Planificación ausente",d:"Prefieres la espontaneidad; ayuda crear sistemas simples que mantengan tus ideas unidas."}},
+ will:{pres:{t:"Flecha de la Voluntad",d:"Determinación y capacidad de llevar las cosas a término pese a los obstáculos."},abs:{t:"Voluntad firme ausente",d:"Puedes desanimarte con facilidad; creces aprendiendo a persistir tras la primera resistencia."}},
+ action:{pres:{t:"Flecha de la Acción",d:"Energía para volver las ideas en hechos; te pones manos a la obra sin largas dudas."},abs:{t:"Flecha de la Pasividad",d:"Tendencia a posponer; ayuda dar el primer paso pequeño sin esperar condiciones perfectas."}},
+ spirit:{pres:{t:"Flecha de la Espiritualidad",d:"Inclinación natural hacia la fe, la compasión y la comprensión de sentidos profundos."},abs:{t:"Flecha del Escepticismo",d:"Quieres pruebas antes de creer; la búsqueda de sentido se vuelve un tema de vida."}},
+ determination:{pres:{t:"Flecha de la Determinación",d:"Tenacidad rara: una vez decidido, vas hasta el final con foco inquebrantable."},abs:{t:"Flecha de la Procrastinación",d:"Empiezas mucho y concluyes con dificultad; creces aprendiendo a terminar lo que inicias."}}};
+EXTRA.es.LETTER={A:"independiente, decidido",B:"sensible, reservado",C:"expresivo, sociable",D:"práctico, constante",E:"libre, curioso",F:"atento, responsable",G:"introspectivo, disciplinado",H:"ambicioso, tenaz",I:"sensible, idealista",J:"justo, ambicioso",K:"intuitivo, intenso",L:"adaptable, amistoso",M:"trabajador, hogareño",N:"imaginativo, dual",O:"disciplinado, atento",P:"intelectual, reservado",Q:"original, magnético",R:"tolerante, humano",S:"emocional, encantador",T:"idealista, tenso",U:"creativo, afortunado",V:"visionario, constructivo",W:"sociable, enérgico",X:"sensual, cambiante",Y:"libre, intuitivo",Z:"sabio, optimista"};
+EXTRA.es.ASSOC={
+ 1:{planet:"Sol",el:"Fuego",col:"Rojo, oro",gem:"Rubí",day:"Domingo",tarot:"El Mago",zod:"Leo",body:"Corazón, columna",car:"Emprendedor, líder, inventor"},
+ 2:{planet:"Luna",el:"Agua",col:"Blanco, plata",gem:"Perla, piedra lunar",day:"Lunes",tarot:"La Sacerdotisa",zod:"Cáncer",body:"Estómago, fluidos",car:"Diplomático, mediador, consejero"},
+ 3:{planet:"Júpiter",el:"Fuego",col:"Amarillo, violeta",gem:"Amatista, zafiro amarillo",day:"Jueves",tarot:"La Emperatriz",zod:"Sagitario",body:"Hígado, caderas",car:"Artista, escritor, comunicador"},
+ 4:{planet:"Urano / Rahu",el:"Tierra",col:"Verde, gris",gem:"Esmeralda, hesonita",day:"Sábado",tarot:"El Emperador",zod:"Acuario",body:"Huesos, estructura",car:"Ingeniero, arquitecto, administrador"},
+ 5:{planet:"Mercurio",el:"Aire",col:"Azul, gris claro",gem:"Diamante, esmeralda",day:"Miércoles",tarot:"El Sumo Sacerdote",zod:"Géminis / Virgo",body:"Sistema nervioso, pulmones",car:"Comerciante, periodista, viajero"},
+ 6:{planet:"Venus",el:"Tierra / Agua",col:"Rosa, azul, índigo",gem:"Diamante, cuarzo rosa",day:"Viernes",tarot:"Los Enamorados",zod:"Tauro / Libra",body:"Garganta, riñones",car:"Sanador, maestro, diseñador"},
+ 7:{planet:"Neptuno / Ketu",el:"Agua",col:"Violeta, lila",gem:"Amatista, ojo de gato",day:"Lunes",tarot:"El Carro",zod:"Piscis",body:"Sistema linfático",car:"Investigador, filósofo, místico"},
+ 8:{planet:"Saturno",el:"Tierra",col:"Negro, azul oscuro",gem:"Zafiro azul",day:"Sábado",tarot:"La Fuerza",zod:"Capricornio",body:"Esqueleto, articulaciones",car:"Directivo, financiero, estratega"},
+ 9:{planet:"Marte",el:"Fuego",col:"Rojo, carmesí",gem:"Coral rojo",day:"Martes",tarot:"El Ermitaño",zod:"Aries / Escorpio",body:"Músculos, sangre",car:"Humanitario, artista, guía espiritual"}};
+/* ---------------- FRENCH ---------------- */
+I18N.fr={appTitle:"Numérologie",appSub:"Portrait numérique complet",
+ tabProfile:"Profil",tabCycles:"Cycles",tabGrid:"Grille de naissance",tabName:"Calculateur de noms",tabCompat:"Compatibilité",tabUniverse:"Universel & Référence",tabSaved:"Enregistrés",
+ fldName:"Nom complet de naissance",hintName:"Utilisez le nom complet de naissance pour des résultats classiques. Les signes diacritiques sont normalisés.",fldBirth:"Date de naissance",phName:"ex. Marie Dubois",phWord:"ex. Écho des Cordes",phOpt:"facultatif",
+ btnCalc:"Révéler le portrait",btnSave:"Enregistrer le portrait",btnShare:"Copier le lien à partager",btnDemo:"Exemple",
+ profileFor:"Portrait de",born:"né(e) le",coreTriad:"La triade centrale",lifePath:"Chemin de Vie",expression:"Expression / Destin",soulUrge:"Aspiration de l'Âme",personality:"Personnalité",birthday:"Nombre du Jour",maturity:"Maturité",balance:"Équilibre",rational:"Pensée Rationnelle",
+ moreNumbers:"Tous les nombres du portrait",karmicTitle:"Dettes et leçons karmiques",noKarmicDebt:"Aucun nombre de dette karmique (13/14/16/19) dans les calculs de base — un chemin sans charges karmiques majeures à ces positions.",karmicDebtFound:"Dettes karmiques détectées",karmicLessons:"Leçons karmiques (nombres absents du nom)",noKarmicLessons:"Votre nom contient tous les chiffres 1–9 — aucune leçon karmique classique. Une boîte à outils intérieure complète.",
+ hiddenPassion:"Passion Cachée",subconscious:"Soi Subconscient",cornerstone:"Pierre Angulaire",capstone:"Pierre de Faîte",firstVowel:"Première Voyelle",letterTraits:"Traits des lettres",
+ detailRead:"Lecture détaillée",detailEye:"Sens du nombre",light:"Lumière",shadow:"Ombre",master:"Nombre maître",karmicDebtTag:"dette karmique",methodNote:"Méthode : nous réduisons séparément le jour, le mois et l'année, puis nous les additionnons.",method2note:"La méthode alternative (somme directe des chiffres) donne",
+ fillPrompt:"Saisissez un nom et/ou une date de naissance dans la barre du haut, puis appuyez sur \u201cRévéler le portrait\u201d.",fillPromptShort:"Saisissez d'abord la date de naissance dans l'onglet Profil.",fillPromptName:"Ce panneau nécessite un nom. Saisissez-en un dans l'onglet Profil.",
+ cyclesIntro:"Vos cycles personnels",cyclesDesc:"L'énergie de l'année, du mois et du jour actuels, ainsi que les grands cycles de vie.",personalYear:"Année Personnelle",personalMonth:"Mois Personnel",personalDay:"Jour Personnel",forecastFor:"Prévision pour la date",
+ pinnTitle:"Sommets et Défis",pinnDesc:"Quatre grandes périodes de vie, chacune avec une énergie dominante (sommet) et une leçon à équilibrer (défi).",pinnacle:"Sommet",challenge:"Défi",ages:"Âges",now:"maintenant",yearsOld:"ans",
+ cycleNineTitle:"Le cycle de neuf ans",cycleNineDesc:"Où vous en êtes dans le cercle de neuf ans des années personnelles (de 1 à 9).",
+ essenceTitle:"Essence et Transits",essenceDesc:"Les lettres de votre nom s'activent tour à tour avec l'âge, formant l'\u201cessence\u201d de l'année en cours.",physical:"Transit physique (prénom)",mentalT:"Transit mental (milieu)",spiritualT:"Transit spirituel (nom de famille)",essence:"Essence de l'année",ageNow:"Âge maintenant",
+ gridIntro:"Grille de naissance (Lo Shu)",gridDesc:"Les chiffres de votre date de naissance placés dans le carré magique pythagoricien. Les répétitions montrent les forces, les absences les leçons. Les lignes complètes sont des \u201cflèches\u201d.",missingNumbers:"Nombres absents de la date",repeatedNumbers:"Nombres accentués (répétés)",arrowsTitle:"Les flèches de Pythagore",arrowsPresent:"Flèches présentes (forces)",arrowsAbsent:"Flèches absentes (leçons)",noArrows:"Aucune flèche complète à cette date.",none:"aucun",
+ nameEye:"Calculateur de valeur numérique",nameTitle:"N'importe quel nom ou mot",nameDesc:"Voyez la valeur dans les deux systèmes, décomposée lettre par lettre, voyelles et consonnes séparées.",fldWord:"Nom / mot",btnCalcWord:"Calculer",
+ vowels:"Voyelles (âme)",consonants:"Consonnes (personnalité)",total:"Total (expression)",letterByLetter:"Lettre par lettre",pyth:"Pythagoricien",chal:"Chaldéen",sysLabel:"Système",
+ cmpEye:"Analyse du changement de nom",cmpTitle:"Comparer deux noms",cmpDesc:"Utile pour les noms de scène, d'épouse ou les pseudonymes.",cmpA:"Nom A (naissance)",cmpB:"Nom B (actuel/de scène)",btnCompare:"Comparer",btnShowCmp:"Ouvrir la comparaison des noms ▾",btnHideCmp:"Fermer la comparaison ▴",cmpHeader:"Comment les nombres changent",unchanged:"inchangé",shifts:"change",
+ compatEye:"Numérologie de la relation",compatTitle:"Compatibilité entre deux personnes",compatDesc:"Compare Chemin de Vie, Expression et Aspiration de l'Âme. Le nom est facultatif.",pAName:"Personne 1 — nom",pABirth:"Personne 1 — date de naissance",pBName:"Personne 2 — nom",pBBirth:"Personne 2 — date de naissance",btnCompat:"Analyser l'entente",
+ overallCompat:"Entente générale",aspectCompat:"Par aspect",aspect:"Aspect",person1:"Personne 1",person2:"Personne 2",rating:"Entente",lpCompat:"Chemin de Vie",exprCompat:"Expression",soulCompat:"Aspiration de l'Âme",needTwoDates:"Saisissez au moins les dates de naissance des deux personnes.",noName:"(sans nom)",
+ ratingExcellent:"Excellente",ratingGood:"Bonne",ratingComplex:"Complexe",ratingChallenging:"Exigeante",
+ uniEye:"L'énergie collective du moment",uniTitle:"Les nombres universels d'aujourd'hui",universalYear:"Année Universelle",universalMonth:"Mois Universel",universalDay:"Jour Universel",refTitle:"Référence complète des nombres",refDesc:"Le sens de chaque nombre, ainsi que ses correspondances traditionnelles.",
+ planet:"Planète",element:"Élément",color:"Couleur",gem:"Pierre",weekday:"Jour",tarot:"Tarot",zodiac:"Zodiaque",bodyA:"Corps",career:"Vocations",harmony:"Nombres harmonieux",
+ savedEye:"Portraits conservés localement",savedTitle:"Vos portraits enregistrés",savedDesc:"Enregistrés uniquement dans ce navigateur (aucun serveur, aucune télémétrie).",noSaved:"Aucun portrait enregistré pour l'instant. Calculez un portrait et appuyez sur \u201cEnregistrer\u201d.",load:"Charger",del:"Supprimer",confirmDel:"Supprimer ce portrait enregistré ?",saveOk:"Portrait enregistré.",saveNeedData:"Saisissez un nom ou une date de naissance avant d'enregistrer.",shareOk:"Lien copié dans le presse-papiers.",shareFail:"Impossible de copier automatiquement — copiez-le depuis la barre d'adresse.",
+ themeT:"Changer de thème",printT:"Imprimer / enregistrer en PDF",close:"Fermer",demoName:"Marie Dubois",
+ note1:"<b>À propos de la méthode :</b> l'app utilise la numérologie pythagoricienne (avec une option chaldéenne), en conservant les nombres maîtres 11/22/33 et en signalant les dettes karmiques 13/14/16/19. Chaque calcul est montré de façon transparente, étape par étape.",
+ note2:"<b>Note honnête :</b> la numérologie est un système symbolique traditionnel, proposé pour la réflexion personnelle et l'exploration culturelle — pas une science. Utilisez-la comme un miroir, non comme une prédiction."};
+
+EXTRA.fr={
+ CORE:{
+ 1:{t:"Le Pionnier",k:"indépendance · initiative · leadership · originalité",d:"Le Un est l'étincelle qui met tout en mouvement. Il apporte la volonté, l'ambition et le courage d'avancer le premier là où d'autres hésitent. C'est l'énergie du meneur né et du créateur qui trace sa propre voie.",light:"détermination, autonomie, idées originales, courage",shadow:"égoïsme, entêtement, domination, isolement"},
+ 2:{t:"Le Diplomate",k:"coopération · sensibilité · équilibre · intuition",d:"Le Deux est le pont entre les êtres. Il agit avec harmonie, tact et patience, percevant les besoins d'autrui avant qu'ils ne s'expriment. C'est l'énergie du partenaire et du médiateur.",light:"diplomatie, empathie, loyauté, coopération",shadow:"dépendance, indécision, hypersensibilité, passivité"},
+ 3:{t:"Le Communicant",k:"créativité · expression · joie · sociabilité",d:"Le Trois est l'artiste qui donne voix au monde intérieur. Il apporte optimisme, imagination et un charme social qui illumine chaque pièce. La parole, la couleur et le son sont ses outils.",light:"créativité, humour, expressivité, inspiration",shadow:"superficialité, dispersion, sautes d'humeur, évasion"},
+ 4:{t:"Le Bâtisseur",k:"stabilité · discipline · travail · ordre",d:"Le Quatre est la fondation sur laquelle tout s'élève. Il apporte méthode, patience et une éthique du travail qui transforme les projets en structures durables.",light:"fiabilité, organisation, persévérance, sens pratique",shadow:"rigidité, entêtement, étroitesse, surmenage"},
+ 5:{t:"L'Aventurier",k:"liberté · changement · curiosité · polyvalence",d:"Le Cinq est le vent qu'on ne peut saisir. Il apporte soif d'expérience, adaptabilité et une curiosité sans bornes. C'est l'énergie de l'explorateur qui vit dans le mouvement.",light:"adaptabilité, magnétisme, audace, progrès",shadow:"agitation, excès, irresponsabilité, impulsivité"},
+ 6:{t:"Le Protecteur",k:"responsabilité · amour · harmonie · service",d:"Le Six est le cœur qui prend soin. Il apporte dévouement à la famille et à la communauté, sens du beau et désir de guérir et d'équilibrer. Il fait du foyer un refuge.",light:"soin, loyauté, sens esthétique, responsabilité",shadow:"sacrifice de soi, ingérence, perfectionnisme, martyre"},
+ 7:{t:"Le Chercheur",k:"analyse · introspection · spiritualité · mystère",d:"Le Sept cherche les vérités cachées. Il apporte un esprit pénétrant, un besoin de solitude et une attirance pour le mystère, la foi et la connaissance profonde. C'est l'énergie du penseur et du mystique.",light:"sagesse, profondeur, intuition, discernement",shadow:"détachement, scepticisme, isolement, cynisme"},
+ 8:{t:"La Puissance",k:"pouvoir · abondance · autorité · accomplissement",d:"Le Huit est la force qui maîtrise le monde matériel. Il apporte ambition, maîtrise des ressources et capacité de diriger à grande échelle. Il équilibre esprit et matière.",light:"autorité, efficacité, vision, résilience",shadow:"cupidité, contrôle, déséquilibre, matérialisme"},
+ 9:{t:"L'Humaniste",k:"compassion · idéalisme · achèvement · amour universel",d:"Le Neuf est la sagesse qui embrasse tout. Il apporte une large compassion, un idéalisme et la capacité de donner sans attendre. C'est l'âme ancienne qui clôt les cycles et sert le bien commun.",light:"générosité, idéalisme, art, sagesse",shadow:"martyre, détachement, instabilité, difficulté à lâcher prise"},
+ 11:{t:"Le Visionnaire (Maître)",k:"illumination · inspiration · intuition spirituelle",d:"Le Onze est le canal entre le ciel et la terre. Il élève la sensibilité du Deux en intuition rare et en vocation d'inspirer. Maîtrisé, il devient un phare pour les autres.",light:"inspiration, vision, sensibilité spirituelle, idéalisme",shadow:"anxiété, tension nerveuse, manque de sens pratique, extrêmes"},
+ 22:{t:"Le Maître Bâtisseur",k:"rêve réalisé · vision à grande échelle · idéalisme concret",d:"Le Vingt-deux unit la vision du Onze à la fondation du Quatre : il rêve grand puis bâtit. Il a le pouvoir de transformer de vastes idéaux en réalité concrète.",light:"grandes réalisations, vision pratique, maîtrise, pouvoir",shadow:"accablement, pression, doute de soi, paralysie"},
+ 33:{t:"Le Maître Enseignant",k:"service altruiste · guérison · amour élevé",d:"Le Trente-trois élève le soin du Six au plan universel : un amour qui guérit et enseigne sans conditions. C'est le plus rare des nombres maîtres, voué au service désintéressé.",light:"compassion, guérison, dévouement, élévation",shadow:"fardeau, sacrifice excessif, négligence de soi"}},
+ CTX:{
+ lifePath:{1:"Votre chemin est celui de l'indépendance et de l'initiative : vous êtes ici pour diriger, innover et vous tenir debout par vous-même.",2:"Votre chemin est celui de la coopération et de la paix : vous apprenez le pouvoir de la patience, de la collaboration et de la sensibilité.",3:"Votre chemin est celui de l'expression créative : vous êtes ici pour communiquer, inspirer la joie et offrir vos talents.",4:"Votre chemin est celui de la construction solide : avec discipline et travail patient, vous érigez des structures durables.",5:"Votre chemin est celui de la liberté et du changement : vous êtes ici pour expérimenter, vous adapter et vivre pleinement.",6:"Votre chemin est celui de la responsabilité aimante : vous apprenez à prendre soin, à guérir et à créer l'harmonie.",7:"Votre chemin est celui de la quête intérieure : vous êtes ici pour analyser, chercher la vérité et développer la sagesse.",8:"Votre chemin est celui du pouvoir et de l'accomplissement matériel : vous apprenez à maîtriser le monde concret avec équilibre.",9:"Votre chemin est celui du service humanitaire : vous êtes ici pour donner, clore des cycles et aimer sans conditions.",11:"Chemin maître : vous êtes appelé à inspirer et à éclairer, transformant une rare sensibilité en vision pour les autres.",22:"Chemin maître : vous portez le potentiel de bâtir quelque chose de grande portée au service de beaucoup.",33:"Chemin maître : votre vocation est l'amour qui guérit et enseigne, élevant la communauté."},
+ expression:{1:"Vos talents sont le leadership et l'originalité — vous êtes fait pour ouvrir de nouvelles voies.",2:"Vos talents sont la diplomatie et la collaboration — vous brillez en travaillant avec les autres.",3:"Vos talents sont la créativité et la communication — la parole et l'art sont vos outils naturels.",4:"Vos talents sont l'organisation et la constance — vous construisez des systèmes fiables.",5:"Vos talents sont la polyvalence et l'adaptation — vous prospérez dans la variété.",6:"Vos talents sont le soin et la responsabilité — vous êtes soutien et guérisseur pour votre entourage.",7:"Vos talents sont l'analyse et l'intuition — vous allez sous la surface là où d'autres s'arrêtent.",8:"Vos talents sont l'autorité et la vision pratique — vous savez diriger et gérer les ressources.",9:"Vos talents sont la compassion et la large vision — vous inspirez par la générosité et l'idéalisme.",11:"Vous avez un don d'inspiration et d'intuition spirituelle — vous pouvez élever et éclairer les autres.",22:"Vous avez le rare don de transformer de grands idéaux en réalités concrètes et utiles à beaucoup.",33:"Vous avez un don d'enseigner et de guérir par l'amour — votre expression élève toute une communauté."},
+ soulUrge:{1:"Au plus profond, vous aspirez à l'indépendance et à être le premier, à laisser votre propre empreinte.",2:"Au plus profond, vous aspirez à l'amour, à l'harmonie et à un lien profond.",3:"Au plus profond, vous aspirez à vous exprimer, à créer et à apporter de la joie.",4:"Au plus profond, vous aspirez à l'ordre, à la sécurité et à un but bien fondé.",5:"Au plus profond, vous aspirez à la liberté, à la variété et à de nouvelles expériences.",6:"Au plus profond, vous aspirez à la famille, à l'harmonie et à être utile aux vôtres.",7:"Au plus profond, vous aspirez à la compréhension, au calme et à des vérités profondes.",8:"Au plus profond, vous aspirez à l'accomplissement, à l'abondance et à la reconnaissance de votre pouvoir.",9:"Au plus profond, vous aspirez à donner, à guérir le monde et à aimer à grande échelle.",11:"Au plus profond, vous aspirez à un sens spirituel et à inspirer et élever les autres.",22:"Au plus profond, vous aspirez à bâtir quelque chose de durable qui laisse le monde meilleur.",33:"Au plus profond, vous aspirez à servir par l'amour inconditionnel et la guérison."},
+ personality:{1:"Vous paraissez fort, indépendant et déterminé.",2:"Vous paraissez chaleureux, doux et accessible.",3:"Vous paraissez charmant, gai et expressif.",4:"Vous paraissez sérieux, fiable et bien organisé.",5:"Vous paraissez dynamique, magnétique et libre.",6:"Vous paraissez attentionné, responsable et protecteur.",7:"Vous paraissez réservé, profond et un peu énigmatique.",8:"Vous paraissez autoritaire, compétent et prospère.",9:"Vous paraissez généreux, noble et chaleureux envers tous.",11:"Vous paraissez inspiré, intuitif et un peu idéaliste.",22:"Vous paraissez capable de grandes choses, solide et visionnaire.",33:"Vous paraissez profondément attentionné, sage et guérisseur."}},
+ PYEAR:{
+ 1:{t:"Année de commencements",d:"Vous semez les graines d'un nouveau cycle de neuf ans. C'est le temps de l'initiative, de l'indépendance et des décisions courageuses. Lancez des projets et prenez les devants — ce que vous commencez maintenant donne le ton des années à venir."},
+ 2:{t:"Année de patience et de liens",d:"Le rythme ralentit. C'est une année de coopération, de relations et de diplomatie. Cultivez les alliances, soyez patient avec les détails et laissez mûrir les choses."},
+ 3:{t:"Année de création et de joie",d:"L'énergie monte. L'année favorise l'expression, la vie sociale, l'art et l'optimisme. Communiquez, créez et amusez-vous — mais gardez-vous de vous disperser."},
+ 4:{t:"Année de travail et de fondations",d:"C'est le temps de la construction patiente. Mettez au point des systèmes, travaillez avec constance et soignez les détails pratiques. Posez des bases solides."},
+ 5:{t:"Année de changement et de liberté",d:"Le vent du changement souffle fort. Des occasions, des voyages et des surprises apparaissent. Soyez souple — mais évitez les décisions impulsives."},
+ 6:{t:"Année de responsabilité et de foyer",d:"L'attention se tourne vers le foyer, les relations et les devoirs. C'est une année d'amour, de soin et d'équilibre. Ne vous perdez pas dans le sacrifice."},
+ 7:{t:"Année de réflexion et d'intériorité",d:"Une année plus calme, tournée vers l'intérieur. Elle favorise l'étude, l'introspection, la spiritualité et le repos. Retirez-vous un peu pour vous retrouver."},
+ 8:{t:"Année de récolte et de pouvoir",d:"L'année des fruits matériels et des accomplissements. Elle favorise la carrière, l'argent, l'autorité et les grandes décisions. Agissez avec confiance."},
+ 9:{t:"Année d'achèvement et de libération",d:"Fin d'un cycle. C'est le temps de lâcher ce qui ne sert plus, de conclure et de donner. Cela fait place au nouveau commencement."}},
+ KDEBT:{
+ 13:{t:"13/4 — La dette du travail",d:"La leçon : surmonter la paresse, les raccourcis et le chaos par un travail discipliné et concentré. Le succès naît de l'effort soutenu, non de l'évitement."},
+ 14:{t:"14/5 — La dette de la liberté",d:"La leçon : la tempérance face aux excès et l'usage sage de la liberté. Apprenez l'adaptabilité sans perdre votre centre."},
+ 16:{t:"16/7 — La dette de l'amour et de l'ego",d:"La leçon : l'effondrement de l'ego et des illusions pour une reconstruction spirituelle authentique. Les pertes soudaines exigent humilité et confiance."},
+ 19:{t:"19/1 — La dette de l'indépendance",d:"La leçon : équilibrer indépendance et interdépendance — apprendre à recevoir et à donner, sans égoïsme ni isolement."}}
+};
+EXTRA.fr.PINN={1:"Période d'indépendance et d'initiative — vous apprenez à vous tenir debout et à diriger.",2:"Période de coopération et de sensibilité — les relations et la patience au centre.",3:"Période de créativité et d'expression — le talent social et artistique s'épanouit.",4:"Période de travail et de consolidation — vous bâtissez des fondations par un effort constant.",5:"Période de changement et de liberté — mouvement, occasions et expériences nouvelles.",6:"Période de responsabilité et d'amour — la famille et le soin des autres au centre.",7:"Période d'introspection et de croissance intérieure — vous cherchez sens et sagesse.",8:"Période de pouvoir et d'accomplissement matériel — autorité, carrière et abondance.",9:"Période de compassion et de large vision — service, idéaux et achèvements.",11:"Période de haute inspiration — intuition et vocation d'élever les autres.",22:"Période de vaste construction — le potentiel d'accomplir quelque chose de durable.",33:"Période de service par l'amour — guérison et élévation de la communauté."};
+EXTRA.fr.CHALL={0:"Le défi du zéro : vous avez la liberté (et le poids) de choisir votre direction, sans faiblesse imposée.",1:"Le défi de trouver votre voix sans être dominé ni dominer — développez votre individualité avec courage.",2:"Le défi de l'hypersensibilité — apprenez à ne pas vous laisser submerger par les émotions d'autrui et à vous faire confiance.",3:"Le défi de l'expression — surmontez la peur du jugement et la dispersion, et usez de votre créativité.",4:"Le défi de la discipline — apprenez l'ordre et la patience sans devenir rigide ou chaotique.",5:"Le défi de la liberté — gérez le besoin de changement sans excès ni fuite des engagements.",6:"Le défi de la responsabilité — offrez du soin sans tomber dans le sacrifice ou le perfectionnisme.",7:"Le défi de la confiance — surmontez le scepticisme et l'isolement, et ouvrez-vous aux autres.",8:"Le défi du pouvoir — équilibrez l'ambition matérielle avec l'intégrité et les valeurs intérieures."};
+EXTRA.fr.KLESS={1:"Leçon : développez la volonté, l'initiative et la confiance pour diriger — ne dépendez pas trop des autres.",2:"Leçon : cultivez le tact, la patience et la coopération — apprenez à travailler avec les autres avec douceur.",3:"Leçon : exprimez-vous librement et avec optimisme — surmontez la peur de montrer votre créativité.",4:"Leçon : bâtissez discipline, ordre et constance — apprenez la valeur du travail patient.",5:"Leçon : embrassez le changement et la liberté avec courage — ne vous enfermez pas dans les habitudes.",6:"Leçon : assumez responsabilité et soin des autres — apprenez le dévouement équilibré.",7:"Leçon : cherchez profondeur, connaissance et calme intérieur — faites place à la réflexion et à la foi.",8:"Leçon : maîtrisez le monde matériel avec équilibre — apprenez la gestion, l'autorité et l'estime de soi.",9:"Leçon : développez compassion, générosité et large vision — apprenez à donner sans conditions."};
+EXTRA.fr.ARROW={
+ mind:{pres:{t:"Flèche de l'Esprit",d:"Bonne mémoire, pensée claire et capacité de planifier. L'esprit est un outil aiguisé."},abs:{t:"Esprit ordonné absent",d:"Mémoire capricieuse ou difficulté à retenir les détails. Vous compensez par des notes et des routines."}},
+ emotion:{pres:{t:"Flèche de l'Équilibre Émotionnel",d:"Stabilité affective, intuition et sensibilité sereine. Vous ressentez profondément sans être débordé."},abs:{t:"Flèche de la Sensibilité",d:"Émotions intenses et facilement blessées ; la vie vous apprend à bâtir l'équilibre consciemment."}},
+ practical:{pres:{t:"Flèche du Pratique",d:"Habileté physique, sens pratique et capacité de faire des choses de vos mains."},abs:{t:"Sens pratique absent",d:"Vous vivez plus dans les idées que dans le concret ; vous grandissez en apprenant la patience du détail."}},
+ planner:{pres:{t:"Flèche du Planificateur",d:"L'esprit organise bien pensées et étapes — vous voyez la structure avant d'agir."},abs:{t:"Planification absente",d:"Vous préférez la spontanéité ; il aide de bâtir des systèmes simples qui tiennent vos idées ensemble."}},
+ will:{pres:{t:"Flèche de la Volonté",d:"Détermination et capacité de mener les choses à terme malgré les obstacles."},abs:{t:"Volonté ferme absente",d:"Vous pouvez vous décourager facilement ; vous grandissez en apprenant à persister après la première résistance."}},
+ action:{pres:{t:"Flèche de l'Action",d:"Énergie de transformer les idées en actes ; vous vous mettez à l'œuvre sans longues hésitations."},abs:{t:"Flèche de la Passivité",d:"Tendance à remettre à plus tard ; il aide de faire le premier petit pas sans attendre des conditions parfaites."}},
+ spirit:{pres:{t:"Flèche de la Spiritualité",d:"Inclination naturelle vers la foi, la compassion et la compréhension des sens profonds."},abs:{t:"Flèche du Scepticisme",d:"Vous voulez des preuves avant de croire ; la quête de sens devient un thème de vie."}},
+ determination:{pres:{t:"Flèche de la Résolution",d:"Ténacité rare : une fois décidé, vous allez jusqu'au bout avec une concentration inébranlable."},abs:{t:"Flèche de la Procrastination",d:"Vous commencez beaucoup et achevez difficilement ; vous grandissez en apprenant à terminer."}}};
+EXTRA.fr.LETTER={A:"indépendant, déterminé",B:"sensible, réservé",C:"expressif, sociable",D:"pratique, constant",E:"libre, curieux",F:"attentionné, responsable",G:"introspectif, discipliné",H:"ambitieux, tenace",I:"sensible, idéaliste",J:"juste, ambitieux",K:"intuitif, intense",L:"adaptable, amical",M:"travailleur, casanier",N:"imaginatif, double",O:"discipliné, attentionné",P:"intellectuel, réservé",Q:"original, magnétique",R:"tolérant, humain",S:"émotif, charmant",T:"idéaliste, tendu",U:"créatif, chanceux",V:"visionnaire, constructif",W:"sociable, énergique",X:"sensuel, changeant",Y:"libre, intuitif",Z:"sage, optimiste"};
+EXTRA.fr.ASSOC={
+ 1:{planet:"Soleil",el:"Feu",col:"Rouge, or",gem:"Rubis",day:"Dimanche",tarot:"Le Bateleur",zod:"Lion",body:"Cœur, colonne",car:"Entrepreneur, meneur, inventeur"},
+ 2:{planet:"Lune",el:"Eau",col:"Blanc, argent",gem:"Perle, pierre de lune",day:"Lundi",tarot:"La Papesse",zod:"Cancer",body:"Estomac, fluides",car:"Diplomate, médiateur, conseiller"},
+ 3:{planet:"Jupiter",el:"Feu",col:"Jaune, violet",gem:"Améthyste, saphir jaune",day:"Jeudi",tarot:"L'Impératrice",zod:"Sagittaire",body:"Foie, hanches",car:"Artiste, écrivain, communicant"},
+ 4:{planet:"Uranus / Rahu",el:"Terre",col:"Vert, gris",gem:"Émeraude, hessonite",day:"Samedi",tarot:"L'Empereur",zod:"Verseau",body:"Os, structure",car:"Ingénieur, architecte, administrateur"},
+ 5:{planet:"Mercure",el:"Air",col:"Bleu, gris clair",gem:"Diamant, émeraude",day:"Mercredi",tarot:"Le Pape",zod:"Gémeaux / Vierge",body:"Système nerveux, poumons",car:"Commerçant, journaliste, voyageur"},
+ 6:{planet:"Vénus",el:"Terre / Eau",col:"Rose, bleu, indigo",gem:"Diamant, quartz rose",day:"Vendredi",tarot:"L'Amoureux",zod:"Taureau / Balance",body:"Gorge, reins",car:"Guérisseur, enseignant, designer"},
+ 7:{planet:"Neptune / Ketu",el:"Eau",col:"Violet, lilas",gem:"Améthyste, œil-de-chat",day:"Lundi",tarot:"Le Chariot",zod:"Poissons",body:"Système lymphatique",car:"Chercheur, philosophe, mystique"},
+ 8:{planet:"Saturne",el:"Terre",col:"Noir, bleu foncé",gem:"Saphir bleu",day:"Samedi",tarot:"La Force",zod:"Capricorne",body:"Squelette, articulations",car:"Dirigeant, financier, stratège"},
+ 9:{planet:"Mars",el:"Feu",col:"Rouge, cramoisi",gem:"Corail rouge",day:"Mardi",tarot:"L'Ermite",zod:"Bélier / Scorpion",body:"Muscles, sang",car:"Humaniste, artiste, guide spirituel"}};
+/* ---------------- PORTUGUESE ---------------- */
+I18N.pt={appTitle:"Numerologia",appSub:"Retrato numérico completo",
+ tabProfile:"Perfil",tabCycles:"Ciclos",tabGrid:"Grelha de nascimento",tabName:"Calculadora de nomes",tabCompat:"Compatibilidade",tabUniverse:"Universal e Referência",tabSaved:"Guardados",
+ fldName:"Nome completo de nascimento",hintName:"Use o nome completo de nascimento para resultados clássicos. Os diacríticos são normalizados.",fldBirth:"Data de nascimento",phName:"ex. Maria Silva",phWord:"ex. Eco das Cordas",phOpt:"opcional",
+ btnCalc:"Revelar o retrato",btnSave:"Guardar retrato",btnShare:"Copiar link para partilhar",btnDemo:"Exemplo",
+ profileFor:"Retrato de",born:"nascido/a a",coreTriad:"A tríade central",lifePath:"Caminho de Vida",expression:"Expressão / Destino",soulUrge:"Anseio da Alma",personality:"Personalidade",birthday:"Número do Dia",maturity:"Maturidade",balance:"Equilíbrio",rational:"Pensamento Racional",
+ moreNumbers:"Todos os números do retrato",karmicTitle:"Dívidas e lições cármicas",noKarmicDebt:"Nenhum número de dívida cármica (13/14/16/19) nos cálculos base — um caminho sem grandes cargas cármicas nestas posições.",karmicDebtFound:"Dívidas cármicas detetadas",karmicLessons:"Lições cármicas (números ausentes do nome)",noKarmicLessons:"O seu nome contém todos os algarismos 1–9 — sem lições cármicas clássicas. Um conjunto interior completo.",
+ hiddenPassion:"Paixão Oculta",subconscious:"Eu Subconsciente",cornerstone:"Pedra Angular",capstone:"Pedra de Fecho",firstVowel:"Primeira Vogal",letterTraits:"Traços das letras",
+ detailRead:"Leitura detalhada",detailEye:"Significado do número",light:"Luz",shadow:"Sombra",master:"Número mestre",karmicDebtTag:"dívida cármica",methodNote:"Método: reduzimos separadamente dia, mês e ano, e depois somamos.",method2note:"O método alternativo (soma direta dos algarismos) dá",
+ fillPrompt:"Introduza um nome e/ou uma data de nascimento na barra superior e depois prima \u201cRevelar o retrato\u201d.",fillPromptShort:"Introduza primeiro a data de nascimento no separador Perfil.",fillPromptName:"Este painel precisa de um nome. Introduza um no separador Perfil.",
+ cyclesIntro:"Os seus ciclos pessoais",cyclesDesc:"A energia do ano, do mês e do dia atuais, além dos grandes ciclos de vida.",personalYear:"Ano Pessoal",personalMonth:"Mês Pessoal",personalDay:"Dia Pessoal",forecastFor:"Previsão para a data",
+ pinnTitle:"Picos e Desafios",pinnDesc:"Quatro grandes períodos de vida, cada um com uma energia dominante (pico) e uma lição a equilibrar (desafio).",pinnacle:"Pico",challenge:"Desafio",ages:"Idades",now:"agora",yearsOld:"anos",
+ cycleNineTitle:"O ciclo de nove anos",cycleNineDesc:"Onde está no círculo de nove anos dos anos pessoais (de 1 a 9).",
+ essenceTitle:"Essência e Trânsitos",essenceDesc:"As letras do seu nome ativam-se à vez com a idade, formando a \u201cessência\u201d do ano atual.",physical:"Trânsito físico (nome)",mentalT:"Trânsito mental (meio)",spiritualT:"Trânsito espiritual (apelido)",essence:"Essência do ano",ageNow:"Idade agora",
+ gridIntro:"Grelha de nascimento (Lo Shu)",gridDesc:"Os algarismos da sua data de nascimento dispostos no quadrado mágico pitagórico. As repetições mostram forças, as ausências lições. As linhas completas são \u201csetas\u201d.",missingNumbers:"Números ausentes da data",repeatedNumbers:"Números acentuados (repetidos)",arrowsTitle:"As setas de Pitágoras",arrowsPresent:"Setas presentes (forças)",arrowsAbsent:"Setas ausentes (lições)",noArrows:"Nenhuma seta completa nesta data.",none:"nenhum",
+ nameEye:"Calculadora de valor numérico",nameTitle:"Qualquer nome ou palavra",nameDesc:"Veja o valor em ambos os sistemas, decomposto letra a letra, com vogais e consoantes separadas.",fldWord:"Nome / palavra",btnCalcWord:"Calcular",
+ vowels:"Vogais (alma)",consonants:"Consoantes (personalidade)",total:"Total (expressão)",letterByLetter:"Letra a letra",pyth:"Pitagórico",chal:"Caldeu",sysLabel:"Sistema",
+ cmpEye:"Análise de mudança de nome",cmpTitle:"Comparar dois nomes",cmpDesc:"Útil para nomes artísticos, de casada ou pseudónimos.",cmpA:"Nome A (nascimento)",cmpB:"Nome B (atual/artístico)",btnCompare:"Comparar",btnShowCmp:"Abrir comparação de nomes ▾",btnHideCmp:"Fechar comparação ▴",cmpHeader:"Como os números mudam",unchanged:"sem alteração",shifts:"muda",
+ compatEye:"Numerologia da relação",compatTitle:"Compatibilidade entre duas pessoas",compatDesc:"Compara Caminho de Vida, Expressão e Anseio da Alma. O nome é opcional.",pAName:"Pessoa 1 — nome",pABirth:"Pessoa 1 — data de nascimento",pBName:"Pessoa 2 — nome",pBBirth:"Pessoa 2 — data de nascimento",btnCompat:"Analisar a sintonia",
+ overallCompat:"Sintonia geral",aspectCompat:"Por aspeto",aspect:"Aspeto",person1:"Pessoa 1",person2:"Pessoa 2",rating:"Sintonia",lpCompat:"Caminho de Vida",exprCompat:"Expressão",soulCompat:"Anseio da Alma",needTwoDates:"Introduza pelo menos as datas de nascimento de ambas as pessoas.",noName:"(sem nome)",
+ ratingExcellent:"Excelente",ratingGood:"Boa",ratingComplex:"Complexa",ratingChallenging:"Exigente",
+ uniEye:"A energia coletiva do momento",uniTitle:"Os números universais de hoje",universalYear:"Ano Universal",universalMonth:"Mês Universal",universalDay:"Dia Universal",refTitle:"Referência completa dos números",refDesc:"O significado de cada número, além das suas correspondências tradicionais.",
+ planet:"Planeta",element:"Elemento",color:"Cor",gem:"Pedra",weekday:"Dia",tarot:"Tarô",zodiac:"Zodíaco",bodyA:"Corpo",career:"Vocações",harmony:"Números harmoniosos",
+ savedEye:"Retratos guardados localmente",savedTitle:"Os seus retratos guardados",savedDesc:"Guardados apenas neste navegador (sem servidor, sem telemetria).",noSaved:"Ainda não há retratos guardados. Calcule um retrato e prima \u201cGuardar\u201d.",load:"Carregar",del:"Eliminar",confirmDel:"Eliminar este retrato guardado?",saveOk:"Retrato guardado.",saveNeedData:"Introduza um nome ou uma data de nascimento antes de guardar.",shareOk:"Link copiado para a área de transferência.",shareFail:"Não foi possível copiar automaticamente — copie da barra de endereço.",
+ themeT:"Mudar tema",printT:"Imprimir / guardar PDF",close:"Fechar",demoName:"Maria Silva",
+ note1:"<b>Sobre o método:</b> a app usa numerologia pitagórica (com opção caldeia), conservando os números mestres 11/22/33 e assinalando as dívidas cármicas 13/14/16/19. Cada cálculo é mostrado de forma transparente, passo a passo.",
+ note2:"<b>Nota honesta:</b> a numerologia é um sistema simbólico tradicional, oferecido para a reflexão pessoal e a exploração cultural — não uma ciência. Use-a como um espelho, não como uma previsão."};
+
+EXTRA.pt={
+ CORE:{
+ 1:{t:"O Pioneiro",k:"independência · iniciativa · liderança · originalidade",d:"O Um é a faísca que põe tudo em movimento. Traz vontade, ambição e a coragem de avançar primeiro onde outros hesitam. É a energia do líder nato e do criador que prefere traçar o seu próprio caminho.",light:"determinação, autonomia, ideias originais, coragem",shadow:"egoísmo, teimosia, dominação, isolamento"},
+ 2:{t:"O Diplomata",k:"cooperação · sensibilidade · equilíbrio · intuição",d:"O Dois é a ponte entre as pessoas. Age com harmonia, tato e paciência, percebendo as necessidades alheias antes de serem expressas. É a energia do parceiro e do mediador.",light:"diplomacia, empatia, lealdade, cooperação",shadow:"dependência, indecisão, hipersensibilidade, passividade"},
+ 3:{t:"O Comunicador",k:"criatividade · expressão · alegria · sociabilidade",d:"O Três é o artista que dá voz ao mundo interior. Traz otimismo, imaginação e um charme social que ilumina qualquer sala. Palavra, cor e som são as suas ferramentas.",light:"criatividade, humor, expressividade, inspiração",shadow:"superficialidade, dispersão, mudanças de humor, evasão"},
+ 4:{t:"O Construtor",k:"estabilidade · disciplina · trabalho · ordem",d:"O Quatro é o alicerce sobre o qual tudo se ergue. Traz método, paciência e uma ética de trabalho que transforma planos em estruturas duradouras.",light:"fiabilidade, organização, perseverança, sentido prático",shadow:"rigidez, teimosia, estreiteza, excesso de trabalho"},
+ 5:{t:"O Aventureiro",k:"liberdade · mudança · curiosidade · versatilidade",d:"O Cinco é o vento que não se pode prender. Traz sede de experiência, adaptabilidade e uma curiosidade sem limites. É a energia do explorador que vive no movimento.",light:"adaptabilidade, magnetismo, audácia, progresso",shadow:"inquietação, excesso, irresponsabilidade, impulsividade"},
+ 6:{t:"O Cuidador",k:"responsabilidade · amor · harmonia · serviço",d:"O Seis é o coração que cuida. Traz devoção à família e à comunidade, sentido de beleza e desejo de curar e equilibrar. Faz do lar um refúgio.",light:"cuidado, lealdade, sentido estético, responsabilidade",shadow:"autossacrifício, intromissão, perfecionismo, martírio"},
+ 7:{t:"O Buscador",k:"análise · introspeção · espiritualidade · mistério",d:"O Sete busca verdades ocultas. Traz uma mente penetrante, necessidade de solidão e atração pelo mistério, pela fé e pelo conhecimento profundo. É a energia do pensador e do místico.",light:"sabedoria, profundidade, intuição, discernimento",shadow:"distanciamento, ceticismo, isolamento, cinismo"},
+ 8:{t:"A Potência",k:"poder · abundância · autoridade · realização",d:"O Oito é a força que domina o mundo material. Traz ambição, domínio dos recursos e capacidade de liderar em grande escala. Equilibra espírito e matéria.",light:"autoridade, eficiência, visão, resiliência",shadow:"ganância, controlo, desequilíbrio, materialismo"},
+ 9:{t:"O Humanitário",k:"compaixão · idealismo · culminação · amor universal",d:"O Nove é a sabedoria que tudo abraça. Traz larga compaixão, idealismo e a capacidade de dar sem esperar. É a alma antiga que fecha ciclos e serve o bem maior.",light:"generosidade, idealismo, arte, sabedoria",shadow:"martírio, desapego, volatilidade, dificuldade em largar"},
+ 11:{t:"O Visionário (Mestre)",k:"iluminação · inspiração · intuição espiritual",d:"O Onze é o canal entre o céu e a terra. Eleva a sensibilidade do Dois em intuição rara e em vocação de inspirar. Dominado, torna-se um farol para os outros.",light:"inspiração, visão, sensibilidade espiritual, idealismo",shadow:"ansiedade, tensão nervosa, pouco sentido prático, extremos"},
+ 22:{t:"O Mestre Construtor",k:"sonho realizado · visão em grande escala · idealismo concreto",d:"O Vinte e dois une a visão do Onze ao alicerce do Quatro: sonha em grande e depois constrói. Tem o poder de transformar vastos ideais em realidade concreta.",light:"grandes realizações, visão prática, mestria, poder",shadow:"sobrecarga, pressão, dúvida de si, paralisia"},
+ 33:{t:"O Mestre Professor",k:"serviço altruísta · cura · amor elevado",d:"O Trinta e três eleva o cuidado do Seis ao plano universal: amor que cura e ensina sem condições. É o mais raro dos números mestres, votado ao serviço desinteressado.",light:"compaixão, cura, devoção, elevação",shadow:"fardo, sacrifício excessivo, negligência de si"}},
+ CTX:{
+ lifePath:{1:"O seu caminho é o da independência e da iniciativa: está aqui para liderar, inovar e sustentar-se por si.",2:"O seu caminho é o da cooperação e da paz: aprende o poder da paciência, da colaboração e da sensibilidade.",3:"O seu caminho é o da expressão criativa: está aqui para comunicar, inspirar alegria e entregar os seus talentos.",4:"O seu caminho é o da construção sólida: com disciplina e trabalho paciente ergue estruturas duradouras.",5:"O seu caminho é o da liberdade e da mudança: está aqui para experimentar, adaptar-se e viver plenamente.",6:"O seu caminho é o da responsabilidade amorosa: aprende a cuidar, a curar e a criar harmonia.",7:"O seu caminho é o da busca interior: está aqui para analisar, procurar a verdade e desenvolver sabedoria.",8:"O seu caminho é o do poder e da realização material: aprende a dominar o mundo concreto com equilíbrio.",9:"O seu caminho é o do serviço humanitário: está aqui para dar, fechar ciclos e amar sem condições.",11:"Caminho mestre: é chamado a inspirar e iluminar, transformando uma rara sensibilidade em visão para os outros.",22:"Caminho mestre: carrega o potencial de construir algo de grande alcance ao serviço de muitos.",33:"Caminho mestre: a sua vocação é o amor que cura e ensina, elevando a comunidade."},
+ expression:{1:"Os seus talentos são a liderança e a originalidade — é feito para abrir novos caminhos.",2:"Os seus talentos são a diplomacia e a colaboração — brilha a trabalhar com os outros.",3:"Os seus talentos são a criatividade e a comunicação — palavra e arte são as suas ferramentas naturais.",4:"Os seus talentos são a organização e a constância — constrói sistemas fiáveis.",5:"Os seus talentos são a versatilidade e a adaptação — prospera na variedade.",6:"Os seus talentos são o cuidado e a responsabilidade — é apoio e curador para quem o rodeia.",7:"Os seus talentos são a análise e a intuição — chega abaixo da superfície onde outros param.",8:"Os seus talentos são a autoridade e a visão prática — sabe liderar e gerir recursos.",9:"Os seus talentos são a compaixão e a larga visão — inspira com generosidade e idealismo.",11:"Tem um dom de inspiração e intuição espiritual — pode elevar e iluminar os outros.",22:"Tem um raro dom de transformar grandes ideais em realidades concretas e úteis a muitos.",33:"Tem um dom de ensinar e curar pelo amor — a sua expressão eleva toda uma comunidade."},
+ soulUrge:{1:"No fundo, anseia por independência e por ser o primeiro, deixando a sua própria marca.",2:"No fundo, anseia por amor, harmonia e um vínculo profundo.",3:"No fundo, anseia por se exprimir, criar e trazer alegria.",4:"No fundo, anseia por ordem, segurança e um propósito bem fundado.",5:"No fundo, anseia por liberdade, variedade e novas experiências.",6:"No fundo, anseia por família, harmonia e por ser útil aos seus.",7:"No fundo, anseia por compreensão, calma e verdades profundas.",8:"No fundo, anseia por realização, abundância e reconhecimento do seu poder.",9:"No fundo, anseia por dar, curar o mundo e amar em grande escala.",11:"No fundo, anseia por sentido espiritual e por inspirar e elevar os outros.",22:"No fundo, anseia por construir algo duradouro que deixe o mundo melhor.",33:"No fundo, anseia por servir pelo amor incondicional e pela cura."},
+ personality:{1:"Parece forte, independente e decidido.",2:"Parece caloroso, gentil e acessível.",3:"Parece encantador, alegre e expressivo.",4:"Parece sério, fiável e bem organizado.",5:"Parece dinâmico, magnético e livre.",6:"Parece atencioso, responsável e protetor.",7:"Parece reservado, profundo e algo enigmático.",8:"Parece autoritário, competente e bem-sucedido.",9:"Parece generoso, nobre e caloroso com todos.",11:"Parece inspirado, intuitivo e algo idealista.",22:"Parece capaz de grandes coisas, sólido e visionário.",33:"Parece profundamente atencioso, sábio e curador."}},
+ PYEAR:{
+ 1:{t:"Ano de começos",d:"Semeia as sementes de um novo ciclo de nove anos. É tempo de iniciativa, independência e decisões corajosas. Inicie projetos e tome a dianteira — o que começa agora dá o tom dos anos que vêm."},
+ 2:{t:"Ano de paciência e vínculos",d:"O ritmo abranda. É um ano de cooperação, relações e diplomacia. Cultive alianças, tenha paciência com os detalhes e deixe as coisas amadurecer."},
+ 3:{t:"Ano de criação e alegria",d:"A energia sobe. O ano favorece expressão, convívio, arte e otimismo. Comunique, crie e divirta-se — mas cuidado para não se dispersar."},
+ 4:{t:"Ano de trabalho e alicerces",d:"É tempo de construção paciente. Afine sistemas, trabalhe com constância e cuide dos detalhes práticos. Assenta bases sólidas."},
+ 5:{t:"Ano de mudança e liberdade",d:"O vento da mudança sopra forte. Surgem oportunidades, viagens e surpresas. Seja flexível — mas evite decisões impulsivas."},
+ 6:{t:"Ano de responsabilidade e lar",d:"A atenção volta-se para o lar, as relações e os deveres. É um ano de amor, cuidado e equilíbrio. Não se perca no sacrifício."},
+ 7:{t:"Ano de reflexão e interioridade",d:"Um ano mais calmo, voltado para dentro. Favorece estudo, introspeção, espiritualidade e descanso. Recolha-se um pouco para se reencontrar."},
+ 8:{t:"Ano de colheita e poder",d:"O ano dos frutos materiais e das realizações. Favorece carreira, dinheiro, autoridade e grandes decisões. Aja com confiança."},
+ 9:{t:"Ano de culminação e libertação",d:"Fim de um ciclo. É tempo de largar o que já não serve, concluir e dar. Abre espaço ao novo começo."}},
+ KDEBT:{
+ 13:{t:"13/4 — A dívida do trabalho",d:"A lição: superar a preguiça, os atalhos e o caos com trabalho disciplinado e focado. O sucesso nasce do esforço sustentado, não da evitação."},
+ 14:{t:"14/5 — A dívida da liberdade",d:"A lição: a temperança perante os excessos e o uso sábio da liberdade. Aprenda adaptabilidade sem perder o seu centro."},
+ 16:{t:"16/7 — A dívida do amor e do ego",d:"A lição: o desmoronar do ego e das ilusões para uma reconstrução espiritual autêntica. As perdas súbitas pedem humildade e confiança."},
+ 19:{t:"19/1 — A dívida da independência",d:"A lição: equilibrar independência e interdependência — aprender a receber e a dar, sem egoísmo nem isolamento."}}
+};
+EXTRA.pt.PINN={1:"Período de independência e iniciativa — aprende a sustentar-se e a liderar.",2:"Período de cooperação e sensibilidade — relações e paciência no centro.",3:"Período de criatividade e expressão — floresce o talento social e artístico.",4:"Período de trabalho e consolidação — constrói alicerces com esforço constante.",5:"Período de mudança e liberdade — movimento, oportunidades e experiências novas.",6:"Período de responsabilidade e amor — família e cuidado dos outros no centro.",7:"Período de introspeção e crescimento interior — procura sentido e sabedoria.",8:"Período de poder e realização material — autoridade, carreira e abundância.",9:"Período de compaixão e larga visão — serviço, ideais e encerramentos.",11:"Período de alta inspiração — intuição e vocação de elevar os outros.",22:"Período de vasta construção — o potencial de realizar algo duradouro.",33:"Período de serviço pelo amor — cura e elevação da comunidade."};
+EXTRA.pt.CHALL={0:"O desafio do zero: tem a liberdade (e o peso) de escolher a sua direção, sem uma fraqueza imposta.",1:"O desafio de achar a sua voz sem ser dominado nem dominar — desenvolva a sua individualidade com coragem.",2:"O desafio da hipersensibilidade — aprenda a não se deixar dominar pelas emoções alheias e a confiar em si.",3:"O desafio da expressão — supere o medo do julgamento e a dispersão, e use a sua criatividade.",4:"O desafio da disciplina — aprenda ordem e paciência sem se tornar rígido ou caótico.",5:"O desafio da liberdade — gira a necessidade de mudança sem excessos nem fuga aos compromissos.",6:"O desafio da responsabilidade — ofereça cuidado sem cair no sacrifício ou no perfecionismo.",7:"O desafio da confiança — supere o ceticismo e o isolamento, e abra-se aos outros.",8:"O desafio do poder — equilibre a ambição material com a integridade e os valores interiores."};
+EXTRA.pt.KLESS={1:"Lição: desenvolva vontade, iniciativa e confiança para liderar — não dependa demasiado dos outros.",2:"Lição: cultive tato, paciência e cooperação — aprenda a trabalhar com os outros com gentileza.",3:"Lição: exprima-se livremente e com otimismo — supere o medo de mostrar a sua criatividade.",4:"Lição: construa disciplina, ordem e constância — aprenda o valor do trabalho paciente.",5:"Lição: abrace a mudança e a liberdade com coragem — não se prenda a hábitos.",6:"Lição: assuma responsabilidade e cuidado dos outros — aprenda a devoção equilibrada.",7:"Lição: procure profundidade, conhecimento e calma interior — dê espaço à reflexão e à fé.",8:"Lição: domine o mundo material com equilíbrio — aprenda gestão, autoridade e autoestima.",9:"Lição: desenvolva compaixão, generosidade e larga visão — aprenda a dar sem condições."};
+EXTRA.pt.ARROW={
+ mind:{pres:{t:"Seta da Mente",d:"Boa memória, pensamento claro e capacidade de planear. A mente é uma ferramenta afiada."},abs:{t:"Mente ordenada ausente",d:"Memória caprichosa ou dificuldade em reter detalhes. Compensa com notas e rotinas."}},
+ emotion:{pres:{t:"Seta do Equilíbrio Emocional",d:"Estabilidade afetiva, intuição e sensibilidade serena. Sente fundo sem transbordar."},abs:{t:"Seta da Sensibilidade",d:"Emoções intensas e facilmente feridas; a vida ensina-o a construir o equilíbrio conscientemente."}},
+ practical:{pres:{t:"Seta do Prático",d:"Destreza física, sentido prático e capacidade de fazer coisas com as próprias mãos."},abs:{t:"Sentido prático ausente",d:"Tende a viver mais nas ideias do que no concreto; cresce ao aprender a paciência do detalhe."}},
+ planner:{pres:{t:"Seta do Planeador",d:"A mente organiza bem pensamentos e passos — vê a estrutura antes de agir."},abs:{t:"Planeamento ausente",d:"Prefere a espontaneidade; ajuda construir sistemas simples que mantenham as ideias juntas."}},
+ will:{pres:{t:"Seta da Vontade",d:"Determinação e capacidade de levar as coisas a termo apesar dos obstáculos."},abs:{t:"Vontade firme ausente",d:"Pode desanimar com facilidade; cresce ao aprender a persistir após a primeira resistência."}},
+ action:{pres:{t:"Seta da Ação",d:"Energia para transformar ideias em factos; mete mãos à obra sem longas hesitações."},abs:{t:"Seta da Passividade",d:"Tendência a adiar; ajuda dar o primeiro pequeno passo sem esperar condições perfeitas."}},
+ spirit:{pres:{t:"Seta da Espiritualidade",d:"Inclinação natural para a fé, a compaixão e a compreensão de sentidos profundos."},abs:{t:"Seta do Ceticismo",d:"Quer provas antes de crer; a busca de sentido torna-se um tema de vida."}},
+ determination:{pres:{t:"Seta da Determinação",d:"Tenacidade rara: uma vez decidido, vai até ao fim com foco inabalável."},abs:{t:"Seta da Procrastinação",d:"Começa muito e conclui com dificuldade; cresce ao aprender a terminar o que inicia."}}};
+EXTRA.pt.LETTER={A:"independente, decidido",B:"sensível, reservado",C:"expressivo, sociável",D:"prático, constante",E:"livre, curioso",F:"atencioso, responsável",G:"introspetivo, disciplinado",H:"ambicioso, tenaz",I:"sensível, idealista",J:"justo, ambicioso",K:"intuitivo, intenso",L:"adaptável, amigável",M:"trabalhador, caseiro",N:"imaginativo, dual",O:"disciplinado, atencioso",P:"intelectual, reservado",Q:"original, magnético",R:"tolerante, humano",S:"emotivo, encantador",T:"idealista, tenso",U:"criativo, sortudo",V:"visionário, construtivo",W:"sociável, enérgico",X:"sensual, mutável",Y:"livre, intuitivo",Z:"sábio, otimista"};
+EXTRA.pt.ASSOC={
+ 1:{planet:"Sol",el:"Fogo",col:"Vermelho, ouro",gem:"Rubi",day:"Domingo",tarot:"O Mago",zod:"Leão",body:"Coração, coluna",car:"Empreendedor, líder, inventor"},
+ 2:{planet:"Lua",el:"Água",col:"Branco, prata",gem:"Pérola, pedra da lua",day:"Segunda-feira",tarot:"A Sacerdotisa",zod:"Caranguejo",body:"Estômago, fluidos",car:"Diplomata, mediador, conselheiro"},
+ 3:{planet:"Júpiter",el:"Fogo",col:"Amarelo, violeta",gem:"Ametista, safira amarela",day:"Quinta-feira",tarot:"A Imperatriz",zod:"Sagitário",body:"Fígado, ancas",car:"Artista, escritor, comunicador"},
+ 4:{planet:"Urano / Rahu",el:"Terra",col:"Verde, cinza",gem:"Esmeralda, hessonita",day:"Sábado",tarot:"O Imperador",zod:"Aquário",body:"Ossos, estrutura",car:"Engenheiro, arquiteto, administrador"},
+ 5:{planet:"Mercúrio",el:"Ar",col:"Azul, cinza claro",gem:"Diamante, esmeralda",day:"Quarta-feira",tarot:"O Hierofante",zod:"Gémeos / Virgem",body:"Sistema nervoso, pulmões",car:"Comerciante, jornalista, viajante"},
+ 6:{planet:"Vénus",el:"Terra / Água",col:"Rosa, azul, índigo",gem:"Diamante, quartzo rosa",day:"Sexta-feira",tarot:"Os Enamorados",zod:"Touro / Balança",body:"Garganta, rins",car:"Curador, professor, designer"},
+ 7:{planet:"Neptuno / Ketu",el:"Água",col:"Violeta, lilás",gem:"Ametista, olho de gato",day:"Segunda-feira",tarot:"O Carro",zod:"Peixes",body:"Sistema linfático",car:"Investigador, filósofo, místico"},
+ 8:{planet:"Saturno",el:"Terra",col:"Preto, azul escuro",gem:"Safira azul",day:"Sábado",tarot:"A Força",zod:"Capricórnio",body:"Esqueleto, articulações",car:"Dirigente, financeiro, estratega"},
+ 9:{planet:"Marte",el:"Fogo",col:"Vermelho, carmesim",gem:"Coral vermelho",day:"Terça-feira",tarot:"O Eremita",zod:"Carneiro / Escorpião",body:"Músculos, sangue",car:"Humanitário, artista, guia espiritual"}};
+/* ---------------- CATALAN ---------------- */
+I18N.ca={appTitle:"Numerologia",appSub:"Retrat numèric complet",
+ tabProfile:"Perfil",tabCycles:"Cicles",tabGrid:"Graella de naixement",tabName:"Calculadora de noms",tabCompat:"Compatibilitat",tabUniverse:"Universal i Referència",tabSaved:"Desats",
+ fldName:"Nom complet de naixement",hintName:"Useu el nom complet de naixement per a resultats clàssics. Els diacrítics es normalitzen.",fldBirth:"Data de naixement",phName:"p. ex. Maria Garcia",phWord:"p. ex. Eco de les Cordes",phOpt:"opcional",
+ btnCalc:"Revela el retrat",btnSave:"Desa el retrat",btnShare:"Copia l'enllaç per compartir",btnDemo:"Exemple",
+ profileFor:"Retrat de",born:"nascut/da el",coreTriad:"La tríada central",lifePath:"Camí de Vida",expression:"Expressió / Destí",soulUrge:"Anhel de l'Ànima",personality:"Personalitat",birthday:"Nombre del Dia",maturity:"Maduresa",balance:"Equilibri",rational:"Pensament Racional",
+ moreNumbers:"Tots els nombres del retrat",karmicTitle:"Deutes i lliçons kàrmiques",noKarmicDebt:"Cap nombre de deute kàrmic (13/14/16/19) als càlculs base — un camí sense grans càrregues kàrmiques en aquestes posicions.",karmicDebtFound:"Deutes kàrmics detectats",karmicLessons:"Lliçons kàrmiques (nombres absents del nom)",noKarmicLessons:"El vostre nom conté totes les xifres 1–9 — sense lliçons kàrmiques clàssiques. Un conjunt interior complet.",
+ hiddenPassion:"Passió Oculta",subconscious:"Jo Subconscient",cornerstone:"Pedra Angular",capstone:"Pedra de Coronament",firstVowel:"Primera Vocal",letterTraits:"Trets de les lletres",
+ detailRead:"Lectura detallada",detailEye:"Significat del nombre",light:"Llum",shadow:"Ombra",master:"Nombre mestre",karmicDebtTag:"deute kàrmic",methodNote:"Mètode: reduïm per separat dia, mes i any, i després els sumem.",method2note:"El mètode alternatiu (suma directa de xifres) dóna",
+ fillPrompt:"Introduïu un nom i/o una data de naixement a la barra superior i premeu \u201cRevela el retrat\u201d.",fillPromptShort:"Introduïu primer la data de naixement a la pestanya Perfil.",fillPromptName:"Aquest tauler necessita un nom. Introduïu-ne un a la pestanya Perfil.",
+ cyclesIntro:"Els vostres cicles personals",cyclesDesc:"L'energia de l'any, el mes i el dia actuals, a més dels grans cicles de vida.",personalYear:"Any Personal",personalMonth:"Mes Personal",personalDay:"Dia Personal",forecastFor:"Previsió per a la data",
+ pinnTitle:"Cims i Reptes",pinnDesc:"Quatre grans períodes de vida, cadascun amb una energia dominant (cim) i una lliçó a equilibrar (repte).",pinnacle:"Cim",challenge:"Repte",ages:"Edats",now:"ara",yearsOld:"anys",
+ cycleNineTitle:"El cicle de nou anys",cycleNineDesc:"On us trobeu al cercle de nou anys dels anys personals (de l'1 al 9).",
+ essenceTitle:"Essència i Trànsits",essenceDesc:"Les lletres del vostre nom s'activen per torns amb l'edat, formant l'\u201cessència\u201d de l'any actual.",physical:"Trànsit físic (nom)",mentalT:"Trànsit mental (centre)",spiritualT:"Trànsit espiritual (cognom)",essence:"Essència de l'any",ageNow:"Edat ara",
+ gridIntro:"Graella de naixement (Lo Shu)",gridDesc:"Les xifres de la vostra data de naixement disposades al quadrat màgic pitagòric. Les repeticions mostren forces, les absències lliçons. Les línies completes són \u201cfletxes\u201d.",missingNumbers:"Nombres absents de la data",repeatedNumbers:"Nombres accentuats (repetits)",arrowsTitle:"Les fletxes de Pitàgores",arrowsPresent:"Fletxes presents (forces)",arrowsAbsent:"Fletxes absents (lliçons)",noArrows:"Cap fletxa completa en aquesta data.",none:"cap",
+ nameEye:"Calculadora de valor numèric",nameTitle:"Qualsevol nom o paraula",nameDesc:"Vegeu el valor en tots dos sistemes, desglossat lletra a lletra, amb vocals i consonants separades.",fldWord:"Nom / paraula",btnCalcWord:"Calcula",
+ vowels:"Vocals (ànima)",consonants:"Consonants (personalitat)",total:"Total (expressió)",letterByLetter:"Lletra a lletra",pyth:"Pitagòric",chal:"Caldeu",sysLabel:"Sistema",
+ cmpEye:"Anàlisi de canvi de nom",cmpTitle:"Compara dos noms",cmpDesc:"Útil per a noms artístics, de casada o pseudònims.",cmpA:"Nom A (naixement)",cmpB:"Nom B (actual/artístic)",btnCompare:"Compara",btnShowCmp:"Obre la comparació de noms ▾",btnHideCmp:"Tanca la comparació ▴",cmpHeader:"Com canvien els nombres",unchanged:"sense canvi",shifts:"canvia",
+ compatEye:"Numerologia de la relació",compatTitle:"Compatibilitat entre dues persones",compatDesc:"Compara Camí de Vida, Expressió i Anhel de l'Ànima. El nom és opcional.",pAName:"Persona 1 — nom",pABirth:"Persona 1 — data de naixement",pBName:"Persona 2 — nom",pBBirth:"Persona 2 — data de naixement",btnCompat:"Analitza la sintonia",
+ overallCompat:"Sintonia general",aspectCompat:"Per aspecte",aspect:"Aspecte",person1:"Persona 1",person2:"Persona 2",rating:"Sintonia",lpCompat:"Camí de Vida",exprCompat:"Expressió",soulCompat:"Anhel de l'Ànima",needTwoDates:"Introduïu almenys les dates de naixement de totes dues persones.",noName:"(sense nom)",
+ ratingExcellent:"Excel·lent",ratingGood:"Bona",ratingComplex:"Complexa",ratingChallenging:"Exigent",
+ uniEye:"L'energia col·lectiva del moment",uniTitle:"Els nombres universals d'avui",universalYear:"Any Universal",universalMonth:"Mes Universal",universalDay:"Dia Universal",refTitle:"Referència completa dels nombres",refDesc:"El significat de cada nombre, a més de les seves correspondències tradicionals.",
+ planet:"Planeta",element:"Element",color:"Color",gem:"Pedra",weekday:"Dia",tarot:"Tarot",zodiac:"Zodíac",bodyA:"Cos",career:"Vocacions",harmony:"Nombres harmoniosos",
+ savedEye:"Retrats desats localment",savedTitle:"Els vostres retrats desats",savedDesc:"Desats només en aquest navegador (sense servidor, sense telemetria).",noSaved:"Encara no hi ha retrats desats. Calculeu un retrat i premeu \u201cDesa\u201d.",load:"Carrega",del:"Elimina",confirmDel:"Voleu eliminar aquest retrat desat?",saveOk:"Retrat desat.",saveNeedData:"Introduïu un nom o una data de naixement abans de desar.",shareOk:"Enllaç copiat al porta-retalls.",shareFail:"No s'ha pogut copiar automàticament — copieu-lo de la barra d'adreces.",
+ themeT:"Canvia el tema",printT:"Imprimeix / desa en PDF",close:"Tanca",demoName:"Maria Garcia",
+ note1:"<b>Sobre el mètode:</b> l'aplicació usa numerologia pitagòrica (amb opció caldea), conservant els nombres mestres 11/22/33 i assenyalant els deutes kàrmics 13/14/16/19. Cada càlcul es mostra de manera transparent, pas a pas.",
+ note2:"<b>Nota honesta:</b> la numerologia és un sistema simbòlic tradicional, ofert per a la reflexió personal i l'exploració cultural — no una ciència. Useu-la com un mirall, no com una predicció."};
+
+EXTRA.ca={
+ CORE:{
+ 1:{t:"El Pioner",k:"independència · iniciativa · lideratge · originalitat",d:"L'U és l'espurna que ho posa tot en moviment. Aporta voluntat, ambició i el coratge d'anar primer on altres dubten. És l'energia del líder nat i del creador que prefereix traçar el seu propi camí.",light:"determinació, autonomia, idees originals, coratge",shadow:"egoisme, tossuderia, dominació, aïllament"},
+ 2:{t:"El Diplomàtic",k:"cooperació · sensibilitat · equilibri · intuïció",d:"El Dos és el pont entre les persones. Actua amb harmonia, tacte i paciència, percebent les necessitats alienes abans que s'expressin. És l'energia del company i del mediador.",light:"diplomàcia, empatia, lleialtat, cooperació",shadow:"dependència, indecisió, hipersensibilitat, passivitat"},
+ 3:{t:"El Comunicador",k:"creativitat · expressió · alegria · sociabilitat",d:"El Tres és l'artista que dóna veu al món interior. Aporta optimisme, imaginació i un encant social que il·lumina qualsevol sala. Paraula, color i so són les seves eines.",light:"creativitat, humor, expressivitat, inspiració",shadow:"superficialitat, dispersió, canvis d'humor, evasió"},
+ 4:{t:"El Constructor",k:"estabilitat · disciplina · treball · ordre",d:"El Quatre és el fonament sobre el qual tot s'aixeca. Aporta mètode, paciència i una ètica del treball que transforma els plans en estructures duradores.",light:"fiabilitat, organització, perseverança, sentit pràctic",shadow:"rigidesa, tossuderia, estretor, excés de treball"},
+ 5:{t:"L'Aventurer",k:"llibertat · canvi · curiositat · versatilitat",d:"El Cinc és el vent que no es pot atrapar. Aporta set d'experiència, adaptabilitat i una curiositat sense límits. És l'energia de l'explorador que viu en el moviment.",light:"adaptabilitat, magnetisme, audàcia, progrés",shadow:"inquietud, excés, irresponsabilitat, impulsivitat"},
+ 6:{t:"El Cuidador",k:"responsabilitat · amor · harmonia · servei",d:"El Sis és el cor que té cura. Aporta devoció a la família i la comunitat, sentit de la bellesa i desig de guarir i equilibrar. Fa de la llar un refugi.",light:"cura, lleialtat, sentit estètic, responsabilitat",shadow:"autosacrifici, intromissió, perfeccionisme, martiri"},
+ 7:{t:"El Cercador",k:"anàlisi · introspecció · espiritualitat · misteri",d:"El Set cerca veritats ocultes. Aporta una ment penetrant, necessitat de solitud i atracció pel misteri, la fe i el coneixement profund. És l'energia del pensador i del místic.",light:"saviesa, profunditat, intuïció, discerniment",shadow:"distanciament, escepticisme, aïllament, cinisme"},
+ 8:{t:"La Potència",k:"poder · abundància · autoritat · realització",d:"El Vuit és la força que domina el món material. Aporta ambició, domini dels recursos i capacitat de liderar a gran escala. Equilibra esperit i matèria.",light:"autoritat, eficiència, visió, resiliència",shadow:"cobdícia, control, desequilibri, materialisme"},
+ 9:{t:"L'Humanitari",k:"compassió · idealisme · culminació · amor universal",d:"El Nou és la saviesa que tot ho abraça. Aporta àmplia compassió, idealisme i la capacitat de donar sense esperar. És l'ànima antiga que tanca cicles i serveix el bé major.",light:"generositat, idealisme, art, saviesa",shadow:"martiri, despreniment, volatilitat, dificultat per deixar anar"},
+ 11:{t:"El Visionari (Mestre)",k:"il·luminació · inspiració · intuïció espiritual",d:"L'Onze és el canal entre el cel i la terra. Eleva la sensibilitat del Dos en intuïció rara i en vocació d'inspirar. Dominat, esdevé un far per als altres.",light:"inspiració, visió, sensibilitat espiritual, idealisme",shadow:"ansietat, tensió nerviosa, poc sentit pràctic, extrems"},
+ 22:{t:"El Mestre Constructor",k:"somni realitzat · visió a gran escala · idealisme concret",d:"El Vint-i-dos uneix la visió de l'Onze al fonament del Quatre: somia en gran i després construeix. Té el poder de transformar vastos ideals en realitat concreta.",light:"grans realitzacions, visió pràctica, mestria, poder",shadow:"sobrecàrrega, pressió, dubte d'un mateix, paràlisi"},
+ 33:{t:"El Mestre Mestre",k:"servei altruista · guarició · amor elevat",d:"El Trenta-tres eleva la cura del Sis al pla universal: amor que guareix i ensenya sense condicions. És el més rar dels nombres mestres, dedicat al servei desinteressat.",light:"compassió, guarició, devoció, elevació",shadow:"càrrega, sacrifici excessiu, negligència d'un mateix"}},
+ CTX:{
+ lifePath:{1:"El vostre camí és el de la independència i la iniciativa: sou aquí per liderar, innovar i sostenir-vos per vosaltres mateixos.",2:"El vostre camí és el de la cooperació i la pau: apreneu el poder de la paciència, la col·laboració i la sensibilitat.",3:"El vostre camí és el de l'expressió creativa: sou aquí per comunicar, inspirar alegria i lliurar els vostres talents.",4:"El vostre camí és el de la construcció sòlida: amb disciplina i treball pacient aixequeu estructures duradores.",5:"El vostre camí és el de la llibertat i el canvi: sou aquí per experimentar, adaptar-vos i viure plenament.",6:"El vostre camí és el de la responsabilitat amorosa: apreneu a tenir cura, a guarir i a crear harmonia.",7:"El vostre camí és el de la cerca interior: sou aquí per analitzar, cercar la veritat i desenvolupar saviesa.",8:"El vostre camí és el del poder i la realització material: apreneu a dominar el món concret amb equilibri.",9:"El vostre camí és el del servei humanitari: sou aquí per donar, tancar cicles i estimar sense condicions.",11:"Camí mestre: sou cridat a inspirar i il·luminar, transformant una rara sensibilitat en visió per als altres.",22:"Camí mestre: porteu el potencial de construir quelcom de gran abast al servei de molts.",33:"Camí mestre: la vostra vocació és l'amor que guareix i ensenya, elevant la comunitat."},
+ expression:{1:"Els vostres talents són el lideratge i l'originalitat — esteu fet per obrir nous camins.",2:"Els vostres talents són la diplomàcia i la col·laboració — brilleu treballant amb els altres.",3:"Els vostres talents són la creativitat i la comunicació — paraula i art són les vostres eines naturals.",4:"Els vostres talents són l'organització i la constància — construïu sistemes fiables.",5:"Els vostres talents són la versatilitat i l'adaptació — prospereu en la varietat.",6:"Els vostres talents són la cura i la responsabilitat — sou suport i guaridor per als qui us envolten.",7:"Els vostres talents són l'anàlisi i la intuïció — arribeu sota la superfície on altres s'aturen.",8:"Els vostres talents són l'autoritat i la visió pràctica — sabeu liderar i gestionar recursos.",9:"Els vostres talents són la compassió i l'àmplia visió — inspireu amb generositat i idealisme.",11:"Teniu un do d'inspiració i intuïció espiritual — podeu elevar i il·luminar els altres.",22:"Teniu un rar do de transformar grans ideals en realitats concretes i útils a molts.",33:"Teniu un do d'ensenyar i guarir per l'amor — la vostra expressió eleva tota una comunitat."},
+ soulUrge:{1:"Al fons, anheleu independència i ser el primer, deixant la vostra pròpia empremta.",2:"Al fons, anheleu amor, harmonia i un vincle profund.",3:"Al fons, anheleu expressar-vos, crear i portar alegria.",4:"Al fons, anheleu ordre, seguretat i un propòsit ben fonamentat.",5:"Al fons, anheleu llibertat, varietat i noves experiències.",6:"Al fons, anheleu família, harmonia i ser útil als vostres.",7:"Al fons, anheleu comprensió, calma i veritats profundes.",8:"Al fons, anheleu realització, abundància i reconeixement del vostre poder.",9:"Al fons, anheleu donar, guarir el món i estimar a gran escala.",11:"Al fons, anheleu sentit espiritual i inspirar i elevar els altres.",22:"Al fons, anheleu construir quelcom durador que deixi el món millor.",33:"Al fons, anheleu servir per l'amor incondicional i la guarició."},
+ personality:{1:"Sembleu fort, independent i decidit.",2:"Sembleu càlid, amable i accessible.",3:"Sembleu encantador, alegre i expressiu.",4:"Sembleu seriós, fiable i ben organitzat.",5:"Sembleu dinàmic, magnètic i lliure.",6:"Sembleu atent, responsable i protector.",7:"Sembleu reservat, profund i una mica enigmàtic.",8:"Sembleu autoritari, competent i reeixit.",9:"Sembleu generós, noble i càlid amb tothom.",11:"Sembleu inspirat, intuïtiu i una mica idealista.",22:"Sembleu capaç de grans coses, sòlid i visionari.",33:"Sembleu profundament atent, savi i guaridor."}},
+ PYEAR:{
+ 1:{t:"Any de començaments",d:"Sembreu les llavors d'un nou cicle de nou anys. És temps d'iniciativa, independència i decisions valentes. Inicieu projectes i preneu la davantera — el que comenceu ara marca el to dels anys vinents."},
+ 2:{t:"Any de paciència i vincles",d:"El ritme baixa. És un any de cooperació, relacions i diplomàcia. Cultiveu aliances, tingueu paciència amb els detalls i deixeu madurar les coses."},
+ 3:{t:"Any de creació i alegria",d:"L'energia puja. L'any afavoreix expressió, vida social, art i optimisme. Comuniqueu, creeu i divertiu-vos — però vigileu de no dispersar-vos."},
+ 4:{t:"Any de treball i fonaments",d:"És temps de construcció pacient. Afineu sistemes, treballeu amb constància i tingueu cura dels detalls pràctics. Assenta bases sòlides."},
+ 5:{t:"Any de canvi i llibertat",d:"El vent del canvi bufa fort. Apareixen oportunitats, viatges i sorpreses. Sigueu flexible — però eviteu decisions impulsives."},
+ 6:{t:"Any de responsabilitat i llar",d:"L'atenció es gira cap a la llar, les relacions i els deures. És un any d'amor, cura i equilibri. No us perdeu en el sacrifici."},
+ 7:{t:"Any de reflexió i interioritat",d:"Un any més tranquil, girat cap endins. Afavoreix estudi, introspecció, espiritualitat i descans. Recolliu-vos una mica per retrobar-vos."},
+ 8:{t:"Any de collita i poder",d:"L'any dels fruits materials i les realitzacions. Afavoreix carrera, diners, autoritat i grans decisions. Actueu amb confiança."},
+ 9:{t:"Any de culminació i alliberament",d:"Final d'un cicle. És temps de deixar anar el que ja no serveix, concloure i donar. Fa espai al nou començament."}},
+ KDEBT:{
+ 13:{t:"13/4 — El deute del treball",d:"La lliçó: superar la mandra, les dreceres i el caos amb treball disciplinat i enfocat. L'èxit neix de l'esforç sostingut, no de l'evitació."},
+ 14:{t:"14/5 — El deute de la llibertat",d:"La lliçó: la temprança davant els excessos i l'ús savi de la llibertat. Apreneu adaptabilitat sense perdre el vostre centre."},
+ 16:{t:"16/7 — El deute de l'amor i l'ego",d:"La lliçó: l'enfonsament de l'ego i les il·lusions per a una reconstrucció espiritual autèntica. Les pèrdues sobtades demanen humilitat i confiança."},
+ 19:{t:"19/1 — El deute de la independència",d:"La lliçó: equilibrar independència i interdependència — aprendre a rebre i a donar, sense egoisme ni aïllament."}}
+};
+EXTRA.ca.PINN={1:"Període d'independència i iniciativa — apreneu a sostenir-vos i a liderar.",2:"Període de cooperació i sensibilitat — relacions i paciència al centre.",3:"Període de creativitat i expressió — floreix el talent social i artístic.",4:"Període de treball i consolidació — construïu fonaments amb esforç constant.",5:"Període de canvi i llibertat — moviment, oportunitats i experiències noves.",6:"Període de responsabilitat i amor — família i cura dels altres al centre.",7:"Període d'introspecció i creixement interior — cerqueu sentit i saviesa.",8:"Període de poder i realització material — autoritat, carrera i abundància.",9:"Període de compassió i àmplia visió — servei, ideals i tancaments.",11:"Període d'alta inspiració — intuïció i vocació d'elevar els altres.",22:"Període de vasta construcció — el potencial de realitzar quelcom durador.",33:"Període de servei per l'amor — guarició i elevació de la comunitat."};
+EXTRA.ca.CHALL={0:"El repte del zero: teniu la llibertat (i el pes) de triar la vostra direcció, sense una feblesa imposada.",1:"El repte de trobar la vostra veu sense ser dominat ni dominar — desenvolupeu la vostra individualitat amb coratge.",2:"El repte de la hipersensibilitat — apreneu a no deixar-vos endur per les emocions alienes i a confiar en vosaltres.",3:"El repte de l'expressió — supereu la por del judici i la dispersió, i useu la vostra creativitat.",4:"El repte de la disciplina — apreneu ordre i paciència sense esdevenir rígid o caòtic.",5:"El repte de la llibertat — gestioneu la necessitat de canvi sense excessos ni fugida dels compromisos.",6:"El repte de la responsabilitat — oferiu cura sense caure en el sacrifici o el perfeccionisme.",7:"El repte de la confiança — supereu l'escepticisme i l'aïllament, i obriu-vos als altres.",8:"El repte del poder — equilibreu l'ambició material amb la integritat i els valors interiors."};
+EXTRA.ca.KLESS={1:"Lliçó: desenvolupeu voluntat, iniciativa i confiança per liderar — no depengueu massa dels altres.",2:"Lliçó: cultiveu tacte, paciència i cooperació — apreneu a treballar amb els altres amb amabilitat.",3:"Lliçó: expresseu-vos lliurement i amb optimisme — supereu la por de mostrar la vostra creativitat.",4:"Lliçó: construïu disciplina, ordre i constància — apreneu el valor del treball pacient.",5:"Lliçó: abraceu el canvi i la llibertat amb coratge — no us tanqueu en hàbits.",6:"Lliçó: assumiu responsabilitat i cura dels altres — apreneu la devoció equilibrada.",7:"Lliçó: cerqueu profunditat, coneixement i calma interior — feu espai a la reflexió i la fe.",8:"Lliçó: domineu el món material amb equilibri — apreneu gestió, autoritat i autoestima.",9:"Lliçó: desenvolupeu compassió, generositat i àmplia visió — apreneu a donar sense condicions."};
+EXTRA.ca.ARROW={
+ mind:{pres:{t:"Fletxa de la Ment",d:"Bona memòria, pensament clar i capacitat de planificar. La ment és una eina esmolada."},abs:{t:"Ment ordenada absent",d:"Memòria capriciosa o dificultat per retenir detalls. Compenseu amb notes i rutines."}},
+ emotion:{pres:{t:"Fletxa de l'Equilibri Emocional",d:"Estabilitat afectiva, intuïció i sensibilitat serena. Sentiu profund sense desbordar-vos."},abs:{t:"Fletxa de la Sensibilitat",d:"Emocions intenses i fàcilment ferides; la vida us ensenya a construir l'equilibri conscientment."}},
+ practical:{pres:{t:"Fletxa del Pràctic",d:"Destresa física, sentit pràctic i capacitat de fer coses amb les pròpies mans."},abs:{t:"Sentit pràctic absent",d:"Tendiu a viure més en les idees que en el concret; creixeu aprenent la paciència del detall."}},
+ planner:{pres:{t:"Fletxa del Planificador",d:"La ment organitza bé pensaments i passos — veieu l'estructura abans d'actuar."},abs:{t:"Planificació absent",d:"Preferiu l'espontaneïtat; ajuda construir sistemes simples que mantinguin les idees juntes."}},
+ will:{pres:{t:"Fletxa de la Voluntat",d:"Determinació i capacitat de portar les coses a terme malgrat els obstacles."},abs:{t:"Voluntat ferma absent",d:"Podeu desanimar-vos fàcilment; creixeu aprenent a persistir després de la primera resistència."}},
+ action:{pres:{t:"Fletxa de l'Acció",d:"Energia per transformar les idees en fets; poseu fil a l'agulla sense llargues vacil·lacions."},abs:{t:"Fletxa de la Passivitat",d:"Tendència a ajornar; ajuda fer el primer petit pas sense esperar condicions perfectes."}},
+ spirit:{pres:{t:"Fletxa de l'Espiritualitat",d:"Inclinació natural cap a la fe, la compassió i la comprensió de sentits profunds."},abs:{t:"Fletxa de l'Escepticisme",d:"Voleu proves abans de creure; la cerca de sentit esdevé un tema de vida."}},
+ determination:{pres:{t:"Fletxa de la Determinació",d:"Tenacitat rara: un cop decidit, aneu fins al final amb concentració inquebrantable."},abs:{t:"Fletxa de la Procrastinació",d:"Comenceu molt i concloeu amb dificultat; creixeu aprenent a acabar el que inicieu."}}};
+EXTRA.ca.LETTER={A:"independent, decidit",B:"sensible, reservat",C:"expressiu, sociable",D:"pràctic, constant",E:"lliure, curiós",F:"atent, responsable",G:"introspectiu, disciplinat",H:"ambiciós, tenaç",I:"sensible, idealista",J:"just, ambiciós",K:"intuïtiu, intens",L:"adaptable, amigable",M:"treballador, casolà",N:"imaginatiu, dual",O:"disciplinat, atent",P:"intel·lectual, reservat",Q:"original, magnètic",R:"tolerant, humà",S:"emotiu, encantador",T:"idealista, tens",U:"creatiu, afortunat",V:"visionari, constructiu",W:"sociable, enèrgic",X:"sensual, mutable",Y:"lliure, intuïtiu",Z:"savi, optimista"};
+EXTRA.ca.ASSOC={
+ 1:{planet:"Sol",el:"Foc",col:"Vermell, or",gem:"Robí",day:"Diumenge",tarot:"El Mag",zod:"Lleó",body:"Cor, columna",car:"Emprenedor, líder, inventor"},
+ 2:{planet:"Lluna",el:"Aigua",col:"Blanc, plata",gem:"Perla, pedra lunar",day:"Dilluns",tarot:"La Sacerdotessa",zod:"Cranc",body:"Estómac, fluids",car:"Diplomàtic, mediador, conseller"},
+ 3:{planet:"Júpiter",el:"Foc",col:"Groc, violeta",gem:"Ametista, safir groc",day:"Dijous",tarot:"L'Emperadriu",zod:"Sagitari",body:"Fetge, malucs",car:"Artista, escriptor, comunicador"},
+ 4:{planet:"Urà / Rahu",el:"Terra",col:"Verd, gris",gem:"Maragda, hessonita",day:"Dissabte",tarot:"L'Emperador",zod:"Aquari",body:"Ossos, estructura",car:"Enginyer, arquitecte, administrador"},
+ 5:{planet:"Mercuri",el:"Aire",col:"Blau, gris clar",gem:"Diamant, maragda",day:"Dimecres",tarot:"El Summe Sacerdot",zod:"Bessons / Verge",body:"Sistema nerviós, pulmons",car:"Comerciant, periodista, viatger"},
+ 6:{planet:"Venus",el:"Terra / Aigua",col:"Rosa, blau, indi",gem:"Diamant, quars rosa",day:"Divendres",tarot:"Els Enamorats",zod:"Taure / Balança",body:"Gola, ronyons",car:"Guaridor, mestre, dissenyador"},
+ 7:{planet:"Neptú / Ketu",el:"Aigua",col:"Violeta, lila",gem:"Ametista, ull de gat",day:"Dilluns",tarot:"El Carro",zod:"Peixos",body:"Sistema limfàtic",car:"Investigador, filòsof, místic"},
+ 8:{planet:"Saturn",el:"Terra",col:"Negre, blau fosc",gem:"Safir blau",day:"Dissabte",tarot:"La Força",zod:"Capricorn",body:"Esquelet, articulacions",car:"Directiu, financer, estratega"},
+ 9:{planet:"Mart",el:"Foc",col:"Vermell, carmesí",gem:"Corall vermell",day:"Dimarts",tarot:"L'Ermità",zod:"Àries / Escorpí",body:"Músculs, sang",car:"Humanitari, artista, guia espiritual"}};
+
+/* ---------------- MERGE ---------------- */
+(function mergeLangs(){
+  for(const lang in EXTRA){const E=EXTRA[lang];
+    if(E.CORE)for(const n in E.CORE){if(CORE[n])CORE[n][lang]=E.CORE[n];}
+    if(E.CTX)for(const cx in E.CTX){for(const n in E.CTX[cx]){if(CTX[cx]&&CTX[cx][n])CTX[cx][n][lang]=E.CTX[cx][n];}}
+    if(E.PYEAR)for(const n in E.PYEAR){if(PYEAR[n])PYEAR[n][lang]=E.PYEAR[n];}
+    if(E.PINN)for(const n in E.PINN){if(PINN[n])PINN[n][lang]=E.PINN[n];}
+    if(E.CHALL)for(const n in E.CHALL){if(CHALL[n]!==undefined)CHALL[n][lang]=E.CHALL[n];}
+    if(E.KDEBT)for(const n in E.KDEBT){if(KDEBT[n])KDEBT[n][lang]=E.KDEBT[n];}
+    if(E.KLESS)for(const n in E.KLESS){if(KLESS[n])KLESS[n][lang]=E.KLESS[n];}
+    if(E.ARROW)for(const k in E.ARROW){if(ARROWMEAN[k]){if(E.ARROW[k].pres)ARROWMEAN[k].pres[lang]=E.ARROW[k].pres;if(E.ARROW[k].abs)ARROWMEAN[k].abs[lang]=E.ARROW[k].abs;}}
+    if(E.LETTER)for(const n in E.LETTER){if(LETTER[n])LETTER[n][lang]=E.LETTER[n];}
+    if(E.ASSOC)for(const n in E.ASSOC){const a=E.ASSOC[n];if(ASSOC[n]){for(const f in a){if(ASSOC[n][f])ASSOC[n][f][lang]=a[f];}}}
+  }
+})();
+
 /* ============================================================
    STATE + RENDER + EVENTS
    ============================================================ */
-const state={lang:'ro',sys:'pyth',ymode:'auto',name:'',date:null,forecast:null,tab:'profil'};
+const state={lang:'en',sys:'pyth',ymode:'auto',name:'',date:null,forecast:null,tab:'profil'};
 let profile=null;
 const $=id=>document.getElementById(id);
 const t=k=>{const o=I18N[state.lang]; return (o&&o[k]!==undefined)?o[k]:(I18N.en[k]!==undefined?I18N.en[k]:k);};
 function loc(o){return o?(o[state.lang]!==undefined?o[state.lang]:o.en):'';}
-function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function esc(s){return (s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function coreFor(v){return CORE[v]||CORE[root(v)];}
 function badge(v){return MASTERS.indexOf(v)>=0?(v+' / '+root(v)):String(v);}
 function stepsStr(a){return a.join(' → ');}
 function readDate(val){if(!val)return null;const p=val.split('-');if(p.length!==3)return null;const y=+p[0],m=+p[1],d=+p[2];if(!y||!m||!d||m>12||d>31)return null;return {y:y,m:m,d:d};}
-function fmtDate(o){const months=MONTHS[state.lang];return o.d+' '+months[o.m-1]+' '+o.y;}
+function fmtDate(o){const months=MONTHS[state.lang]||MONTHS.en;return o.d+' '+months[o.m-1]+' '+o.y;}
 function todayISO(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 let toastT; function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2600);}
 
@@ -634,34 +1102,38 @@ function showDetail(type,value,label){
   else if(type==='challenge'&&CHALL[value]!==undefined)ctx=esc(loc(CHALL[value]));
   else if(CTX[type]&&(CTX[type][value]||CTX[type][root(value)]))ctx=esc(loc(CTX[type][value]||CTX[type][root(value)]));
   const a=ASSOC[root(value)]; const box=$('numDetail');
-  let h='<p class="eyebrow">'+t('detailEye')+(label?' · '+esc(label):'')+'</p><div class="readout" style="margin:6px 0 0">';
+  let h='<button class="detail-close" id="detailClose" aria-label="'+t('close')+'" title="'+t('close')+'">&times;</button>';
+  h+='<p class="eyebrow">'+t('detailEye')+(label?' · '+esc(label):'')+'</p><div class="readout" style="margin:6px 0 0">';
   h+='<h4>'+value+(MASTERS.indexOf(value)>=0?' <span style="font-size:13px;color:var(--cele);font-family:var(--mono)">('+t('master')+' '+value+'/'+root(value)+')</span>':'')+' — '+esc(cc.t)+'</h4>';
   h+='<div class="kw">'+esc(cc.k)+'</div><p>'+esc(cc.d)+'</p>';
   if(ctx)h+='<p style="color:var(--cele)">'+ctx+'</p>';
   h+='<div class="ls"><div><b>'+t('light')+'</b><span class="light">'+esc(cc.light)+'</span></div><div><b>'+t('shadow')+'</b><span class="shadow">'+esc(cc.shadow)+'</span></div></div>';
   if(a)h+='<div class="assoc-inline">'+t('planet')+': <span>'+loc(a.planet)+'</span> · '+t('element')+': <span>'+loc(a.el)+'</span> · '+t('color')+': <span>'+loc(a.col)+'</span> · '+t('tarot')+': <span>'+loc(a.tarot)+'</span></div>';
-  box.innerHTML=h+'</div>'; box.style.display='block'; box.scrollIntoView({behavior:'smooth',block:'start'});
+  box.innerHTML=h+'</div>'; box.style.display='block';
+  const cb=$('detailClose'); if(cb)cb.addEventListener('click',()=>{box.style.display='none';});
+  box.scrollIntoView({behavior:'smooth',block:'start'});
 }
 window.showDetail=showDetail;
 
 /* ---------- compute ---------- */
 function computeProfile(){
-  const name=$('inName').value.trim(); const dv=$('inDate').value;
-  state.name=name; state.date=dv||null; const dt=readDate(dv);
-  if(!name&&!dt){profile=null;return;}
-  const map=state.sys==='chal'?CHAL:PYTH; const P={name:name,date:dt,hasName:!!name,hasDate:!!dt};
+  const rawName=$('inName').value.trim(); const dv=$('inDate').value;
+  state.name=rawName; state.date=dv||null; const dt=readDate(dv);
+  const norm=normSpaces(rawName); const hasName=norm.replace(/ /g,'').length>0;
+  if(!hasName&&!dt){profile=null;return;}
+  const map=state.sys==='chal'?CHAL:PYTH; const P={name:rawName,date:dt,hasName:hasName,hasDate:!!dt};
   if(dt){P.lp=lifePath(dt.d,dt.m,dt.y);P.birthday=reduce(dt.d);P.pc=pinChal(dt.d,dt.m,dt.y,P.lp.single);}
-  if(name){
-    P.nn=nameNumbers(name,state.sys,state.ymode); P.karmic=karmicProfile(P.nn.tally);
-    const w=normSpaces(name).split(' ').filter(Boolean); P.firstName=w[0]||'';
+  if(hasName){
+    P.nn=nameNumbers(rawName,state.sys,state.ymode); P.karmic=karmicProfile(P.nn.tally);
+    const w=norm.split(' ').filter(Boolean); P.firstName=w[0]||'';
     P.cornerstone=P.firstName[0]||null; P.capstone=P.firstName[P.firstName.length-1]||null;
     let fv=null; for(let i=0;i<P.firstName.length;i++){if(isVowelAt(P.firstName,i,state.ymode)){fv=P.firstName[i];break;}} P.firstVowel=fv;
     let bsum=0; w.forEach(x=>{bsum+=map[x[0]]||0;}); P.balance=reduce(bsum);
   }
-  if(name&&dt){
+  if(hasName&&dt){
     P.maturity=reduce(P.lp.primary.v+P.nn.expression.v);
     let fsum=0; for(const ch of P.firstName)fsum+=map[ch]||0; P.rational=reduce(dt.d+fsum);
-    P.essence=essence(name,state.sys,ageNow(dt.d,dt.m,dt.y));
+    P.essence=essence(rawName,state.sys,ageNow(dt.d,dt.m,dt.y));
   }
   profile=P;
 }
@@ -693,8 +1165,10 @@ function renderProfile(){
     if(P.cornerstone)h+=letterCard(t('cornerstone'),P.cornerstone);
     if(P.capstone)h+=letterCard(t('capstone'),P.capstone);
     if(P.firstVowel)h+=letterCard(t('firstVowel'),P.firstVowel);
-    h+='<div class="med" style="cursor:default"><div class="lbl">'+t('hiddenPassion')+'</div><div class="disc"><span class="num" style="font-size:'+(P.karmic.hidden.length>2?'18px':'34px')+'">'+P.karmic.hidden.join('·')+'</span></div></div>';
-    h+='<div class="med" style="cursor:default"><div class="lbl">'+t('subconscious')+'</div><div class="disc"><span class="num">'+P.karmic.subconscious+'</span></div></div>';
+    const hpNums=P.karmic.hidden, hpT=hpNums.map(n=>{const c=coreFor(n);return c?loc(c).t:'';}).filter(Boolean).join(' · '), hpSingle=hpNums.length===1;
+    h+='<div class="med"'+(hpSingle?' role="button" tabindex="0" data-type="hiddenPassion" data-val="'+hpNums[0]+'" data-label="'+esc(t('hiddenPassion'))+'"':' style="cursor:default"')+'><div class="lbl">'+t('hiddenPassion')+'</div><div class="disc"><span class="num" style="font-size:'+(hpNums.length>2?'18px':'34px')+'">'+hpNums.join('·')+'</span></div><div class="name" style="font-size:12.5px;color:var(--mut)">'+esc(hpT)+'</div></div>';
+    const ssV=P.karmic.subconscious, ssC=coreFor(ssV), ssT=ssC?esc(loc(ssC).t):'';
+    h+='<div class="med" role="button" tabindex="0" data-type="subconscious" data-val="'+ssV+'" data-label="'+esc(t('subconscious'))+'"><div class="lbl">'+t('subconscious')+'</div><div class="disc"><span class="num">'+ssV+'</span></div><div class="name" style="font-size:12.5px;color:var(--mut)">'+ssT+'</div></div>';
     h+='</div>';
   }
   h+='<h3 class="sec-h">'+t('karmicTitle')+'</h3>';
@@ -810,7 +1284,35 @@ function compatText(r,a,b){
     'A complex blend: '+ca+' and '+cb+' can complement each other well, but it asks for mutual understanding. The differences bring balance when each values what the other offers.',
     'A good blend: '+ca+' and '+cb+' support each other naturally, with compatible values and rhythms. A solid base for a harmonious relationship.',
     'An excellent blend: '+ca+' and '+cb+' resonate deeply, with energies that feed one another. A natural, supportive match.']};
-  return esc(T[state.lang][r]);
+  Object.assign(T,compatExtraLangs(ca,cb));
+  return esc((T[state.lang]||T.en)[r]);
+}
+function compatExtraLangs(ca,cb){return {
+ it:[
+  'Combinazione impegnativa: '+ca+' e '+cb+' hanno ritmi e bisogni piuttosto diversi. Funziona con sforzo consapevole, comunicazione aperta e rispetto delle differenze — gli attriti diventano crescita quando vengono riconosciuti.',
+  'Combinazione complessa: '+ca+' e '+cb+' possono completarsi bene, ma serve comprensione reciproca. Le differenze portano equilibrio quando ciascuno apprezza ciò che l\u2019altro offre.',
+  'Buona combinazione: '+ca+' e '+cb+' si sostengono in modo naturale, con valori e ritmi compatibili. Una base solida per una relazione armoniosa.',
+  'Combinazione eccellente: '+ca+' e '+cb+' risuonano in profondità, con energie che si nutrono a vicenda. Un\u2019intesa naturale e di sostegno.'],
+ es:[
+  'Combinación desafiante: '+ca+' y '+cb+' tienen ritmos y necesidades bastante distintos. Funciona con esfuerzo consciente, comunicación abierta y respeto por las diferencias — la fricción se vuelve crecimiento cuando se reconoce.',
+  'Combinación compleja: '+ca+' y '+cb+' pueden complementarse bien, pero pide comprensión mutua. Las diferencias traen equilibrio cuando cada uno valora lo que el otro ofrece.',
+  'Buena combinación: '+ca+' y '+cb+' se sostienen de forma natural, con valores y ritmos compatibles. Una base sólida para una relación armoniosa.',
+  'Combinación excelente: '+ca+' y '+cb+' resuenan en profundidad, con energías que se nutren mutuamente. Una afinidad natural y de apoyo.'],
+ fr:[
+  'Mélange exigeant : '+ca+' et '+cb+' avancent à des rythmes et des besoins assez différents. Cela fonctionne avec un effort conscient, une communication ouverte et le respect des différences — les frictions deviennent croissance quand elles sont reconnues.',
+  'Mélange complexe : '+ca+' et '+cb+' peuvent bien se compléter, mais cela demande une compréhension mutuelle. Les différences apportent l\u2019équilibre quand chacun apprécie ce que l\u2019autre offre.',
+  'Bon mélange : '+ca+' et '+cb+' se soutiennent naturellement, avec des valeurs et des rythmes compatibles. Une base solide pour une relation harmonieuse.',
+  'Mélange excellent : '+ca+' et '+cb+' résonnent en profondeur, avec des énergies qui se nourrissent l\u2019une l\u2019autre. Une entente naturelle et porteuse.'],
+ pt:[
+  'Combinação exigente: '+ca+' e '+cb+' têm ritmos e necessidades bastante diferentes. Funciona com esforço consciente, comunicação aberta e respeito pelas diferenças — o atrito torna-se crescimento quando é reconhecido.',
+  'Combinação complexa: '+ca+' e '+cb+' podem completar-se bem, mas pede compreensão mútua. As diferenças trazem equilíbrio quando cada um valoriza o que o outro oferece.',
+  'Boa combinação: '+ca+' e '+cb+' sustentam-se de forma natural, com valores e ritmos compatíveis. Uma base sólida para uma relação harmoniosa.',
+  'Combinação excelente: '+ca+' e '+cb+' ressoam em profundidade, com energias que se nutrem mutuamente. Uma sintonia natural e de apoio.'],
+ ca:[
+  'Combinació exigent: '+ca+' i '+cb+' tenen ritmes i necessitats força diferents. Funciona amb esforç conscient, comunicació oberta i respecte per les diferències — la fricció esdevé creixement quan es reconeix.',
+  'Combinació complexa: '+ca+' i '+cb+' es poden complementar bé, però demana comprensió mútua. Les diferències aporten equilibri quan cadascú valora el que l\u2019altre ofereix.',
+  'Bona combinació: '+ca+' i '+cb+' es sostenen de manera natural, amb valors i ritmes compatibles. Una base sòlida per a una relació harmoniosa.',
+  'Combinació excel·lent: '+ca+' i '+cb+' ressonen en profunditat, amb energies que es nodreixen mútuament. Una sintonia natural i de suport.']};
 }
 function renderCompat(){
   const box=$('compatOut'); const d1=readDate($('p1date').value),d2=readDate($('p2date').value);
@@ -844,23 +1346,25 @@ function renderUniverse(){
 
 /* ---------- saved (localStorage, guarded) ---------- */
 const SKEY='numerologie_saved_v1';
-function getSaved(){try{return JSON.parse(localStorage.getItem(SKEY)||'[]');}catch(e){return [];}}
-function setSaved(a){try{localStorage.setItem(SKEY,JSON.stringify(a));}catch(e){}}
+function getSaved(){try{return JSON.parse(localStorage.getItem(SKEY)||'[]');}catch(e){return [];}}function setSaved(a){try{localStorage.setItem(SKEY,JSON.stringify(a));}catch(e){}}
+function prefGet(k){try{return localStorage.getItem('num_pref_'+k);}catch(e){return null;}}
+function prefSet(k,v){try{localStorage.setItem('num_pref_'+k,v);}catch(e){}}
 function renderSaved(){
   const list=getSaved(); const box=$('savedList');
   if(!list.length){box.innerHTML='<p style="color:var(--mut);font-size:14px;margin:0">'+t('noSaved')+'</p>';return;}
-  let h=''; list.forEach((it,i)=>{h+='<div class="saved-item"><div><div class="si-name">'+esc(it.name||t('noName'))+'</div><div class="si-meta">'+esc(it.date||'')+'</div></div><div class="si-act"><button class="xbtn" onclick="window.loadSaved('+i+')">'+t('load')+'</button><button class="xbtn del" onclick="window.delSaved('+i+')">'+t('del')+'</button></div></div>';});
+  let h=''; list.forEach((it,i)=>{h+='<div class="saved-item"><div><div class="si-name">'+esc(it.name||t('noName'))+'</div><div class="si-meta">'+esc((it.date||'')+(it.time?' · '+it.time:''))+'</div></div><div class="si-act"><button class="xbtn" onclick="window.loadSaved('+i+')">'+t('load')+'</button><button class="xbtn del" onclick="window.delSaved('+i+')">'+t('del')+'</button></div></div>';});
   box.innerHTML=h;
 }
-window.loadSaved=function(i){const it=getSaved()[i];if(!it)return;$('inName').value=it.name||'';$('inDate').value=it.date||'';computeProfile();switchTab('profil');updateHash();};
+window.loadSaved=function(i){const it=getSaved()[i];if(!it)return;$('inName').value=it.name||'';$('inDate').value=it.date||'';if($('inTime'))$('inTime').value=it.time||'';computeProfile();switchTab('profil');updateHash();};
 window.delSaved=function(i){if(!confirm(t('confirmDel')))return;const list=getSaved();list.splice(i,1);setSaved(list);renderSaved();};
 
 /* ---------- tabs + dispatch ---------- */
-const NATAL_TABS=['profil','cicluri','grila'];
+const NATAL_TABS=['profil','cicluri','grila','bazi'];
 function renderTab(name){
   if(name==='profil')renderProfile(); else if(name==='cicluri')renderCycles(); else if(name==='grila')renderGrid();
   else if(name==='nume'){renderName();renderCmp();} else if(name==='compat')renderCompat();
   else if(name==='univers')renderUniverse(); else if(name==='salvate')renderSaved();
+  else if(name==='bazi')renderBazi();
 }
 function switchTab(name){
   document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));
@@ -876,12 +1380,14 @@ function applyI18N(){
   $('inName').placeholder=t('phName'); $('inWord').placeholder=t('phWord');
   $('p1name').placeholder=t('phOpt'); $('p2name').placeholder=t('phOpt');
   $('themeBtn').title=t('themeT'); $('printBtn').title=t('printT'); $('sysSeg').title=t('sysLabel');
+  $('langSel').value=state.lang;
   $('toggleCmp').textContent=($('compareNamesCard').style.display!=='none')?t('btnHideCmp'):t('btnShowCmp');
 }
 
 /* ---------- hash ---------- */
 function updateHash(){
   const p=[]; if(state.name)p.push('n='+encodeURIComponent(state.name)); if(state.date)p.push('d='+state.date);
+  const tm=$('inTime')?$('inTime').value:''; if(tm)p.push('t='+encodeURIComponent(tm));
   p.push('l='+state.lang); p.push('s='+state.sys);
   try{history.replaceState(null,'','#'+p.join('&'));}catch(e){location.hash=p.join('&');}
 }
@@ -890,6 +1396,7 @@ function parseHash(){
   hsh.split('&').forEach(kv=>{const i=kv.indexOf('=');if(i>0)p[kv.slice(0,i)]=decodeURIComponent(kv.slice(i+1));});
   if(p.l&&I18N[p.l])state.lang=p.l; if(p.s&&(p.s==='pyth'||p.s==='chal'))state.sys=p.s;
   if(p.n)$('inName').value=p.n; if(p.d)$('inDate').value=p.d;
+  if(p.t&&$('inTime')&&/^\d{1,2}:\d{2}/.test(p.t))$('inTime').value=p.t;
 }
 
 /* ---------- starfield ---------- */
@@ -901,21 +1408,227 @@ function drawSky(){
     ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fillStyle=gold?('rgba(212,175,106,'+al+')'):(light?'rgba(80,70,40,'+(al*0.45)+')':'rgba(220,225,245,'+al+')');ctx.fill();}
 }
 
+/* ---------- language detection ---------- */
+function detectLang(){
+  const sup=['en','ro','it','es','fr','pt','ca'];
+  const navs=(navigator.languages&&navigator.languages.length)?navigator.languages:[navigator.language||navigator.userLanguage||'en'];
+  for(const l of navs){const code=(l||'').slice(0,2).toLowerCase();if(sup.indexOf(code)>=0)return code;}
+  return 'en';
+}
+
+/* ============================================================
+   BaZi (四柱/八字) + Chinese Zodiac + Western Sun Sign + Maya Tzolk'in
+   Pure engine + data; renderBazi defined here (called at runtime).
+   ============================================================ */
+/* --- astronomy --- */
+function bzJDN(y,m,d){const a=Math.floor((14-m)/12),yy=y+4800-a,mm=m+12*a-3;return d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-Math.floor(yy/100)+Math.floor(yy/400)-32045;}
+function bzJD(y,m,d,h,mi){return bzJDN(y,m,d)+(h-12)/24+mi/1440;}
+function solarLong(jd){
+  const T=(jd-2451545)/36525;
+  const L0=280.46646+36000.76983*T+0.0003032*T*T;
+  const M=(357.52911+35999.05029*T-0.0001537*T*T)*Math.PI/180;
+  const C=(1.914602-0.004817*T-0.000014*T*T)*Math.sin(M)+(0.019993-0.000101*T)*Math.sin(2*M)+0.000289*Math.sin(3*M);
+  const omega=(125.04-1934.136*T)*Math.PI/180;
+  let lam=L0+C-0.00569-0.00478*Math.sin(omega);
+  return ((lam%360)+360)%360;
+}
+function bzFindTerm(approxJD,target){let jd=approxJD;for(let i=0;i<10;i++){const l=solarLong(jd);let diff=((target-l+540)%360)-180;jd+=diff/0.98565;}return jd;}
+
+/* --- ganzhi (universal: characters + pinyin + element/polarity indices) --- */
+const GZ_STEM_CHAR=["甲","乙","丙","丁","戊","己","庚","辛","壬","癸"];
+const GZ_STEM_PIN=["Jiǎ","Yǐ","Bǐng","Dīng","Wù","Jǐ","Gēng","Xīn","Rén","Guǐ"];
+const GZ_BRANCH_CHAR=["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
+const GZ_BRANCH_PIN=["Zǐ","Chǒu","Yín","Mǎo","Chén","Sì","Wǔ","Wèi","Shēn","Yǒu","Xū","Hài"];
+const GZ_BRANCH_ELEM=[4,2,0,0,2,1,1,2,3,3,2,4]; /* main qi: 0 Wood,1 Fire,2 Earth,3 Metal,4 Water */
+/* Hidden Stems (藏干) per branch: primary first; stem indices 0=Jia..9=Gui */
+const GZ_HIDDEN=[[9],[5,9,7],[0,2,4],[1],[4,1,9],[2,4,6],[3,5],[5,3,1],[6,8,4],[7],[4,7,3],[8,0]];
+const GZ_HIDDEN_W=[1,0.5,0.3]; /* weight by position (main / middle / residual) */
+/* stem element = floor(stem/2); polarity: even=Yang(0), odd=Yin(1); branch polarity: even index=Yang */
+
+/* --- localized short names --- */
+const BZ_ELEM={en:["Wood","Fire","Earth","Metal","Water"],ro:["Lemn","Foc","Pământ","Metal","Apă"],it:["Legno","Fuoco","Terra","Metallo","Acqua"],es:["Madera","Fuego","Tierra","Metal","Agua"],fr:["Bois","Feu","Terre","Métal","Eau"],pt:["Madeira","Fogo","Terra","Metal","Água"],ca:["Fusta","Foc","Terra","Metall","Aigua"]};
+const BZ_POL={en:["Yang","Yin"],ro:["Yang","Yin"],it:["Yang","Yin"],es:["Yang","Yin"],fr:["Yang","Yin"],pt:["Yang","Yin"],ca:["Yang","Yin"]};
+const BZ_ANIMAL={en:["Rat","Ox","Tiger","Rabbit","Dragon","Snake","Horse","Goat","Monkey","Rooster","Dog","Pig"],ro:["Șobolan","Bou","Tigru","Iepure","Dragon","Șarpe","Cal","Capră","Maimuță","Cocoș","Câine","Porc"],it:["Topo","Bue","Tigre","Coniglio","Drago","Serpente","Cavallo","Capra","Scimmia","Gallo","Cane","Maiale"],es:["Rata","Buey","Tigre","Conejo","Dragón","Serpiente","Caballo","Cabra","Mono","Gallo","Perro","Cerdo"],fr:["Rat","Bœuf","Tigre","Lapin","Dragon","Serpent","Cheval","Chèvre","Singe","Coq","Chien","Cochon"],pt:["Rato","Boi","Tigre","Coelho","Dragão","Serpente","Cavalo","Cabra","Macaco","Galo","Cão","Porco"],ca:["Rata","Bou","Tigre","Conill","Drac","Serp","Cavall","Cabra","Mico","Gall","Gos","Porc"]};
+const WSIGN={en:["Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"],ro:["Berbec","Taur","Gemeni","Rac","Leu","Fecioară","Balanță","Scorpion","Săgetător","Capricorn","Vărsător","Pești"],it:["Ariete","Toro","Gemelli","Cancro","Leone","Vergine","Bilancia","Scorpione","Sagittario","Capricorno","Acquario","Pesci"],es:["Aries","Tauro","Géminis","Cáncer","Leo","Virgo","Libra","Escorpio","Sagitario","Capricornio","Acuario","Piscis"],fr:["Bélier","Taureau","Gémeaux","Cancer","Lion","Vierge","Balance","Scorpion","Sagittaire","Capricorne","Verseau","Poissons"],pt:["Carneiro","Touro","Gémeos","Caranguejo","Leão","Virgem","Balança","Escorpião","Sagitário","Capricórnio","Aquário","Peixes"],ca:["Àries","Taure","Bessons","Cranc","Lleó","Verge","Balança","Escorpí","Sagitari","Capricorn","Aquari","Peixos"]};
+const WELEM={en:["Fire","Earth","Air","Water"],ro:["Foc","Pământ","Aer","Apă"],it:["Fuoco","Terra","Aria","Acqua"],es:["Fuego","Tierra","Aire","Agua"],fr:["Feu","Terre","Air","Eau"],pt:["Fogo","Terra","Ar","Água"],ca:["Foc","Terra","Aire","Aigua"]};
+const WMODE={en:["Cardinal","Fixed","Mutable"],ro:["Cardinal","Fix","Mutabil"],it:["Cardinale","Fisso","Mobile"],es:["Cardinal","Fijo","Mutable"],fr:["Cardinal","Fixe","Mutable"],pt:["Cardeal","Fixo","Mutável"],ca:["Cardinal","Fix","Mutable"]};
+const MAYAN_NAME=["Imix","Ik'","Ak'b'al","K'an","Chikchan","Kimi","Manik'","Lamat","Muluk","Ok","Chuwen","Eb'","B'en","Ix","Men","Kib'","Kab'an","Etz'nab'","Kawak","Ajaw"];
+const MAYAN_GLOSS=["Crocodile","Wind","Night","Seed","Serpent","Death","Deer","Star","Water","Dog","Monkey","Road","Reed","Jaguar","Eagle","Vulture","Earth","Mirror","Storm","Sun"];
+function bzLoc(m){return m[state.lang]||m.en;}
+
+/* --- system functions --- */
+function bzPillars(y,mo,d,hasTime,h,mi){
+  const jdInst=hasTime?bzJD(y,mo,d,h,mi):bzJDN(y,mo,d);
+  const lichun=bzFindTerm(bzJDN(y,2,4),315);
+  const solarYear=(jdInst>=lichun)?y:y-1;
+  const ys=((solarYear-4)%10+10)%10, yb=((solarYear-4)%12+12)%12;
+  const lam=solarLong(jdInst);
+  const mb=Math.floor((((lam-315)%360)+360)%360/30);      /* 0=Yin..11=Chou */
+  const monthBranch=(mb+2)%12;
+  const mStemStart=((ys%5)*2+2)%10;
+  const monthStem=(mStemStart+mb)%10;
+  const dayJDN=bzJDN(y,mo,d);
+  const didx=((dayJDN-11)%60+60)%60;
+  const ds=didx%10, db=didx%12;
+  const out={solarYear:solarYear,year:{s:ys,b:yb},month:{s:monthStem,b:monthBranch},day:{s:ds,b:db},hour:null,lambda:lam};
+  if(hasTime){const hb=Math.floor(((h+1)%24)/2);const hStemStart=((ds%5)*2)%10;out.hour={s:(hStemStart+hb)%10,b:hb};}
+  return out;
+}
+function bzElementTally(p){
+  const t=[0,0,0,0,0]; const cols=[p.year,p.month,p.day]; if(p.hour)cols.push(p.hour);
+  cols.forEach(c=>{
+    t[Math.floor(c.s/2)]+=1;
+    GZ_HIDDEN[c.b].forEach((st,i)=>{ t[Math.floor(st/2)]+=(GZ_HIDDEN_W[i]||0.2); });
+  });
+  return t.map(v=>Math.round(v*100)/100);
+}
+function sunSign(m,d){const cut=[19,18,20,19,20,20,22,22,22,22,21,21];const first=[9,10,11,0,1,2,3,4,5,6,7,8];return d<=cut[m-1]?first[m-1]:(first[m-1]+1)%12;}
+function tzolkin(jdn){let num=((jdn+6)%13);if(num===0)num=13;let sg=((jdn+17)%20);if(sg===0)sg=20;return{tone:num,sign:sg-1};}
+
+/* --- interpretive text (ro/en; other langs fall back to en via loc()) --- */
+const DAYMASTER={
+ 0:{en:"Wood Day Masters are growth-oriented, principled and expansive — like a tree they reach upward, value progress and benevolence, and stand either as a sturdy trunk (Yang) or an adaptable vine (Yin).",ro:"Stăpânul de Zi Lemn e orientat spre creștere, principial și expansiv — ca un copac tinde în sus, prețuiește progresul și bunăvoința, fiind fie un trunchi robust (Yang), fie o liană adaptabilă (Yin)."},
+ 1:{en:"Fire Day Masters are warm, expressive and magnetic — they illuminate, inspire and seek recognition, radiating bold passion (Yang, the sun) or refined warmth (Yin, the candle).",ro:"Stăpânul de Zi Foc e cald, expresiv și magnetic — luminează, inspiră și caută recunoaștere, radiind pasiune îndrăzneață (Yang, soarele) sau căldură rafinată (Yin, lumânarea)."},
+ 2:{en:"Earth Day Masters are stable, nurturing and trustworthy — they hold things together and value loyalty and reliability, as an immovable mountain (Yang) or a fertile field (Yin).",ro:"Stăpânul de Zi Pământ e stabil, ocrotitor și demn de încredere — ține lucrurile laolaltă și prețuiește loialitatea și statornicia, ca un munte neclintit (Yang) sau un câmp roditor (Yin)."},
+ 3:{en:"Metal Day Masters are principled, decisive and refined — they value justice, structure and quality, whether a forged blade (Yang) or fine jewelry (Yin).",ro:"Stăpânul de Zi Metal e principial, hotărât și rafinat — prețuiește dreptatea, structura și calitatea, fie o lamă forjată (Yang), fie o bijuterie fină (Yin)."},
+ 4:{en:"Water Day Masters are intelligent, flexible and deep — they flow around obstacles and value wisdom and communication, as a great river (Yang) or gentle rain (Yin).",ro:"Stăpânul de Zi Apă e inteligent, flexibil și profund — curge în jurul obstacolelor și prețuiește înțelepciunea și comunicarea, ca un fluviu mare (Yang) sau o ploaie blândă (Yin)."}};
+const ELEM_KW={0:{en:"growth, vision, kindness",ro:"creștere, viziune, bunătate"},1:{en:"passion, expression, joy",ro:"pasiune, expresie, bucurie"},2:{en:"stability, care, trust",ro:"stabilitate, grijă, încredere"},3:{en:"structure, justice, refinement",ro:"structură, dreptate, rafinament"},4:{en:"wisdom, flow, adaptability",ro:"înțelepciune, curgere, adaptabilitate"}};
+const ANIMAL_TXT={
+ 0:{en:"Quick-witted, resourceful and charming; an adaptable opportunist who thrives anywhere.",ro:"Isteț, descurcăreț și fermecător; un oportunist adaptabil care prosperă oriunde."},
+ 1:{en:"Diligent, dependable and patient; a steady worker who earns success through persistence.",ro:"Harnic, de încredere și răbdător; un muncitor statornic ce câștigă prin perseverență."},
+ 2:{en:"Brave, competitive and charismatic; a natural leader drawn to challenge.",ro:"Curajos, competitiv și carismatic; un lider firesc atras de provocare."},
+ 3:{en:"Gentle, diplomatic and artistic; values peace, beauty and good company.",ro:"Blând, diplomat și artistic; prețuiește pacea, frumosul și compania bună."},
+ 4:{en:"Confident, ambitious and magnetic; bold, fortunate and meant to stand out.",ro:"Încrezător, ambițios și magnetic; îndrăzneț, norocos și menit să iasă în evidență."},
+ 5:{en:"Wise, intuitive and private; an elegant strategist with deep insight.",ro:"Înțelept, intuitiv și discret; un strateg elegant cu intuiție profundă."},
+ 6:{en:"Energetic, free-spirited and sociable; loves movement, travel and independence.",ro:"Energic, liber și sociabil; iubește mișcarea, călătoria și independența."},
+ 7:{en:"Kind, creative and sensitive; a gentle soul with a strong aesthetic sense.",ro:"Bun, creativ și sensibil; un suflet blând cu un puternic simț estetic."},
+ 8:{en:"Clever, playful and inventive; a quick problem-solver who loves novelty.",ro:"Isteț, jucăuș și inventiv; rezolvă rapid probleme și adoră noutatea."},
+ 9:{en:"Observant, confident and hardworking; precise, honest and proud of quality.",ro:"Atent, încrezător și muncitor; precis, onest și mândru de calitate."},
+ 10:{en:"Loyal, honest and protective; a faithful friend with a strong sense of justice.",ro:"Loial, onest și protector; un prieten credincios cu un simț puternic al dreptății."},
+ 11:{en:"Generous, sincere and easygoing; enjoys life's pleasures and gives wholeheartedly.",ro:"Generos, sincer și relaxat; se bucură de plăcerile vieții și dăruiește din toată inima."}};
+const WSIGN_TXT={
+ 0:{en:"A bold, energetic pioneer who leads with courage and initiative.",ro:"Un pionier îndrăzneț și energic, care conduce cu curaj și inițiativă."},
+ 1:{en:"Grounded, sensual and steadfast; values stability, comfort and beauty.",ro:"Ancorat, senzual și statornic; prețuiește stabilitatea, confortul și frumosul."},
+ 2:{en:"Curious, quick and communicative; versatile and endlessly intellectually playful.",ro:"Curios, rapid și comunicativ; versatil și mereu jucăuș intelectual."},
+ 3:{en:"Caring, intuitive and protective; deeply attached to home and feeling.",ro:"Grijuliu, intuitiv și protector; profund atașat de casă și de emoții."},
+ 4:{en:"Warm, proud and generous; a natural performer who shines and leads.",ro:"Cald, mândru și generos; un actor înnăscut care strălucește și conduce."},
+ 5:{en:"Analytical, practical and meticulous; devoted to improvement and service.",ro:"Analitic, practic și meticulos; dedicat îmbunătățirii și slujirii."},
+ 6:{en:"Harmonious, fair and charming; seeks balance, beauty and partnership.",ro:"Armonios, drept și fermecător; caută echilibru, frumos și parteneriat."},
+ 7:{en:"Intense, magnetic and deep; transformative, passionate and perceptive.",ro:"Intens, magnetic și profund; transformator, pasional și pătrunzător."},
+ 8:{en:"Optimistic, adventurous and free; a seeker of truth, meaning and horizons.",ro:"Optimist, aventuros și liber; un căutător de adevăr, sens și orizonturi."},
+ 9:{en:"Disciplined, ambitious and responsible; builds lasting success patiently.",ro:"Disciplinat, ambițios și responsabil; clădește succesul durabil cu răbdare."},
+ 10:{en:"Original, independent and humanitarian; an inventive, future-minded thinker.",ro:"Original, independent și umanitar; un gânditor inventiv, orientat spre viitor."},
+ 11:{en:"Compassionate, imaginative and intuitive; a dreamer attuned to the unseen.",ro:"Compasiv, imaginativ și intuitiv; un visător acordat la nevăzut."}};
+const MAYAN_TXT={
+ 0:{en:"Nurturing source and primal trust — the energy of beginnings and unconditional care.",ro:"Sursă hrănitoare și încredere primară — energia începuturilor și a grijii necondiționate."},
+ 1:{en:"Breath, communication and inspiration — a channel for spirit and ideas.",ro:"Suflu, comunicare și inspirație — un canal pentru spirit și idei."},
+ 2:{en:"Inner sanctuary, dreams and mystery — depth, intuition and rest.",ro:"Sanctuar interior, vise și mister — profunzime, intuiție și odihnă."},
+ 3:{en:"Potential, growth and ripening — the spark that becomes harvest.",ro:"Potențial, creștere și coacere — scânteia ce devine recoltă."},
+ 4:{en:"Life force, instinct and vitality — passion and bodily wisdom.",ro:"Forță vitală, instinct și vitalitate — pasiune și înțelepciune trupească."},
+ 5:{en:"Release, surrender and renewal — endings that open new doors.",ro:"Eliberare, predare și reînnoire — sfârșituri ce deschid uși noi."},
+ 6:{en:"Healing, accomplishment and grace — tools and helping hands.",ro:"Vindecare, împlinire și grație — unelte și mâini de ajutor."},
+ 7:{en:"Harmony, abundance and beauty — play, art and proliferation.",ro:"Armonie, abundență și frumusețe — joc, artă și înmulțire."},
+ 8:{en:"Emotion, offering and purification — flow and remembrance.",ro:"Emoție, ofrandă și purificare — curgere și amintire."},
+ 9:{en:"Loyalty, love and companionship — heart, guidance and devotion.",ro:"Loialitate, iubire și tovărășie — inimă, călăuzire și devotament."},
+ 10:{en:"Creativity, play and weaving — the artist and trickster of time.",ro:"Creativitate, joc și țesere — artistul și șmecherul timpului."},
+ 11:{en:"Service, destiny and the path — the grace of walking your way.",ro:"Slujire, destin și cale — grația de a-ți merge drumul."},
+ 12:{en:"Aspiration, exploration and growth — a pillar between earth and sky.",ro:"Aspirație, explorare și creștere — un stâlp între pământ și cer."},
+ 13:{en:"Magic, integrity and receptivity — the shaman's timeless heart.",ro:"Magie, integritate și receptivitate — inima atemporală a șamanului."},
+ 14:{en:"Vision, mind and ambition — the higher view and the collective dream.",ro:"Viziune, minte și ambiție — perspectiva înaltă și visul colectiv."},
+ 15:{en:"Wisdom, forgiveness and inner counsel — grace earned from experience.",ro:"Înțelepciune, iertare și sfat lăuntric — har câștigat din experiență."},
+ 16:{en:"Synchronicity, intelligence and movement — navigation and evolution.",ro:"Sincronicitate, inteligență și mișcare — navigare și evoluție."},
+ 17:{en:"Truth, clarity and reflection — the blade that cuts illusion.",ro:"Adevăr, claritate și reflectare — lama ce taie iluzia."},
+ 18:{en:"Renewal, catalysis and energy — the cleansing thunderstorm.",ro:"Reînnoire, cataliză și energie — furtuna curățitoare."},
+ 19:{en:"Enlightenment, unconditional love and mastery — radiant wholeness.",ro:"Iluminare, iubire necondiționată și măiestrie — întregime radiantă."}};
+
+/* --- render --- */
+function bzPillarCard(label,col,isDay){
+  const E=bzLoc(BZ_ELEM),P=bzLoc(BZ_POL),A=bzLoc(BZ_ANIMAL);
+  const se=Math.floor(col.s/2),sp=col.s%2,be=GZ_BRANCH_ELEM[col.b];
+  let h='<div class="med'+(isDay?' master':'')+'" style="cursor:default;min-height:158px">';
+  h+='<div class="lbl">'+esc(label)+'</div>';
+  h+='<div style="font-family:var(--serif);font-size:33px;color:var(--gild);line-height:1.05;margin-top:2px">'+GZ_STEM_CHAR[col.s]+'</div>';
+  h+='<div style="font-size:11px;color:var(--mut);margin-top:1px">'+GZ_STEM_PIN[col.s]+' · '+E[se]+' '+P[sp]+'</div>';
+  h+='<div style="height:1px;background:var(--line);margin:8px 8px"></div>';
+  h+='<div style="font-family:var(--serif);font-size:33px;color:var(--ink);line-height:1.05">'+GZ_BRANCH_CHAR[col.b]+'</div>';
+  h+='<div style="font-size:11px;color:var(--mut);margin-top:1px">'+GZ_BRANCH_PIN[col.b]+' · '+A[col.b]+' · '+E[be]+'</div>';
+  const hid=GZ_HIDDEN[col.b].map(st=>GZ_STEM_CHAR[st]).join(' ');
+  h+='<div style="font-size:10px;color:var(--mut);opacity:.7;margin-top:3px;letter-spacing:1px">藏干 '+hid+'</div>';
+  return h+'</div>';
+}
+function renderBazi(){
+  const box=$('baziOut'); const dv=$('inDate').value, tv=$('inTime')?$('inTime').value:'';
+  const dt=readDate(dv);
+  if(!dt){box.innerHTML='<div class="card"><div class="empty-note"><span class="big">&#9775;</span>'+t('baziNeedDate')+'</div></div>';return;}
+  let hasTime=false,h=12,mi=0;
+  if(tv&&/^\d{1,2}:\d{2}/.test(tv)){const pp=tv.split(':');h=+pp[0];mi=+pp[1]||0;if(h>=0&&h<24)hasTime=true;}
+  const p=bzPillars(dt.y,dt.m,dt.d,hasTime,h,mi);
+  const E=bzLoc(BZ_ELEM),P=bzLoc(BZ_POL),A=bzLoc(BZ_ANIMAL);
+  let out='';
+  /* --- BaZi card --- */
+  out+='<div class="card"><p class="eyebrow">'+t('baziEye')+'</p><h3 class="sec-h" style="margin-top:2px">'+t('baziTitle')+'</h3><p class="sec-sub" style="margin:2px 0 14px 0">'+t('baziDesc')+'</p>';
+  out+='<div class="med-grid">';
+  out+=bzPillarCard(t('pillarYear'),p.year,false)+bzPillarCard(t('pillarMonth'),p.month,false)+bzPillarCard(t('pillarDay'),p.day,true);
+  if(p.hour)out+=bzPillarCard(t('pillarHour'),p.hour,false);
+  else out+='<div class="med" style="cursor:default;min-height:158px;display:flex;flex-direction:column;justify-content:center"><div class="lbl">'+t('pillarHour')+'</div><div style="font-size:12.5px;color:var(--mut);padding:10px 6px;line-height:1.45">'+t('hourNeedTime')+'</div></div>';
+  out+='</div>';
+  const dmE=Math.floor(p.day.s/2),dmP=p.day.s%2;
+  out+='<h3 class="sec-h">'+t('dayMasterTitle')+'</h3><div class="readout"><h4>'+GZ_STEM_CHAR[p.day.s]+' '+GZ_STEM_PIN[p.day.s]+' — '+E[dmE]+' '+P[dmP]+' <span style="font-size:13px;color:var(--cele);font-family:var(--mono)">('+t('dayMasterLbl')+')</span></h4><p>'+esc(loc(DAYMASTER[dmE]))+'</p></div>';
+  const tally=bzElementTally(p),tot=tally.reduce((a,b)=>a+b,0);
+  let maxi=0,mini=0; for(let i=1;i<5;i++){if(tally[i]>tally[maxi])maxi=i;if(tally[i]<tally[mini])mini=i;}
+  out+='<h3 class="sec-h">'+t('fiveElemTitle')+'</h3><div class="card" style="background:var(--surf);margin:0"><p class="sec-sub" style="margin:0 0 10px 0">'+t('fiveElemDesc')+'</p>';
+  for(let i=0;i<5;i++){const pct=tot?Math.round(tally[i]/tot*100):0;out+='<div style="display:flex;align-items:center;gap:10px;margin:5px 0"><div style="width:78px;font-size:13px">'+E[i]+'</div><div style="flex:1;background:var(--surf2);border-radius:6px;overflow:hidden;height:14px"><div style="width:'+pct+'%;height:100%;background:var(--gild)"></div></div><div style="font-family:var(--mono);font-size:12px;width:40px;text-align:right">'+pct+'%</div></div>';}
+  out+='<p style="margin:11px 0 0 0;font-size:13.5px"><b style="color:var(--cele)">'+t('strongestLbl')+':</b> '+E[maxi]+' <span style="color:var(--mut)">('+esc(loc(ELEM_KW[maxi]))+')</span> &nbsp;·&nbsp; <b style="color:var(--cele)">'+t('weakestLbl')+':</b> '+E[mini]+'</p>';
+  const resE=(dmE+4)%5, supp=tally[dmE]+tally[resE], suppPct=tot?Math.round(supp/tot*100):0, verdict=suppPct>=55?t('dmStrong'):(suppPct>=45?t('dmBalanced'):t('dmWeak'));
+  out+='<p style="margin:8px 0 0 0;font-size:13.5px"><b style="color:var(--cele)">'+t('dmSupportLbl')+':</b> '+suppPct+'% — '+verdict+'</p><p class="sec-sub" style="margin:4px 0 0 0">'+t('dmSupportNote')+'</p></div></div>';
+  /* --- Chinese Zodiac --- */
+  const zEl=Math.floor(p.year.s/2),zPol=p.year.s%2;
+  out+='<div class="card"><p class="eyebrow">'+t('zodiacEye')+'</p><h3 class="sec-h" style="margin-top:2px">'+t('zodiacTitle')+'</h3><p class="sec-sub" style="margin:2px 0 12px 0">'+t('zodiacDesc')+'</p><div class="readout"><h4>'+E[zEl]+' '+P[zPol]+' '+A[p.year.b]+' · '+GZ_BRANCH_CHAR[p.year.b]+'</h4><p>'+esc(loc(ANIMAL_TXT[p.year.b]))+'</p></div></div>';
+  /* --- Western Sun Sign (from true solar longitude: exact, handles cusps & year drift) --- */
+  const wsJD=hasTime?bzJD(dt.y,dt.m,dt.d,h,mi):bzJDN(dt.y,dt.m,dt.d);
+  const ws=Math.floor(solarLong(wsJD)/30)%12,WS=bzLoc(WSIGN),WE=bzLoc(WELEM),WM=bzLoc(WMODE);
+  out+='<div class="card"><p class="eyebrow">'+t('sunEye')+'</p><h3 class="sec-h" style="margin-top:2px">'+t('sunTitle')+'</h3><p class="sec-sub" style="margin:2px 0 12px 0">'+t('sunDesc')+'</p><div class="readout"><h4>'+WS[ws]+' — '+WE[ws%4]+' · '+WM[ws%3]+'</h4><p>'+esc(loc(WSIGN_TXT[ws]))+'</p></div></div>';
+  /* --- Maya Tzolk'in --- */
+  const tz=tzolkin(bzJDN(dt.y,dt.m,dt.d));
+  out+='<div class="card"><p class="eyebrow">'+t('mayanEye')+'</p><h3 class="sec-h" style="margin-top:2px">'+t('mayanTitle')+'</h3><p class="sec-sub" style="margin:2px 0 12px 0">'+t('mayanDesc')+'</p><div class="readout"><h4>'+t('toneLbl')+' '+tz.tone+' · '+MAYAN_NAME[tz.sign]+' <span style="color:var(--mut)">('+MAYAN_GLOSS[tz.sign]+')</span></h4><p>'+esc(loc(MAYAN_TXT[tz.sign]))+'</p></div></div>';
+  out+='<p class="sec-sub" style="margin-top:10px">'+t('baziMethodNote')+'</p>';
+  box.innerHTML=out;
+}
+window.renderBazi=renderBazi;
+[["en",{dmSupportLbl:"Day Master support (Resource + Companion)",dmStrong:"tends self-strong (身強)",dmBalanced:"fairly balanced (中和)",dmWeak:"tends self-weak (身弱)",dmSupportNote:"A rough indication only — true strength depends most on the season of birth (the month command) and the whole chart."}],
+["ro",{dmSupportLbl:"Susținerea Stăpânului de Zi (Resursă + Companion)",dmStrong:"tinde spre putere proprie (身強)",dmBalanced:"relativ echilibrat (中和)",dmWeak:"tinde spre slăbiciune (身弱)",dmSupportNote:"Doar o indicație orientativă — adevărata putere depinde mai ales de anotimpul nașterii (comanda lunii) și de harta întreagă."}],
+["it",{dmSupportLbl:"Sostegno del Padrone del Giorno (Risorsa + Compagno)",dmStrong:"tende all'auto-forza (身強)",dmBalanced:"abbastanza equilibrato (中和)",dmWeak:"tende all'auto-debolezza (身弱)",dmSupportNote:"Solo un'indicazione approssimativa — la vera forza dipende soprattutto dalla stagione di nascita (il comando del mese) e dalla carta completa."}],
+["es",{dmSupportLbl:"Apoyo del Amo del Día (Recurso + Compañero)",dmStrong:"tiende a auto-fuerte (身強)",dmBalanced:"bastante equilibrado (中和)",dmWeak:"tiende a auto-débil (身弱)",dmSupportNote:"Solo una indicación aproximada — la verdadera fuerza depende sobre todo de la estación de nacimiento (el mando del mes) y de la carta completa."}],
+["fr",{dmSupportLbl:"Soutien du Maître du Jour (Ressource + Compagnon)",dmStrong:"tend vers la force propre (身強)",dmBalanced:"plutôt équilibré (中和)",dmWeak:"tend vers la faiblesse propre (身弱)",dmSupportNote:"Une simple indication — la vraie force dépend surtout de la saison de naissance (le commandement du mois) et du thème complet."}],
+["pt",{dmSupportLbl:"Apoio do Mestre do Dia (Recurso + Companheiro)",dmStrong:"tende a auto-forte (身強)",dmBalanced:"bastante equilibrado (中和)",dmWeak:"tende a auto-fraco (身弱)",dmSupportNote:"Apenas uma indicação aproximada — a verdadeira força depende sobretudo da estação de nascimento (o comando do mês) e do mapa completo."}],
+["ca",{dmSupportLbl:"Suport de l'Amo del Dia (Recurs + Company)",dmStrong:"tendeix a auto-fort (身強)",dmBalanced:"força equilibrat (中和)",dmWeak:"tendeix a auto-feble (身弱)",dmSupportNote:"Només una indicació aproximada — la força real depèn sobretot de l'estació de naixement (el comandament del mes) i de la carta completa."}]
+].forEach(function(e){Object.assign(I18N[e[0]],e[1]);});
+
+/* --- UI strings (en, ro, it, es) --- */
+Object.assign(I18N.en,{tabBazi:"BaZi",fldTime:"Birth time (optional)",baziEye:"Chinese Four Pillars of Destiny · 八字",baziTitle:"BaZi — The Four Pillars",baziDesc:"Your birth moment expressed as four pillars of Heavenly Stems and Earthly Branches — the foundation of Chinese astrology. A birth time adds the Hour pillar.",baziNeedDate:"Enter a birth date in the bar above to cast the Four Pillars.",pillarYear:"Year",pillarMonth:"Month",pillarDay:"Day",pillarHour:"Hour",hourNeedTime:"Add a birth time above to reveal the Hour pillar.",dayMasterLbl:"Day Master 日主",dayMasterTitle:"Day Master — your core self",fiveElemTitle:"Five Elements balance",fiveElemDesc:"How the five elements are distributed across your pillars. The strongest shapes your nature; the weakest shows what to cultivate.",strongestLbl:"Strongest",weakestLbl:"Weakest",zodiacEye:"Year animal & element",zodiacTitle:"Chinese Zodiac",zodiacDesc:"Your year animal and its element, adjusted to Lìchūn — the solar start of the year, around 4 February.",sunEye:"Tropical zodiac by date",sunTitle:"Western Sun Sign",sunDesc:"Your sun sign from the birth date, with its element and modality.",mayanEye:"260-day sacred calendar",mayanTitle:"Maya Tzolk'in — Day Sign",mayanDesc:"Your day-sign and tone in the Tzolk'in (GMT correlation, 584283).",toneLbl:"Tone",baziMethodNote:"Conventions: the year changes at Lìchūn (~4 Feb), the months follow the solar terms, the day changes at midnight, and the clock time is used as entered (no timezone conversion). Near a boundary, verify with a localized calculator."});
+Object.assign(I18N.ro,{tabBazi:"BaZi",fldTime:"Ora nașterii (opțional)",baziEye:"Cele Patru Stâlpi ai Destinului · 八字",baziTitle:"BaZi — Cele Patru Stâlpi",baziDesc:"Momentul nașterii exprimat ca patru stâlpi de Trunchiuri Cerești și Ramuri Pământești — temelia astrologiei chineze. Ora nașterii adaugă stâlpul Orei.",baziNeedDate:"Introdu o dată de naștere în bara de sus pentru a calcula cei Patru Stâlpi.",pillarYear:"An",pillarMonth:"Lună",pillarDay:"Zi",pillarHour:"Oră",hourNeedTime:"Adaugă ora nașterii mai sus pentru a dezvălui stâlpul Orei.",dayMasterLbl:"Stăpânul de Zi 日主",dayMasterTitle:"Stăpânul de Zi — sinele tău esențial",fiveElemTitle:"Echilibrul celor Cinci Elemente",fiveElemDesc:"Cum se distribuie cele cinci elemente în stâlpii tăi. Cel mai puternic îți modelează firea; cel mai slab arată ce să cultivi.",strongestLbl:"Cel mai puternic",weakestLbl:"Cel mai slab",zodiacEye:"Animalul și elementul anului",zodiacTitle:"Zodiacul Chinezesc",zodiacDesc:"Animalul anului tău și elementul său, ajustat la Lìchūn — începutul solar al anului, în jur de 4 februarie.",sunEye:"Zodiacul tropical după dată",sunTitle:"Zodia Solară Occidentală",sunDesc:"Zodia ta solară după data nașterii, cu elementul și modalitatea sa.",mayanEye:"Calendarul sacru de 260 de zile",mayanTitle:"Tzolk'in Maya — Semnul Zilei",mayanDesc:"Semnul tău de zi și tonul în Tzolk'in (corelația GMT, 584283).",toneLbl:"Ton",baziMethodNote:"Convenții: anul se schimbă la Lìchūn (~4 feb.), lunile urmează termenii solari, ziua se schimbă la miezul nopții, iar ora e folosită așa cum e introdusă (fără conversie de fus orar). Lângă o limită, verifică cu un calculator localizat."});
+Object.assign(I18N.it,{tabBazi:"BaZi",fldTime:"Ora di nascita (facoltativa)",baziEye:"I Quattro Pilastri del Destino · 八字",baziTitle:"BaZi — I Quattro Pilastri",baziDesc:"Il momento della nascita espresso come quattro pilastri di Tronchi Celesti e Rami Terrestri — il fondamento dell'astrologia cinese. L'ora di nascita aggiunge il pilastro dell'Ora.",baziNeedDate:"Inserisci una data di nascita nella barra in alto per calcolare i Quattro Pilastri.",pillarYear:"Anno",pillarMonth:"Mese",pillarDay:"Giorno",pillarHour:"Ora",hourNeedTime:"Aggiungi un'ora di nascita sopra per rivelare il pilastro dell'Ora.",dayMasterLbl:"Padrone del Giorno 日主",dayMasterTitle:"Padrone del Giorno — il tuo sé essenziale",fiveElemTitle:"Equilibrio dei Cinque Elementi",fiveElemDesc:"Come si distribuiscono i cinque elementi nei tuoi pilastri. Il più forte plasma la tua natura; il più debole indica cosa coltivare.",strongestLbl:"Più forte",weakestLbl:"Più debole",zodiacEye:"Animale ed elemento dell'anno",zodiacTitle:"Zodiaco Cinese",zodiacDesc:"L'animale del tuo anno e il suo elemento, regolato a Lìchūn — l'inizio solare dell'anno, intorno al 4 febbraio.",sunEye:"Zodiaco tropicale per data",sunTitle:"Segno Solare Occidentale",sunDesc:"Il tuo segno solare dalla data di nascita, con il suo elemento e la sua modalità.",mayanEye:"Calendario sacro di 260 giorni",mayanTitle:"Tzolk'in Maya — Segno del Giorno",mayanDesc:"Il tuo segno del giorno e il tono nel Tzolk'in (correlazione GMT, 584283).",toneLbl:"Tono",baziMethodNote:"Convenzioni: l'anno cambia a Lìchūn (~4 feb.), i mesi seguono i termini solari, il giorno cambia a mezzanotte e l'ora è usata come inserita (senza conversione di fuso). Vicino a un confine, verifica con un calcolatore localizzato."});
+Object.assign(I18N.es,{tabBazi:"BaZi",fldTime:"Hora de nacimiento (opcional)",baziEye:"Los Cuatro Pilares del Destino · 八字",baziTitle:"BaZi — Los Cuatro Pilares",baziDesc:"El momento de tu nacimiento expresado como cuatro pilares de Troncos Celestes y Ramas Terrestres — la base de la astrología china. La hora de nacimiento añade el pilar de la Hora.",baziNeedDate:"Introduce una fecha de nacimiento en la barra superior para calcular los Cuatro Pilares.",pillarYear:"Año",pillarMonth:"Mes",pillarDay:"Día",pillarHour:"Hora",hourNeedTime:"Añade una hora de nacimiento arriba para revelar el pilar de la Hora.",dayMasterLbl:"Amo del Día 日主",dayMasterTitle:"Amo del Día — tu yo esencial",fiveElemTitle:"Equilibrio de los Cinco Elementos",fiveElemDesc:"Cómo se distribuyen los cinco elementos en tus pilares. El más fuerte moldea tu naturaleza; el más débil muestra qué cultivar.",strongestLbl:"Más fuerte",weakestLbl:"Más débil",zodiacEye:"Animal y elemento del año",zodiacTitle:"Zodíaco Chino",zodiacDesc:"El animal de tu año y su elemento, ajustado a Lìchūn — el inicio solar del año, hacia el 4 de febrero.",sunEye:"Zodíaco tropical por fecha",sunTitle:"Signo Solar Occidental",sunDesc:"Tu signo solar según la fecha de nacimiento, con su elemento y modalidad.",mayanEye:"Calendario sagrado de 260 días",mayanTitle:"Tzolk'in Maya — Signo del Día",mayanDesc:"Tu signo del día y tono en el Tzolk'in (correlación GMT, 584283).",toneLbl:"Tono",baziMethodNote:"Convenciones: el año cambia en Lìchūn (~4 feb.), los meses siguen los términos solares, el día cambia a medianoche y la hora se usa tal como se introduce (sin conversión de zona horaria). Cerca de un límite, verifica con una calculadora localizada."});
+/* --- UI strings (fr, pt, ca) --- */
+Object.assign(I18N.fr,{tabBazi:"BaZi",fldTime:"Heure de naissance (facultative)",baziEye:"Les Quatre Piliers du Destin · 八字",baziTitle:"BaZi — Les Quatre Piliers",baziDesc:"Votre moment de naissance exprimé en quatre piliers de Troncs Célestes et Branches Terrestres — le fondement de l'astrologie chinoise. L'heure de naissance ajoute le pilier de l'Heure.",baziNeedDate:"Saisissez une date de naissance dans la barre du haut pour établir les Quatre Piliers.",pillarYear:"Année",pillarMonth:"Mois",pillarDay:"Jour",pillarHour:"Heure",hourNeedTime:"Ajoutez une heure de naissance ci-dessus pour révéler le pilier de l'Heure.",dayMasterLbl:"Maître du Jour 日主",dayMasterTitle:"Maître du Jour — votre soi essentiel",fiveElemTitle:"Équilibre des Cinq Éléments",fiveElemDesc:"Comment les cinq éléments se répartissent dans vos piliers. Le plus fort façonne votre nature ; le plus faible montre ce qu'il faut cultiver.",strongestLbl:"Le plus fort",weakestLbl:"Le plus faible",zodiacEye:"Animal et élément de l'année",zodiacTitle:"Zodiaque Chinois",zodiacDesc:"L'animal de votre année et son élément, ajusté à Lìchūn — le début solaire de l'année, vers le 4 février.",sunEye:"Zodiaque tropical par date",sunTitle:"Signe Solaire Occidental",sunDesc:"Votre signe solaire d'après la date de naissance, avec son élément et sa modalité.",mayanEye:"Calendrier sacré de 260 jours",mayanTitle:"Tzolk'in Maya — Signe du Jour",mayanDesc:"Votre signe du jour et votre tonalité dans le Tzolk'in (corrélation GMT, 584283).",toneLbl:"Tonalité",baziMethodNote:"Conventions : l'année change à Lìchūn (~4 fév.), les mois suivent les termes solaires, le jour change à minuit et l'heure est utilisée telle quelle (sans conversion de fuseau). Près d'une limite, vérifiez avec un calculateur localisé."});
+Object.assign(I18N.pt,{tabBazi:"BaZi",fldTime:"Hora de nascimento (opcional)",baziEye:"Os Quatro Pilares do Destino · 八字",baziTitle:"BaZi — Os Quatro Pilares",baziDesc:"O momento do seu nascimento expresso como quatro pilares de Troncos Celestes e Ramos Terrestres — o fundamento da astrologia chinesa. A hora de nascimento acrescenta o pilar da Hora.",baziNeedDate:"Introduza uma data de nascimento na barra superior para calcular os Quatro Pilares.",pillarYear:"Ano",pillarMonth:"Mês",pillarDay:"Dia",pillarHour:"Hora",hourNeedTime:"Acrescente uma hora de nascimento acima para revelar o pilar da Hora.",dayMasterLbl:"Mestre do Dia 日主",dayMasterTitle:"Mestre do Dia — o seu eu essencial",fiveElemTitle:"Equilíbrio dos Cinco Elementos",fiveElemDesc:"Como os cinco elementos se distribuem pelos seus pilares. O mais forte molda a sua natureza; o mais fraco mostra o que cultivar.",strongestLbl:"Mais forte",weakestLbl:"Mais fraco",zodiacEye:"Animal e elemento do ano",zodiacTitle:"Zodíaco Chinês",zodiacDesc:"O animal do seu ano e o seu elemento, ajustado a Lìchūn — o início solar do ano, por volta de 4 de fevereiro.",sunEye:"Zodíaco tropical por data",sunTitle:"Signo Solar Ocidental",sunDesc:"O seu signo solar pela data de nascimento, com o seu elemento e modalidade.",mayanEye:"Calendário sagrado de 260 dias",mayanTitle:"Tzolk'in Maia — Signo do Dia",mayanDesc:"O seu signo do dia e tom no Tzolk'in (correlação GMT, 584283).",toneLbl:"Tom",baziMethodNote:"Convenções: o ano muda no Lìchūn (~4 fev.), os meses seguem os termos solares, o dia muda à meia-noite e a hora é usada tal como introduzida (sem conversão de fuso). Perto de um limite, verifique com uma calculadora localizada."});
+Object.assign(I18N.ca,{tabBazi:"BaZi",fldTime:"Hora de naixement (opcional)",baziEye:"Els Quatre Pilars del Destí · 八字",baziTitle:"BaZi — Els Quatre Pilars",baziDesc:"El moment del teu naixement expressat com quatre pilars de Troncs Celestes i Branques Terrestres — el fonament de l'astrologia xinesa. L'hora de naixement afegeix el pilar de l'Hora.",baziNeedDate:"Introdueix una data de naixement a la barra superior per calcular els Quatre Pilars.",pillarYear:"Any",pillarMonth:"Mes",pillarDay:"Dia",pillarHour:"Hora",hourNeedTime:"Afegeix una hora de naixement a dalt per revelar el pilar de l'Hora.",dayMasterLbl:"Amo del Dia 日主",dayMasterTitle:"Amo del Dia — el teu jo essencial",fiveElemTitle:"Equilibri dels Cinc Elements",fiveElemDesc:"Com es distribueixen els cinc elements en els teus pilars. El més fort modela la teva natura; el més feble mostra què cultivar.",strongestLbl:"El més fort",weakestLbl:"El més feble",zodiacEye:"Animal i element de l'any",zodiacTitle:"Zodíac Xinès",zodiacDesc:"L'animal del teu any i el seu element, ajustat a Lìchūn — l'inici solar de l'any, cap al 4 de febrer.",sunEye:"Zodíac tropical per data",sunTitle:"Signe Solar Occidental",sunDesc:"El teu signe solar segons la data de naixement, amb el seu element i modalitat.",mayanEye:"Calendari sagrat de 260 dies",mayanTitle:"Tzolk'in Maia — Signe del Dia",mayanDesc:"El teu signe del dia i to en el Tzolk'in (correlació GMT, 584283).",toneLbl:"To",baziMethodNote:"Convencions: l'any canvia a Lìchūn (~4 feb.), els mesos segueixen els termes solars, el dia canvia a mitjanit i l'hora s'usa tal com s'introdueix (sense conversió de fus). A prop d'un límit, verifica amb una calculadora localitzada."});
+
 /* ---------- events ---------- */
-document.querySelectorAll('#langSeg button').forEach(b=>b.addEventListener('click',()=>{state.lang=b.dataset.lang;document.querySelectorAll('#langSeg button').forEach(x=>x.classList.toggle('on',x===b));$('numDetail').style.display='none';applyI18N();renderTab(state.tab);updateHash();}));
-document.querySelectorAll('#sysSeg button').forEach(b=>b.addEventListener('click',()=>{state.sys=b.dataset.sys;document.querySelectorAll('#sysSeg button').forEach(x=>x.classList.toggle('on',x===b));$('numDetail').style.display='none';computeProfile();renderTab(state.tab);updateHash();}));
+$('langSel').addEventListener('change',()=>{state.lang=$('langSel').value;prefSet('lang',state.lang);$('numDetail').style.display='none';applyI18N();renderTab(state.tab);updateHash();});
+document.querySelectorAll('#sysSeg button').forEach(b=>b.addEventListener('click',()=>{state.sys=b.dataset.sys;prefSet('sys',state.sys);document.querySelectorAll('#sysSeg button').forEach(x=>x.classList.toggle('on',x===b));$('numDetail').style.display='none';computeProfile();renderTab(state.tab);updateHash();}));
 document.querySelectorAll('nav.tabs button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
-$('themeBtn').addEventListener('click',()=>{document.body.dataset.theme=document.body.dataset.theme==='light'?'dark':'light';drawSky();});
+$('themeBtn').addEventListener('click',()=>{const th=document.body.dataset.theme==='light'?'dark':'light';document.body.dataset.theme=th;prefSet('theme',th);drawSky();});
 $('printBtn').addEventListener('click',()=>window.print());
 $('calcBtn').addEventListener('click',()=>{computeProfile();renderTab(state.tab);updateHash();});
-$('saveBtn').addEventListener('click',()=>{const name=$('inName').value.trim(),date=$('inDate').value;if(!name&&!date){toast(t('saveNeedData'));return;}const list=getSaved();list.unshift({name:name,date:date});setSaved(list.slice(0,50));toast(t('saveOk'));});
+$('saveBtn').addEventListener('click',()=>{const name=$('inName').value.trim(),date=$('inDate').value,time=$('inTime')?$('inTime').value:'';if(!name&&!date){toast(t('saveNeedData'));return;}const list=getSaved();list.unshift({name:name,date:date,time:time});setSaved(list.slice(0,50));toast(t('saveOk'));});
 $('shareBtn').addEventListener('click',()=>{computeProfile();updateHash();const url=location.href;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>toast(t('shareOk')),()=>toast(t('shareFail')));}else toast(t('shareFail'));});
-$('demoBtn').addEventListener('click',()=>{$('inName').value=state.lang==='ro'?'Maria Ionescu':'Mary Johnson';$('inDate').value='1988-07-23';computeProfile();switchTab('profil');updateHash();});
+$('demoBtn').addEventListener('click',()=>{$('inName').value=t('demoName');$('inDate').value='1988-07-23';if($('inTime'))$('inTime').value='14:30';computeProfile();switchTab('profil');updateHash();});
 $('wordBtn').addEventListener('click',renderName);
 $('cmpBtn').addEventListener('click',renderCmp);
 $('compatBtn').addEventListener('click',renderCompat);
 $('toggleCmp').addEventListener('click',()=>{const card=$('compareNamesCard');const open=card.style.display!=='none';card.style.display=open?'none':'block';$('toggleCmp').textContent=open?t('btnShowCmp'):t('btnHideCmp');});
-['inName','inDate'].forEach(id=>$(id).addEventListener('keydown',e=>{if(e.key==='Enter'){computeProfile();renderTab(state.tab);updateHash();}}));
+['inName','inDate','inTime'].forEach(id=>{const el=$(id);if(el)el.addEventListener('keydown',e=>{if(e.key==='Enter'){computeProfile();renderTab(state.tab);updateHash();}});});
 $('inWord').addEventListener('keydown',e=>{if(e.key==='Enter')renderName();});
 document.addEventListener('click',e=>{const m=e.target.closest?e.target.closest('[data-type][data-val]'):null;if(m){showDetail(m.getAttribute('data-type'),+m.getAttribute('data-val'),m.getAttribute('data-label')||'');}});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const m=e.target.closest?e.target.closest('[data-type][data-val]'):null;if(m){e.preventDefault();showDetail(m.getAttribute('data-type'),+m.getAttribute('data-val'),m.getAttribute('data-label')||'');}}});
@@ -924,8 +1637,11 @@ window.addEventListener('hashchange',()=>{});
 
 /* ---------- init ---------- */
 (function init(){
+  const savedTheme=prefGet('theme'); if(savedTheme==='light'||savedTheme==='dark')document.body.dataset.theme=savedTheme;
+  state.lang=detectLang();
+  const savedLang=prefGet('lang'); if(savedLang&&I18N[savedLang])state.lang=savedLang;
+  const savedSys=prefGet('sys'); if(savedSys==='pyth'||savedSys==='chal')state.sys=savedSys;
   parseHash();
-  document.querySelectorAll('#langSeg button').forEach(x=>x.classList.toggle('on',x.dataset.lang===state.lang));
   document.querySelectorAll('#sysSeg button').forEach(x=>x.classList.toggle('on',x.dataset.sys===state.sys));
   applyI18N(); computeProfile(); switchTab('profil'); drawSky();
 })();
