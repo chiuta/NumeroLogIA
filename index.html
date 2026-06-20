@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numerologia · Portret Complet</title>
+<style>
+:root{
+  --bg:#0a0d18; --bg2:#0d1120; --surf:#12172a; --surf2:#171d33; --line:#262d47;
+  --ink:#ece8dd; --mut:#9aa0bd; --faint:#6a7095;
+  --gild:#d4af6a; --gild2:#b8954f; --cele:#8497d2; --verd:#5fa8a0; --wine:#c07a8c;
+  --good:#6db98f; --warn:#d6a35a; --bad:#c4707f;
+  --serif:"Palatino Linotype","Palatino","Book Antiqua",Georgia,"Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SFMono-Regular","Cascadia Code","Consolas","Roboto Mono",ui-monospace,Menlo,monospace;
+  --r:14px; --sh:0 18px 40px -22px rgba(0,0,0,.75);
+}
+[data-theme="light"]{
+  --bg:#efe9da; --bg2:#e9e2cf; --surf:#fbf7ec; --surf2:#f4eedd; --line:#dccfb3;
+  --ink:#221f33; --mut:#5e5a6e; --faint:#8a8497;
+  --gild:#a8801f; --gild2:#8c6a16; --cele:#4b5aa0; --verd:#3f817a; --wine:#9a4f63;
+  --good:#3d8b62; --warn:#a8751f; --bad:#9a4f5e;
+  --sh:0 14px 34px -22px rgba(60,50,20,.45);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.6;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden; min-height:100vh;}
+#sky{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.9}
+[data-theme="light"] #sky{opacity:.3}
+.wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 18px 90px}
+header.top{display:flex; align-items:flex-end; justify-content:space-between; gap:18px; padding:30px 0 18px; flex-wrap:wrap;}
+.brand{display:flex; align-items:center; gap:16px}
+.sigil{width:54px; height:54px; flex:none}
+.sigil svg{width:100%; height:100%; display:block}
+.brand h1{font-family:var(--serif); font-weight:600; font-size:clamp(22px,3.4vw,30px); margin:0; letter-spacing:.06em; line-height:1.05;}
+.brand h1 .sub{display:block; font-size:12.5px; letter-spacing:.34em; text-transform:uppercase; color:var(--gild); font-weight:500; margin-top:5px; font-family:var(--sans)}
+.controls{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.seg{display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; background:var(--surf)}
+.seg button{background:none; border:none; color:var(--mut); font-family:var(--sans); font-size:12.5px; padding:7px 13px; cursor:pointer; letter-spacing:.04em; transition:.15s;}
+.seg button.on{background:var(--gild); color:#1a1408; font-weight:600}
+.seg button:not(.on):hover{color:var(--ink)}
+.icon-btn{background:var(--surf); border:1px solid var(--line); color:var(--mut); width:36px; height:34px; border-radius:9px; cursor:pointer; font-size:15px; display:grid; place-items:center; transition:.15s;}
+.icon-btn:hover{color:var(--gild); border-color:var(--gild2)}
+nav.tabs{display:flex; gap:4px; flex-wrap:wrap; border-bottom:1px solid var(--line); margin:6px 0 22px;}
+nav.tabs button{background:none; border:none; border-bottom:2px solid transparent; color:var(--mut); font-family:var(--sans); font-size:14px; padding:11px 15px 12px; cursor:pointer; letter-spacing:.02em; transition:.15s; margin-bottom:-1px; white-space:nowrap;}
+nav.tabs button:hover{color:var(--ink)}
+nav.tabs button.on{color:var(--gild); border-bottom-color:var(--gild)}
+.panel{display:none; animation:fade .4s ease both}
+.panel.on{display:block}
+@keyframes fade{from{opacity:0; transform:translateY(8px)}to{opacity:1; transform:none}}
+@media(prefers-reduced-motion:reduce){.panel{animation:none}}
+.card{background:var(--surf); border:1px solid var(--line); border-radius:var(--r); padding:22px; margin:0 0 18px; box-shadow:var(--sh);}
+.field-row{display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end}
+.field{display:flex; flex-direction:column; gap:6px; flex:1 1 220px; min-width:170px}
+.field label{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); font-weight:600}
+.field input, .field select{background:var(--bg2); border:1px solid var(--line); color:var(--ink); border-radius:10px; padding:11px 13px; font-family:var(--sans); font-size:15px; transition:.15s; width:100%;}
+.field input:focus, .field select:focus{outline:none; border-color:var(--gild); box-shadow:0 0 0 3px rgba(212,175,106,.16)}
+.field .hint{font-size:11.5px; color:var(--faint); line-height:1.4}
+.btn{background:linear-gradient(180deg,var(--gild),var(--gild2)); color:#1a1408; border:none; font-family:var(--sans); font-weight:600; font-size:14.5px; letter-spacing:.03em; padding:12px 24px; border-radius:10px; cursor:pointer; transition:.15s; box-shadow:0 8px 18px -10px rgba(212,175,106,.7);}
+.btn:hover{filter:brightness(1.06); transform:translateY(-1px)}
+.btn.ghost{background:none; border:1px solid var(--line); color:var(--mut); box-shadow:none; font-weight:500}
+.btn.ghost:hover{color:var(--gild); border-color:var(--gild2); transform:none}
+.btn-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:4px}
+.sec-h{font-family:var(--serif); font-size:20px; font-weight:600; letter-spacing:.03em; margin:30px 0 4px; display:flex; align-items:center; gap:12px;}
+.sec-h::before{content:""; width:22px; height:1px; background:var(--gild); flex:none}
+.sec-sub{color:var(--mut); font-size:13.5px; margin:0 0 16px 34px}
+.eyebrow{font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:var(--gild); font-weight:600; margin:0 0 3px}
+.med-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); gap:14px}
+.med{background:var(--surf2); border:1px solid var(--line); border-radius:var(--r); padding:18px 16px 16px; text-align:center; cursor:pointer; transition:.18s; position:relative; overflow:hidden;}
+.med:hover{border-color:var(--gild2); transform:translateY(-2px)}
+.med.master{border-color:var(--gild2); box-shadow:inset 0 0 0 1px rgba(212,175,106,.25)}
+.med .lbl{font-size:11px; letter-spacing:.13em; text-transform:uppercase; color:var(--faint); font-weight:600; min-height:26px; display:flex; align-items:center; justify-content:center}
+.disc{width:78px; height:78px; margin:8px auto 6px; border-radius:50%; position:relative; display:grid; place-items:center; background:radial-gradient(circle at 50% 36%, var(--surf) 0%, var(--bg2) 75%); border:1px solid var(--gild2);}
+.disc::before{content:""; position:absolute; inset:5px; border-radius:50%; border:1px solid rgba(212,175,106,.25)}
+.disc .num{font-family:var(--serif); font-size:34px; font-weight:600; color:var(--gild); line-height:1}
+.med.master .disc{border-color:var(--gild); box-shadow:0 0 22px -6px rgba(212,175,106,.55)}
+.med .root{font-family:var(--mono); font-size:11px; color:var(--cele); margin-top:1px}
+.med .steps{font-family:var(--mono); font-size:11px; color:var(--faint); margin-top:5px; word-break:break-word}
+.med .kd{display:inline-block; margin-top:6px; font-size:10.5px; letter-spacing:.06em; color:var(--wine); border:1px solid var(--wine); border-radius:99px; padding:1px 8px}
+.med .name{font-family:var(--serif); font-size:14.5px; margin-top:7px; color:var(--ink)}
+.readout{background:var(--surf); border:1px solid var(--line); border-left:3px solid var(--gild); border-radius:10px; padding:18px 20px; margin:14px 0;}
+.readout h4{font-family:var(--serif); font-size:18px; margin:0 0 4px; font-weight:600}
+.readout .kw{color:var(--cele); font-size:13px; font-family:var(--mono); margin:0 0 10px; letter-spacing:.02em}
+.readout p{margin:0 0 9px; font-size:14.5px; color:var(--ink)}
+.readout .ls{display:flex; gap:18px; flex-wrap:wrap; margin-top:10px; font-size:13px}
+.readout .ls b{display:block; color:var(--gild); font-size:11px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:2px}
+.ls .light{color:var(--good)} .ls .shadow{color:var(--wine)}
+.readout .assoc-inline{margin-top:12px; font-size:12.5px; color:var(--mut); border-top:1px solid var(--line); padding-top:10px}
+.readout .assoc-inline span{color:var(--ink)}
+table.t{width:100%; border-collapse:collapse; font-size:13.5px}
+table.t th, table.t td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--line)}
+table.t th{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); font-weight:600}
+table.t td .v{font-family:var(--mono); color:var(--gild); font-weight:600}
+table.t tr:hover td{background:var(--surf2)}
+.pill{display:inline-block; font-size:11px; padding:2px 9px; border-radius:99px; border:1px solid var(--line); color:var(--mut)}
+.pill.good{color:var(--good); border-color:var(--good)}
+.pill.warn{color:var(--warn); border-color:var(--warn)}
+.pill.bad{color:var(--bad); border-color:var(--bad)}
+.loshu{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; max-width:330px; margin:6px auto 8px; aspect-ratio:1}
+.loshu .cell{background:var(--surf2); border:1px solid var(--line); border-radius:12px; display:flex; align-items:center; justify-content:center; flex-direction:column; min-height:88px; position:relative;}
+.loshu .cell.filled{border-color:var(--gild2)}
+.loshu .cell .digits{font-family:var(--serif); font-size:24px; color:var(--gild); letter-spacing:2px; font-weight:600}
+.loshu .cell .empty{font-family:var(--serif); font-size:20px; color:var(--faint); opacity:.45}
+.loshu .cell .pos{position:absolute; top:6px; left:9px; font-family:var(--mono); font-size:10px; color:var(--faint)}
+.arrow-list{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:10px; margin-top:6px}
+.arrow{background:var(--surf2); border:1px solid var(--line); border-radius:11px; padding:12px 14px}
+.arrow.pres{border-left:3px solid var(--good)}
+.arrow.abs{border-left:3px solid var(--wine)}
+.arrow .at{font-family:var(--serif); font-size:14.5px; font-weight:600; display:flex; justify-content:space-between; gap:8px; align-items:center}
+.arrow .seq{font-family:var(--mono); font-size:11px; color:var(--faint)}
+.arrow p{margin:5px 0 0; font-size:12.8px; color:var(--mut)}
+.tl .body{background:var(--surf2); border:1px solid var(--line); border-radius:10px; padding:11px 14px; margin-bottom:8px; border-left:5px solid var(--gild2)}
+.tl .body.now{border-left-color:var(--gild); box-shadow:0 0 0 1px rgba(212,175,106,.3)}
+.tl .yr{font-family:var(--mono); font-size:12px; color:var(--cele)}
+.tl .body h5{margin:2px 0 3px; font-family:var(--serif); font-size:15px; display:flex; gap:10px; align-items:center}
+.tl .body p{margin:0; font-size:13px; color:var(--mut)}
+.nowtag{font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:#1a1408; background:var(--gild); padding:1px 8px; border-radius:99px; font-weight:700}
+.three{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+@media(max-width:560px){.three{grid-template-columns:1fr}}
+.mini{background:var(--surf2); border:1px solid var(--line); border-radius:12px; padding:16px; text-align:center}
+.mini .l{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); font-weight:600}
+.mini .n{font-family:var(--serif); font-size:40px; color:var(--gild); font-weight:600; line-height:1.1; margin:4px 0}
+.mini .d{font-size:12.5px; color:var(--mut)}
+.compat-head{text-align:center; padding:8px 0 4px}
+.compat-head .score{font-family:var(--serif); font-size:54px; color:var(--gild); font-weight:600; line-height:1}
+.compat-head .lbl{font-size:13px; color:var(--mut); letter-spacing:.04em}
+.bar-track{height:9px; background:var(--bg2); border:1px solid var(--line); border-radius:99px; overflow:hidden; margin:10px 0}
+.bar-fill{height:100%; background:linear-gradient(90deg,var(--wine),var(--gild),var(--good)); border-radius:99px; transition:width .6s}
+.ref-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px}
+.ref-card{background:var(--surf2); border:1px solid var(--line); border-radius:12px; padding:16px 18px}
+.ref-card .rh{display:flex; align-items:center; gap:12px; margin-bottom:8px}
+.ref-card .rdisc{width:46px; height:46px; border-radius:50%; border:1px solid var(--gild2); display:grid; place-items:center; font-family:var(--serif); font-size:22px; color:var(--gild); font-weight:600; flex:none; background:var(--bg2)}
+.ref-card .rt{font-family:var(--serif); font-size:16px; font-weight:600}
+.ref-card .rk{font-size:11.5px; color:var(--cele); font-family:var(--mono)}
+.ref-card>p{font-size:13px; color:var(--mut); margin:6px 0}
+.assoc{display:grid; grid-template-columns:auto 1fr; gap:3px 12px; font-size:12.5px; margin-top:6px}
+.assoc dt{color:var(--faint); text-transform:uppercase; font-size:10.5px; letter-spacing:.06em; padding-top:2px}
+.assoc dd{margin:0; color:var(--ink)}
+.empty-note{text-align:center; color:var(--mut); padding:40px 20px; font-size:14px}
+.empty-note .big{font-family:var(--serif); font-size:40px; color:var(--gild); opacity:.5; display:block; margin-bottom:8px}
+.note{font-size:12.5px; color:var(--faint); line-height:1.55; border-top:1px solid var(--line); margin-top:30px; padding-top:16px}
+.note b{color:var(--mut)}
+.calc-result{display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px; margin-top:14px}
+.breakdown{font-family:var(--mono); font-size:13px; color:var(--mut); background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-top:12px; line-height:2; word-break:break-word}
+.breakdown .hl{color:var(--gild)} .breakdown .vw{color:var(--wine)}
+.saved-item{display:flex; align-items:center; justify-content:space-between; gap:12px; background:var(--surf2); border:1px solid var(--line); border-radius:11px; padding:12px 16px; margin-bottom:8px}
+.saved-item .si-name{font-family:var(--serif); font-size:15px}
+.saved-item .si-meta{font-size:12px; color:var(--mut); font-family:var(--mono)}
+.saved-item .si-act{display:flex; gap:6px}
+.xbtn{background:none; border:1px solid var(--line); color:var(--mut); border-radius:8px; padding:5px 11px; cursor:pointer; font-size:12.5px; transition:.15s}
+.xbtn:hover{border-color:var(--gild2); color:var(--gild)}
+.xbtn.del:hover{border-color:var(--bad); color:var(--bad)}
+.toast{position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px); background:var(--surf); border:1px solid var(--gild2); color:var(--ink); padding:11px 20px; border-radius:10px; font-size:14px; box-shadow:var(--sh); opacity:0; transition:.3s; z-index:50; pointer-events:none}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+@media print{
+  #sky,header.top .controls,nav.tabs,.btn-row,.icon-btn,.natal-bar .btn,.note,.toast{display:none!important}
+  body{background:#fff; color:#000}
+  .card,.med,.readout,.mini,.ref-card,.arrow{box-shadow:none; break-inside:avoid}
+  .panel:not(.on){display:none}
+}
+@media(max-width:640px){.brand h1{font-size:22px}.disc{width:66px;height:66px}.disc .num{font-size:28px}.loshu .cell{min-height:70px}}
+</style>
+</head>
+<body data-theme="dark">
+<canvas id="sky"></canvas>
+<div class="wrap">
+<header class="top">
+  <div class="brand">
+    <div class="sigil">
+      <svg viewBox="0 0 100 100" fill="none" stroke="#d4af6a" stroke-width="1.4">
+        <circle cx="50" cy="50" r="46" stroke-opacity=".55"/>
+        <circle cx="50" cy="50" r="34" stroke-opacity=".3"/>
+        <polygon points="50,8 89,73 11,73" stroke-opacity=".75"/>
+        <circle cx="50" cy="50" r="6" fill="#d4af6a" stroke="none"/>
+        <g stroke-opacity=".5"><line x1="50" y1="8" x2="50" y2="92"/><line x1="11" y1="27" x2="89" y2="73"/><line x1="89" y1="27" x2="11" y2="73"/></g>
+      </svg>
+    </div>
+    <h1 data-i="appTitle">Numerologia<span class="sub" data-i="appSub">Portret numeric complet</span></h1>
+  </div>
+  <div class="controls">
+    <div class="seg" id="langSeg"><button data-lang="ro" class="on">RO</button><button data-lang="en">EN</button></div>
+    <div class="seg" id="sysSeg" title="Sistem"><button data-sys="pyth" class="on">Pythagoras</button><button data-sys="chal">Chaldean</button></div>
+    <button class="icon-btn" id="themeBtn" title="Theme">&#9680;</button>
+    <button class="icon-btn" id="printBtn" title="Print">&#9113;</button>
+  </div>
+</header>
+<nav class="tabs" id="tabs">
+  <button data-tab="profil" class="on" data-i="tabProfile">Profil</button>
+  <button data-tab="cicluri" data-i="tabCycles">Cicluri</button>
+  <button data-tab="grila" data-i="tabGrid">Grila nașterii</button>
+  <button data-tab="nume" data-i="tabName">Calculator nume</button>
+  <button data-tab="compat" data-i="tabCompat">Compatibilitate</button>
+  <button data-tab="univers" data-i="tabUniverse">Universal &amp; Referință</button>
+  <button data-tab="salvate" data-i="tabSaved">Salvate</button>
+</nav>
+<div class="card natal-bar" id="natalBar">
+  <div class="field-row">
+    <div class="field" style="flex:2 1 320px">
+      <label data-i="fldName">Nume complet la naștere</label>
+      <input id="inName" type="text" autocomplete="off" spellcheck="false" placeholder="ex: Maria Ionescu">
+      <span class="hint" data-i="hintName">Folosește numele complet de la naștere pentru rezultate clasice. Diacriticele sunt normalizate.</span>
+    </div>
+    <div class="field" style="flex:1 1 180px"><label data-i="fldBirth">Data nașterii</label><input id="inDate" type="date" min="1500-01-01" max="2200-12-31"></div>
+    <div class="field" style="flex:0 0 auto; min-width:auto"><label>&nbsp;</label><button class="btn" id="calcBtn" data-i="btnCalc">Dezvăluie portretul</button></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn ghost" id="saveBtn" data-i="btnSave">Salvează portretul</button>
+    <button class="btn ghost" id="shareBtn" data-i="btnShare">Copiază link partajabil</button>
+    <button class="btn ghost" id="demoBtn" data-i="btnDemo">Exemplu</button>
+  </div>
+</div>
+<div id="numDetail" class="card" style="display:none"></div>
+<section class="panel on" id="panel-profil"><div id="profileOut"></div></section>
+<section class="panel" id="panel-cicluri"><div id="cyclesOut"></div></section>
+<section class="panel" id="panel-grila"><div id="gridOut"></div></section>
+<section class="panel" id="panel-nume">
+  <div class="card">
+    <p class="eyebrow" data-i="nameEye">Calculator de valoare numerică</p>
+    <h3 class="sec-h" style="margin-top:2px" data-i="nameTitle">Orice nume sau cuvânt</h3>
+    <p class="sec-sub" style="margin-left:34px" data-i="nameDesc">Vezi valoarea în ambele sisteme, defalcată literă cu literă, cu vocale și consoane separate.</p>
+    <div class="field-row">
+      <div class="field" style="flex:2 1 300px"><label data-i="fldWord">Nume / cuvânt</label><input id="inWord" type="text" autocomplete="off" spellcheck="false" placeholder="ex: Ecoul Stringurilor"></div>
+      <div class="field" style="flex:0 0 auto; min-width:auto"><label>&nbsp;</label><button class="btn" id="wordBtn" data-i="btnCalcWord">Calculează</button></div>
+    </div>
+  </div>
+  <div id="nameOut"></div>
+  <div class="btn-row"><button class="btn ghost" id="toggleCmp" data-i="btnShowCmp">Deschide compararea de nume ▾</button></div>
+  <div class="card" id="compareNamesCard" style="display:none">
+    <p class="eyebrow" data-i="cmpEye">Analiză schimbare de nume</p>
+    <h3 class="sec-h" style="margin-top:2px" data-i="cmpTitle">Compară două nume</h3>
+    <p class="sec-sub" style="margin-left:34px" data-i="cmpDesc">Util pentru nume de scenă, nume după căsătorie, sau pseudonime.</p>
+    <div class="field-row">
+      <div class="field"><label data-i="cmpA">Numele A (naștere)</label><input id="cmpNameA" type="text" autocomplete="off"></div>
+      <div class="field"><label data-i="cmpB">Numele B (actual/scenă)</label><input id="cmpNameB" type="text" autocomplete="off"></div>
+      <div class="field" style="flex:0 0 auto;min-width:auto"><label>&nbsp;</label><button class="btn" id="cmpBtn" data-i="btnCompare">Compară</button></div>
+    </div>
+    <div id="cmpOut"></div>
+  </div>
+</section>
+<section class="panel" id="panel-compat">
+  <div class="card">
+    <p class="eyebrow" data-i="compatEye">Numerologia relației</p>
+    <h3 class="sec-h" style="margin-top:2px" data-i="compatTitle">Compatibilitate între două persoane</h3>
+    <p class="sec-sub" style="margin-left:34px" data-i="compatDesc">Compară Drumul Vieții, Expresia și Dorința Sufletului.</p>
+    <div class="three" style="gap:18px">
+      <div>
+        <div class="field"><label data-i="pAName">Persoana 1 — nume</label><input id="p1name" type="text" autocomplete="off" placeholder="opțional"></div>
+        <div class="field" style="margin-top:10px"><label data-i="pABirth">Persoana 1 — data nașterii</label><input id="p1date" type="date" min="1500-01-01" max="2200-12-31"></div>
+      </div>
+      <div>
+        <div class="field"><label data-i="pBName">Persoana 2 — nume</label><input id="p2name" type="text" autocomplete="off" placeholder="opțional"></div>
+        <div class="field" style="margin-top:10px"><label data-i="pBBirth">Persoana 2 — data nașterii</label><input id="p2date" type="date" min="1500-01-01" max="2200-12-31"></div>
+      </div>
+      <div style="display:flex;align-items:flex-end"><button class="btn" id="compatBtn" style="width:100%" data-i="btnCompat">Analizează potrivirea</button></div>
+    </div>
+  </div>
+  <div id="compatOut"></div>
+</section>
+<section class="panel" id="panel-univers">
+  <div class="card">
+    <p class="eyebrow" data-i="uniEye">Energia colectivă a momentului</p>
+    <h3 class="sec-h" style="margin-top:2px" data-i="uniTitle">Numerele universale de azi</h3>
+    <p class="sec-sub" style="margin-left:34px" id="uniDateLbl"></p>
+    <div class="three" id="uniNums"></div>
+  </div>
+  <h3 class="sec-h" data-i="refTitle">Referință completă a numerelor</h3>
+  <p class="sec-sub" data-i="refDesc">Sensul fiecărui număr, plus corespondențele tradiționale.</p>
+  <div class="ref-grid" id="refGrid"></div>
+</section>
+<section class="panel" id="panel-salvate">
+  <div class="card">
+    <p class="eyebrow" data-i="savedEye">Portrete păstrate local</p>
+    <h3 class="sec-h" style="margin-top:2px" data-i="savedTitle">Portretele tale salvate</h3>
+    <p class="sec-sub" style="margin-left:34px" data-i="savedDesc">Salvate doar în acest browser (fără server, fără telemetrie).</p>
+    <div id="savedList"></div>
+  </div>
+</section>
+<p class="note">
+  <span data-i="note1"><b>Despre metodă:</b> aplicația folosește numerologia pitagoreică (cu opțiune chaldeană), păstrând numerele maestru 11/22/33 și marcând datoriile karmice 13/14/16/19. Calculele sunt afișate transparent, pas cu pas.</span><br>
+  <span data-i="note2"><b>Notă onestă:</b> numerologia este un sistem simbolic tradițional, oferit pentru reflecție personală și explorare culturală — nu o știință. Folosește-l ca oglindă, nu ca predicție.</span>
+</p>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+"use strict";
+/* ===== Letter value maps ===== */
+const PYTH={A:1,B:2,C:3,D:4,E:5,F:6,G:7,H:8,I:9,J:1,K:2,L:3,M:4,N:5,O:6,P:7,Q:8,R:9,S:1,T:2,U:3,V:4,W:5,X:6,Y:7,Z:8};
+const CHAL={A:1,B:2,C:3,D:4,E:5,F:8,G:3,H:5,I:1,J:1,K:2,L:3,M:4,N:5,O:7,P:8,Q:1,R:2,S:3,T:4,U:6,V:6,W:6,X:5,Y:1,Z:7};
+const MASTERS=[11,22,33], KARMIC=[13,14,16,19], VOWELS="AEIOU";
+const GRID=[[3,6,9],[2,5,8],[1,4,7]];
+const ARROWS=[{cells:[3,6,9],key:'mind'},{cells:[2,5,8],key:'emotion'},{cells:[1,4,7],key:'practical'},{cells:[3,2,1],key:'planner'},{cells:[6,5,4],key:'will'},{cells:[9,8,7],key:'action'},{cells:[3,5,7],key:'spirit'},{cells:[1,5,9],key:'determination'}];
+const MONTHS={ro:["ian","feb","mar","apr","mai","iun","iul","aug","sep","oct","noi","dec"],en:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]};
+
+/* ===== Core helpers ===== */
+function digitSum(n){let s=0;n=Math.abs(n);while(n>0){s+=n%10;n=Math.floor(n/10);}return s;}
+function reduce(n,master){
+  if(master===undefined)master=true;
+  const steps=[n]; let karmic=null;
+  while(n>9){ if(master&&MASTERS.indexOf(n)>=0)break; if(KARMIC.indexOf(n)>=0)karmic=n; n=digitSum(n); steps.push(n); }
+  return {v:n,steps:steps,karmic:karmic};
+}
+function root(n){return reduce(n,false).v;}
+function normSpaces(s){return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z ]/g,' ').replace(/\s+/g,' ').trim();}
+function isVowelAt(word,i,mode){
+  const ch=word[i];
+  if(VOWELS.indexOf(ch)>=0)return true;
+  if(ch!=='Y')return false;
+  if(mode==='vowel')return true;
+  if(mode==='cons')return false;
+  const prev=i>0?word[i-1]:'', next=i<word.length-1?word[i+1]:'';
+  const pv=prev!==''&&VOWELS.indexOf(prev)>=0, nv=next!==''&&VOWELS.indexOf(next)>=0;
+  return !pv&&!nv;
+}
+function nameNumbers(full,sys,ymode){
+  const map=sys==='chal'?CHAL:PYTH;
+  const words=normSpaces(full).split(' ').filter(Boolean);
+  let allV=0,allC=0,allSum=0; const tally={}; for(let k=1;k<=9;k++)tally[k]=0;
+  const breakdown=[];
+  words.forEach(w=>{
+    for(let i=0;i<w.length;i++){
+      const ch=w[i], val=map[ch]||0, vw=isVowelAt(w,i,ymode);
+      allSum+=val; if(vw)allV+=val; else allC+=val;
+      if(tally[val]!==undefined)tally[val]+=1;
+      breakdown.push({ch:ch,val:val,vowel:vw});
+    }
+    breakdown.push({space:true});
+  });
+  if(breakdown.length)breakdown.pop();
+  return {expression:reduce(allSum),soul:reduce(allV),personality:reduce(allC),sumRaw:allSum,vowRaw:allV,consRaw:allC,tally:tally,breakdown:breakdown,words:words};
+}
+function lifePath(d,m,y){
+  const rm=reduce(m),rd=reduce(d),ry=reduce(y);
+  const total=rm.v+rd.v+ry.v, comp=reduce(total);
+  const all=String(d)+String(m)+String(y); let s=0; for(const c of all)s+=+c;
+  const straight=reduce(s);
+  return {primary:comp,rm:rm,rd:rd,ry:ry,total:total,straight:straight,differ:comp.v!==straight.v,single:root(comp.v)};
+}
+function pinChal(d,m,y,lpSingle){
+  const M=root(m),D=root(d),Y=root(y);
+  const p1=reduce(M+D),p2=reduce(D+Y),p3=reduce(p1.v+p2.v),p4=reduce(M+Y);
+  const c1=Math.abs(M-D),c2=Math.abs(D-Y),c3=Math.abs(c1-c2),c4=Math.abs(M-Y);
+  const e1=36-lpSingle;
+  const ages=[{from:0,to:e1},{from:e1,to:e1+9},{from:e1+9,to:e1+18},{from:e1+18,to:null}];
+  return {pin:[p1,p2,p3,p4],chal:[c1,c2,c3,c4],ages:ages};
+}
+function karmicProfile(tally){
+  const missing=[]; let maxc=0;
+  for(let k=1;k<=9;k++){ if(tally[k]===0)missing.push(k); if(tally[k]>maxc)maxc=tally[k]; }
+  const hidden=[]; for(let k=1;k<=9;k++)if(tally[k]===maxc&&maxc>0)hidden.push(k);
+  return {missing:missing,hidden:hidden,subconscious:9-missing.length,maxc:maxc};
+}
+function personalCycles(d,m,fy,fm,fd){
+  const py=reduce(root(m)+root(d)+root(fy));
+  const pm=reduce(py.v+root(fm));
+  const pd=reduce(pm.v+root(fd));
+  return {py:py,pm:pm,pd:pd};
+}
+function universalNums(y,m,d){
+  const uy=reduce(y); const um=reduce(uy.v+root(m)); const ud=reduce(um.v+root(d));
+  return {uy:uy,um:um,ud:ud};
+}
+function essence(full,sys,age){
+  const map=sys==='chal'?CHAL:PYTH;
+  const words=normSpaces(full).split(' ').filter(Boolean);
+  if(!words.length)return null;
+  const first=words[0], last=words[words.length-1], middle=words.length>2?words.slice(1,-1).join(''):'';
+  function act(part){ if(!part)return null; const tot=[...part].reduce((a,c)=>a+(map[c]||0),0); if(!tot)return null; let pos=age%tot,acc=0; for(const c of part){const v=map[c]||0; if(pos<acc+v)return {ch:c,val:v}; acc+=v;} return {ch:part[part.length-1],val:map[part[part.length-1]]||0}; }
+  const ph=act(first), me=act(middle||first), sp=act(last);
+  const sum=(ph?ph.val:0)+(me?me.val:0)+(sp?sp.val:0);
+  return {physical:ph,mental:me,spiritual:sp,essence:reduce(sum),first:first,middle:middle,last:last,hasMiddle:!!middle};
+}
+function ageNow(d,m,y,ref){
+  const t=ref||new Date(); let a=t.getFullYear()-y; const mm=t.getMonth()+1;
+  if(mm<m||(mm===m&&t.getDate()<d))a--; return Math.max(0,a);
+}
+/* ===== Compatibility matrix (root numbers) ===== */
+const COMPAT={
+ 1:{1:3,5:3,7:3,3:2,9:2,2:0,4:0,6:0,8:0},
+ 2:{2:3,4:3,6:3,8:3,3:2,9:2,1:0,5:0,7:0},
+ 3:{3:3,6:3,9:3,1:2,5:2,2:1,4:0,7:0,8:0},
+ 4:{2:3,4:3,8:3,6:2,7:2,1:0,3:0,5:0,9:0},
+ 5:{1:3,5:3,7:3,3:2,9:2,2:0,4:0,6:0,8:0},
+ 6:{3:3,6:3,9:3,2:2,4:2,8:2,1:0,5:0,7:0},
+ 7:{1:3,5:3,7:3,4:2,2:0,3:0,6:0,8:0,9:0},
+ 8:{2:3,4:3,8:3,6:2,1:0,3:0,5:0,7:0,9:0},
+ 9:{3:3,6:3,9:3,1:2,2:2,5:2,4:0,7:0,8:0}
+};
+function ratePair(a,b){
+  a=root(a); b=root(b);
+  const ga=(COMPAT[a]&&COMPAT[a][b]!==undefined)?COMPAT[a][b]:1;
+  const gb=(COMPAT[b]&&COMPAT[b][a]!==undefined)?COMPAT[b][a]:1;
+  return Math.round((ga+gb)/2);
+}
+/* ===== Core number meanings ===== */
+const CORE={
+1:{ro:{t:"Pionierul",k:"independență · inițiativă · conducere · originalitate",d:"Unu este scânteia, impulsul care pornește totul. Aduce voință, ambiție și curajul de a merge primul, acolo unde alții ezită. Energia lui e a liderului înnăscut și a creatorului care preferă să-și croiască propriul drum.",light:"hotărâre, autonomie, idei originale, curaj",shadow:"egoism, încăpățânare, dominare, izolare"},en:{t:"The Pioneer",k:"independence · initiative · leadership · originality",d:"One is the spark that sets everything in motion. It carries will, ambition and the courage to go first where others hesitate. Its energy is that of the born leader and the originator who would rather forge a path than follow one.",light:"drive, self-reliance, original ideas, courage",shadow:"ego, stubbornness, domination, isolation"}},
+2:{ro:{t:"Diplomatul",k:"cooperare · sensibilitate · echilibru · intuiție",d:"Doi este puntea dintre oameni. Lucrează prin armonie, tact și răbdare, simțind nevoile celorlalți înainte ca acestea să fie rostite. E energia partenerului, a mediatorului și a celui care unește ce era despărțit.",light:"diplomație, empatie, loialitate, cooperare",shadow:"dependență, indecizie, hipersensibilitate, pasivitate"},en:{t:"The Diplomat",k:"cooperation · sensitivity · balance · intuition",d:"Two is the bridge between people. It works through harmony, tact and patience, sensing others' needs before they are spoken. It is the energy of the partner, the mediator and the one who unites what was divided.",light:"diplomacy, empathy, loyalty, cooperation",shadow:"dependence, indecision, over-sensitivity, passivity"}},
+3:{ro:{t:"Comunicatorul",k:"creativitate · exprimare · bucurie · sociabilitate",d:"Trei este artistul care dă glas lumii interioare. Aduce optimism, imaginație și un farmec social care animă orice cameră. Cuvântul, culoarea, sunetul — toate sunt unelte prin care își revarsă vitalitatea.",light:"creativitate, umor, expresivitate, inspirație",shadow:"superficialitate, risipire, schimbare de dispoziție, evaziune"},en:{t:"The Communicator",k:"creativity · expression · joy · sociability",d:"Three is the artist who gives voice to the inner world. It brings optimism, imagination and a social charm that lights up any room. Word, color and sound are all instruments through which it pours its vitality.",light:"creativity, humor, expressiveness, inspiration",shadow:"superficiality, scattering, moodiness, escapism"}},
+4:{ro:{t:"Constructorul",k:"stabilitate · disciplină · muncă · ordine",d:"Patru este temelia pe care se ridică totul. Aduce metodă, răbdare și o etică a muncii care transformă planurile în structuri durabile. E energia celui pe care te poți baza, a celui care construiește piatră cu piatră.",light:"fiabilitate, organizare, perseverență, practic",shadow:"rigiditate, încăpățânare, îngustime, exces de muncă"},en:{t:"The Builder",k:"stability · discipline · work · order",d:"Four is the foundation on which everything is raised. It brings method, patience and a work ethic that turns plans into lasting structures. It is the energy of the one you can rely on, who builds stone by stone.",light:"reliability, organization, perseverance, practicality",shadow:"rigidity, stubbornness, narrowness, overwork"}},
+5:{ro:{t:"Aventurierul",k:"libertate · schimbare · curiozitate · versatilitate",d:"Cinci este vântul care nu poate fi prins. Aduce sete de experiență, adaptabilitate și o curiozitate fără margini față de tot ce e nou. E energia exploratorului, a celui care trăiește prin mișcare și libertate.",light:"adaptabilitate, magnetism, curaj, progres",shadow:"neliniște, exces, iresponsabilitate, impulsivitate"},en:{t:"The Adventurer",k:"freedom · change · curiosity · versatility",d:"Five is the wind that cannot be caught. It brings a hunger for experience, adaptability and boundless curiosity about all that is new. It is the energy of the explorer who lives through motion and freedom.",light:"adaptability, magnetism, daring, progress",shadow:"restlessness, excess, irresponsibility, impulsiveness"}},
+6:{ro:{t:"Îngrijitorul",k:"responsabilitate · iubire · armonie · serviciu",d:"Șase este inima care poartă de grijă. Aduce devotament față de familie și comunitate, simț al frumosului și dorința de a vindeca și a echilibra. E energia protectorului, a celui care face din casă un refugiu.",light:"grijă, loialitate, simț estetic, responsabilitate",shadow:"sacrificiu de sine, amestec, perfecționism, martiraj"},en:{t:"The Nurturer",k:"responsibility · love · harmony · service",d:"Six is the heart that takes care. It brings devotion to family and community, a sense of beauty and a wish to heal and to balance. It is the energy of the protector who makes a home into a refuge.",light:"care, loyalty, aesthetic sense, responsibility",shadow:"self-sacrifice, meddling, perfectionism, martyrdom"}},
+7:{ro:{t:"Înțeleptul",k:"analiză · introspecție · spiritualitate · mister",d:"Șapte este căutătorul de adevăruri ascunse. Aduce minte pătrunzătoare, nevoie de singurătate și o atracție către taină, credință și cunoaștere profundă. E energia gânditorului, a misticului și a cercetătorului.",light:"înțelepciune, profunzime, intuiție, discernământ",shadow:"răceală, scepticism, izolare, cinism"},en:{t:"The Seeker",k:"analysis · introspection · spirituality · mystery",d:"Seven is the seeker of hidden truths. It brings a penetrating mind, a need for solitude and an attraction to mystery, faith and deep knowledge. It is the energy of the thinker, the mystic and the researcher.",light:"wisdom, depth, intuition, discernment",shadow:"aloofness, skepticism, isolation, cynicism"}},
+8:{ro:{t:"Magnatul",k:"putere · abundență · autoritate · realizare",d:"Opt este forța care stăpânește lumea materială. Aduce ambiție, viziune asupra resurselor și capacitatea de a conduce la scară mare. E energia constructorului de imperii, a celui care echilibrează spiritul cu materia.",light:"autoritate, eficiență, viziune, reziliență",shadow:"lăcomie, control, dezechilibru, materialism"},en:{t:"The Powerhouse",k:"power · abundance · authority · achievement",d:"Eight is the force that masters the material world. It brings ambition, a grasp of resources and the capacity to lead at scale. It is the energy of the empire-builder who balances spirit with matter.",light:"authority, efficiency, vision, resilience",shadow:"greed, control, imbalance, materialism"}},
+9:{ro:{t:"Umanistul",k:"compasiune · idealism · împlinire · iubire universală",d:"Nouă este înțelepciunea care cuprinde totul. Aduce compasiune largă, idealism și capacitatea de a dărui fără a aștepta. E energia bătrânului suflet, a celui care încheie cicluri și slujește binele mai mare.",light:"generozitate, idealism, artă, înțelepciune",shadow:"martiraj, detașare, volatilitate, greutatea de a renunța"},en:{t:"The Humanitarian",k:"compassion · idealism · completion · universal love",d:"Nine is the wisdom that embraces all. It brings broad compassion, idealism and the ability to give without expecting return. It is the energy of the old soul who closes cycles and serves the greater good.",light:"generosity, idealism, artistry, wisdom",shadow:"martyrdom, detachment, volatility, trouble letting go"}},
+11:{ro:{t:"Vizionarul (Maestru)",k:"iluminare · inspirație · intuiție spirituală",d:"Unsprezece este canalul dintre cer și pământ. Amplifică sensibilitatea lui Doi într-o intuiție rară și o chemare de a inspira și a ilumina. Tensiunea lui e între ideal înalt și realitate; când e stăpânit, devine far pentru ceilalți.",light:"inspirație, viziune, sensibilitate spirituală, idealism",shadow:"anxietate, tensiune nervoasă, impracticabilitate, extreme"},en:{t:"The Visionary (Master)",k:"illumination · inspiration · spiritual intuition",d:"Eleven is the channel between heaven and earth. It raises the sensitivity of Two into rare intuition and a calling to inspire and illuminate. Its tension lies between high ideal and reality; mastered, it becomes a beacon for others.",light:"inspiration, vision, spiritual sensitivity, idealism",shadow:"anxiety, nervous tension, impracticality, extremes"}},
+22:{ro:{t:"Marele Constructor (Maestru)",k:"vis materializat · viziune la scară · idealism practic",d:"Douăzeci și doi unește viziunea lui Unsprezece cu temelia lui Patru: visează mare și apoi construiește. Are puterea de a transforma idealuri vaste în realități concrete, dar poartă și presiunea propriului potențial.",light:"realizări mărețe, viziune practică, măiestrie, putere",shadow:"copleșire, presiune, autoîndoială, blocaj"},en:{t:"The Master Builder",k:"dream made real · large-scale vision · practical idealism",d:"Twenty-two unites the vision of Eleven with the foundation of Four: it dreams big and then builds. It has the power to turn vast ideals into concrete reality, yet it also carries the weight of its own potential.",light:"great achievement, practical vision, mastery, power",shadow:"overwhelm, pressure, self-doubt, paralysis"}},
+33:{ro:{t:"Învățătorul (Maestru)",k:"slujire altruistă · vindecare · iubire ridicată",d:"Treizeci și trei ridică grija lui Șase la nivel universal: iubire care vindecă și învață fără condiții. E cel mai rar număr maestru — chemarea sa este slujirea dezinteresată și ridicarea celorlalți prin compasiune.",light:"compasiune, vindecare, devotament, înălțare",shadow:"povară, sacrificiu excesiv, neglijare de sine"},en:{t:"The Master Teacher",k:"selfless service · healing · elevated love",d:"Thirty-three lifts the care of Six to a universal level: love that heals and teaches without condition. It is the rarest master number — its calling is selfless service and the upliftment of others through compassion.",light:"compassion, healing, devotion, upliftment",shadow:"burden, over-sacrifice, self-neglect"}}};
+
+/* ===== Context lines ===== */
+const CTX={
+ lifePath:{
+  1:{ro:"Drumul tău e al independenței și al inițiativei: ești aici ca să conduci, să inovezi și să stai pe picioarele tale.",en:"Your path is one of independence and initiative: you are here to lead, to innovate and to stand on your own."},
+  2:{ro:"Drumul tău e al cooperării și al păcii: înveți puterea răbdării, a parteneriatului și a sensibilității față de ceilalți.",en:"Your path is one of cooperation and peace: you learn the power of patience, partnership and sensitivity to others."},
+  3:{ro:"Drumul tău e al exprimării creative: ești aici ca să comunici, să inspiri bucurie și să-ți dăruiești talentele lumii.",en:"Your path is one of creative expression: you are here to communicate, to inspire joy and to give your talents to the world."},
+  4:{ro:"Drumul tău e al construirii temeinice: prin disciplină și muncă răbdătoare ridici structuri care durează.",en:"Your path is one of solid building: through discipline and patient work you raise structures that last."},
+  5:{ro:"Drumul tău e al libertății și al schimbării: ești aici ca să experimentezi, să te adaptezi și să trăiești din plin.",en:"Your path is one of freedom and change: you are here to experience, to adapt and to live fully."},
+  6:{ro:"Drumul tău e al responsabilității iubitoare: înveți să porți de grijă, să vindeci și să creezi armonie în jur.",en:"Your path is one of loving responsibility: you learn to care, to heal and to create harmony around you."},
+  7:{ro:"Drumul tău e al căutării interioare: ești aici ca să analizezi, să cauți adevărul și să-ți dezvolți înțelepciunea.",en:"Your path is one of inner seeking: you are here to analyze, to seek truth and to develop wisdom."},
+  8:{ro:"Drumul tău e al puterii și al realizării materiale: înveți să stăpânești lumea concretă cu echilibru și integritate.",en:"Your path is one of power and material achievement: you learn to master the concrete world with balance and integrity."},
+  9:{ro:"Drumul tău e al slujirii umanitare: ești aici ca să dăruiești, să închei cicluri și să iubești fără condiții.",en:"Your path is one of humanitarian service: you are here to give, to close cycles and to love without condition."},
+  11:{ro:"Drum maestru: ești chemat să inspiri și să iluminezi, transformând o sensibilitate rară în viziune pentru ceilalți.",en:"Master path: you are called to inspire and illuminate, turning rare sensitivity into vision for others."},
+  22:{ro:"Drum maestru: ai potențialul de a construi ceva de mare anvergură care servește mulți — vis înalt cu temelie solidă.",en:"Master path: you carry the potential to build something of great scope that serves many — high dream with solid foundation."},
+  33:{ro:"Drum maestru: chemarea ta e iubirea care vindecă și învață, ridicând comunitatea prin compasiune dezinteresată.",en:"Master path: your calling is love that heals and teaches, uplifting community through selfless compassion."}},
+ expression:{
+  1:{ro:"Talentele tale sunt conducerea și originalitatea — ești făcut să deschizi drumuri noi.",en:"Your talents are leadership and originality — you are made to open new paths."},
+  2:{ro:"Talentele tale sunt diplomația și colaborarea — strălucești lucrând alături de alții.",en:"Your talents are diplomacy and collaboration — you shine working alongside others."},
+  3:{ro:"Talentele tale sunt creativitatea și comunicarea — cuvântul și arta îți sunt unelte firești.",en:"Your talents are creativity and communication — word and art are your natural tools."},
+  4:{ro:"Talentele tale sunt organizarea și statornicia — construiești sisteme pe care se poate conta.",en:"Your talents are organization and steadiness — you build systems that can be relied on."},
+  5:{ro:"Talentele tale sunt versatilitatea și adaptarea — prosperi în varietate și schimbare.",en:"Your talents are versatility and adaptability — you thrive on variety and change."},
+  6:{ro:"Talentele tale sunt grija și responsabilitatea — ești sprijin și vindecător pentru cei din jur.",en:"Your talents are care and responsibility — you are support and healer to those around you."},
+  7:{ro:"Talentele tale sunt analiza și intuiția — pătrunzi sub suprafață acolo unde alții se opresc.",en:"Your talents are analysis and intuition — you reach beneath the surface where others stop."},
+  8:{ro:"Talentele tale sunt autoritatea și viziunea practică — știi să conduci și să gestionezi resurse.",en:"Your talents are authority and practical vision — you know how to lead and manage resources."},
+  9:{ro:"Talentele tale sunt compasiunea și viziunea largă — inspiri prin generozitate și idealism.",en:"Your talents are compassion and broad vision — you inspire through generosity and idealism."},
+  11:{ro:"Ai un dar de inspirație și intuiție spirituală — poți ridica și lumina pe alții.",en:"You have a gift of inspiration and spiritual intuition — you can lift and enlighten others."},
+  22:{ro:"Ai un dar rar de a face din idealuri mari realități concrete și folositoare multora.",en:"You have a rare gift for turning great ideals into concrete realities useful to many."},
+  33:{ro:"Ai un dar de a învăța și a vindeca prin iubire — exprimarea ta ridică o întreagă comunitate.",en:"You have a gift for teaching and healing through love — your expression uplifts a whole community."}},
+ soulUrge:{
+  1:{ro:"În adânc tânjești după independență și după a fi primul, lăsându-ți amprenta proprie.",en:"Deep down you long for independence and to be first, leaving your own mark."},
+  2:{ro:"În adânc tânjești după iubire, armonie și o legătură profundă cu cineva.",en:"Deep down you long for love, harmony and a deep bond with someone."},
+  3:{ro:"În adânc tânjești să te exprimi, să creezi și să aduci bucurie.",en:"Deep down you long to express yourself, to create and to bring joy."},
+  4:{ro:"În adânc tânjești după ordine, siguranță și un rost bine întemeiat.",en:"Deep down you long for order, security and a well-founded purpose."},
+  5:{ro:"În adânc tânjești după libertate, varietate și experiențe noi.",en:"Deep down you long for freedom, variety and new experiences."},
+  6:{ro:"În adânc tânjești după familie, armonie și să fii de folos celor dragi.",en:"Deep down you long for family, harmony and to be of use to loved ones."},
+  7:{ro:"În adânc tânjești după înțelegere, liniște și adevăruri profunde.",en:"Deep down you long for understanding, quiet and profound truths."},
+  8:{ro:"În adânc tânjești după realizare, abundență și recunoaștere a puterii tale.",en:"Deep down you long for achievement, abundance and recognition of your power."},
+  9:{ro:"În adânc tânjești să dăruiești, să vindeci lumea și să iubești la scară largă.",en:"Deep down you long to give, to heal the world and to love on a large scale."},
+  11:{ro:"În adânc tânjești după sens spiritual și după a inspira și ridica pe alții.",en:"Deep down you long for spiritual meaning and to inspire and uplift others."},
+  22:{ro:"În adânc tânjești să construiești ceva durabil care lasă lumea mai bună.",en:"Deep down you long to build something lasting that leaves the world better."},
+  33:{ro:"În adânc tânjești să slujești prin iubire necondiționată și vindecare.",en:"Deep down you long to serve through unconditional love and healing."}},
+ personality:{
+  1:{ro:"Lași impresia de persoană puternică, independentă și hotărâtă.",en:"You come across as strong, independent and decisive."},
+  2:{ro:"Lași impresia de persoană caldă, blândă și abordabilă.",en:"You come across as warm, gentle and approachable."},
+  3:{ro:"Lași impresia de persoană fermecătoare, veselă și expresivă.",en:"You come across as charming, cheerful and expressive."},
+  4:{ro:"Lași impresia de persoană serioasă, de încredere și bine organizată.",en:"You come across as serious, dependable and well-organized."},
+  5:{ro:"Lași impresia de persoană dinamică, magnetică și liberă.",en:"You come across as dynamic, magnetic and free-spirited."},
+  6:{ro:"Lași impresia de persoană grijulie, responsabilă și ocrotitoare.",en:"You come across as caring, responsible and protective."},
+  7:{ro:"Lași impresia de persoană rezervată, profundă și ușor enigmatică.",en:"You come across as reserved, deep and slightly enigmatic."},
+  8:{ro:"Lași impresia de persoană autoritară, competentă și plină de succes.",en:"You come across as authoritative, competent and successful."},
+  9:{ro:"Lași impresia de persoană generoasă, nobilă și caldă cu toți.",en:"You come across as generous, noble and warm to all."},
+  11:{ro:"Lași impresia de persoană inspirată, intuitivă și ușor idealistă.",en:"You come across as inspired, intuitive and slightly idealistic."},
+  22:{ro:"Lași impresia de persoană capabilă de lucruri mari, solidă și vizionară.",en:"You come across as capable of great things, solid and visionary."},
+  33:{ro:"Lași impresia de persoană profund grijulie, înțeleaptă și vindecătoare.",en:"You come across as deeply caring, wise and healing."}}};
+/* ===== Personal Year ===== */
+const PYEAR={
+ 1:{ro:{t:"An de începuturi",d:"Plantezi semințe pentru un ciclu nou de nouă ani. E vremea inițiativei, a independenței și a deciziilor curajoase. Pornește proiecte, asumă-ți conducerea — ce începi acum dă tonul anilor ce vin."},en:{t:"A year of beginnings",d:"You plant the seeds of a new nine-year cycle. It is a time for initiative, independence and bold decisions. Launch projects and take the lead — what you begin now sets the tone for the years ahead."}},
+ 2:{ro:{t:"An de răbdare și legături",d:"Ritmul încetinește. E un an al cooperării, al relațiilor și al diplomației. Cultivă parteneriate, ai răbdare cu detaliile și lasă lucrurile să se coacă — forțatul nu ajută acum."},en:{t:"A year of patience and bonds",d:"The pace slows. This is a year of cooperation, relationships and diplomacy. Nurture partnerships, be patient with detail and let things ripen — forcing does not help now."}},
+ 3:{ro:{t:"An de creație și bucurie",d:"Energia se ridică. Anul favorizează exprimarea, socializarea, arta și optimismul. Comunică, creează și bucură-te — doar ai grijă să nu te risipești în prea multe direcții."},en:{t:"A year of creativity and joy",d:"Energy rises. The year favors expression, socializing, art and optimism. Communicate, create and enjoy — just take care not to scatter across too many directions."}},
+ 4:{ro:{t:"An de muncă și temelii",d:"E vremea construcției răbdătoare. Pune la punct sisteme, muncește constant și ai grijă de detaliile practice. Mai puțin spectaculos, dar pune bazele solide pentru tot ce urmează."},en:{t:"A year of work and foundations",d:"A time of patient building. Set up systems, work steadily and tend to practical detail. Less spectacular, but it lays the solid base for all that follows."}},
+ 5:{ro:{t:"An de schimbare și libertate",d:"Vântul schimbării bate puternic. Apar oportunități, călătorii, întâlniri și surprize. Fii flexibil și deschis — dar evită deciziile impulsive care strică ce ai construit."},en:{t:"A year of change and freedom",d:"The wind of change blows strong. Opportunities, travel, encounters and surprises appear. Be flexible and open — but avoid impulsive decisions that undo what you've built."}},
+ 6:{ro:{t:"An de responsabilitate și familie",d:"Atenția se mută spre casă, relații și datorii. E un an al iubirii, al grijii și al echilibrului. Ai grijă de cei dragi și de tine — doar nu te pierde în sacrificiu."},en:{t:"A year of responsibility and home",d:"Attention turns to home, relationships and duties. This is a year of love, care and balance. Tend to loved ones and to yourself — just don't lose yourself in sacrifice."}},
+ 7:{ro:{t:"An de reflecție și interior",d:"Un an mai liniștit, întors spre înăuntru. Favorizează studiul, introspecția, spiritualitatea și odihna. Retrage-te puțin din agitație ca să înțelegi și să te regăsești."},en:{t:"A year of reflection and inwardness",d:"A quieter year, turned inward. It favors study, introspection, spirituality and rest. Step back a little from the bustle to understand and to find yourself again."}},
+ 8:{ro:{t:"An de recoltă și putere",d:"Anul roadelor materiale și al realizărilor. Energia favorizează cariera, banii, autoritatea și deciziile mari. Acționează cu încredere — eforturile de până acum se pot răsplăti."},en:{t:"A year of harvest and power",d:"The year of material reward and achievement. Energy favors career, money, authority and big decisions. Act with confidence — past efforts can now pay off."}},
+ 9:{ro:{t:"An de încheiere și eliberare",d:"Sfârșit de ciclu. E vremea să lași în urmă ce nu-ți mai slujește, să închei și să dăruiești. Curățenia de acum face loc noului început care vine în anul următor."},en:{t:"A year of completion and release",d:"End of a cycle. It is time to let go of what no longer serves, to finish and to give. The clearing you do now makes room for the fresh start that comes next year."}}};
+/* ===== Pinnacle ===== */
+const PINN={
+ 1:{ro:"Perioadă de independență și inițiativă — înveți să stai pe picioarele tale și să conduci.",en:"A period of independence and initiative — you learn to stand on your own and to lead."},
+ 2:{ro:"Perioadă de cooperare și sensibilitate — relațiile și răbdarea sunt în centru.",en:"A period of cooperation and sensitivity — relationships and patience take center stage."},
+ 3:{ro:"Perioadă de creativitate și exprimare — talentul social și artistic înflorește.",en:"A period of creativity and expression — social and artistic talent blossoms."},
+ 4:{ro:"Perioadă de muncă și consolidare — construiești temelii prin efort constant.",en:"A period of work and consolidation — you build foundations through steady effort."},
+ 5:{ro:"Perioadă de schimbare și libertate — apar mișcare, oportunități și experiențe noi.",en:"A period of change and freedom — movement, opportunity and new experience appear."},
+ 6:{ro:"Perioadă de responsabilitate și iubire — familia și grija față de alții devin centrale.",en:"A period of responsibility and love — family and care for others become central."},
+ 7:{ro:"Perioadă de introspecție și creștere interioară — cauți sens și înțelepciune.",en:"A period of introspection and inner growth — you seek meaning and wisdom."},
+ 8:{ro:"Perioadă de putere și realizare materială — autoritate, carieră și abundență.",en:"A period of power and material achievement — authority, career and abundance."},
+ 9:{ro:"Perioadă de compasiune și viziune largă — slujire, idealuri și încheieri.",en:"A period of compassion and broad vision — service, ideals and completions."},
+ 11:{ro:"Perioadă de inspirație înaltă — intuiție și chemarea de a-i ridica pe ceilalți.",en:"A period of high inspiration — intuition and a calling to uplift others."},
+ 22:{ro:"Perioadă de construcție vastă — potențialul de a realiza ceva durabil și amplu.",en:"A period of vast building — the potential to achieve something lasting and large."},
+ 33:{ro:"Perioadă de slujire prin iubire — vindecare și înălțarea comunității.",en:"A period of service through love — healing and the upliftment of community."}};
+/* ===== Challenge ===== */
+const CHALL={
+ 0:{ro:"Provocarea zero: ai libertatea (și răspunderea) de a alege singur direcția, fără o slăbiciune impusă.",en:"The zero challenge: you have the freedom (and burden) to choose your own direction, with no imposed weakness."},
+ 1:{ro:"Provocarea de a-ți găsi vocea proprie fără a fi dominat sau a domina — dezvoltă-ți individualitatea curajos.",en:"The challenge of finding your own voice without being dominated or dominating — develop your individuality bravely."},
+ 2:{ro:"Provocarea hipersensibilității — învață să nu te lași copleșit de emoțiile altora și să ai încredere în tine.",en:"The challenge of over-sensitivity — learn not to be overwhelmed by others' emotions and to trust yourself."},
+ 3:{ro:"Provocarea exprimării — depășește teama de a fi judecat și risipirea, și folosește-ți creativitatea.",en:"The challenge of expression — overcome fear of judgment and scattering, and use your creativity."},
+ 4:{ro:"Provocarea disciplinei — învață ordinea și răbdarea fără a deveni rigid sau dezordonat.",en:"The challenge of discipline — learn order and patience without becoming rigid or chaotic."},
+ 5:{ro:"Provocarea libertății — gestionează nevoia de schimbare fără exces și fără să fugi de angajamente.",en:"The challenge of freedom — manage the need for change without excess and without fleeing commitment."},
+ 6:{ro:"Provocarea responsabilității — oferă grijă fără a cădea în sacrificiu sau perfecționism.",en:"The challenge of responsibility — give care without falling into sacrifice or perfectionism."},
+ 7:{ro:"Provocarea încrederii — depășește scepticismul și izolarea, și deschide-te către ceilalți.",en:"The challenge of trust — overcome skepticism and isolation, and open up to others."},
+ 8:{ro:"Provocarea puterii — echilibrează ambiția materială cu integritatea și valorile interioare.",en:"The challenge of power — balance material ambition with integrity and inner values."}};
+/* ===== Karmic debt ===== */
+const KDEBT={
+ 13:{ro:{t:"13/4 — Datoria muncii",d:"Lecția: depășirea lenei, a scurtăturilor și a haosului prin muncă disciplinată și concentrată. Succesul vine din efort răbdat, nu din evitare. Transformarea apare când îți asumi ordinea și răspunderea."},en:{t:"13/4 — The debt of work",d:"The lesson: overcoming laziness, shortcuts and chaos through disciplined, focused work. Success comes from sustained effort, not avoidance. Transformation arrives when you embrace order and responsibility."}},
+ 14:{ro:{t:"14/5 — Datoria libertății",d:"Lecția: cumpătarea în fața exceselor (plăceri, schimbare, impulsivitate) și folosirea înțeleaptă a libertății. Învață adaptabilitate fără a-ți pierde centrul. Eliberarea vine din moderație și angajament conștient."},en:{t:"14/5 — The debt of freedom",d:"The lesson: temperance in the face of excess (pleasure, change, impulsiveness) and the wise use of freedom. Learn adaptability without losing your center. Release comes through moderation and conscious commitment."}},
+ 16:{ro:{t:"16/7 — Datoria iubirii și a egoului",d:"Lecția: dărâmarea egoului și a iluziilor pentru o reconstruire spirituală autentică. Pierderi neașteptate cer smerenie și încredere. Renașterea vine din unirea cu ceva mai înalt decât sinele."},en:{t:"16/7 — The debt of love and ego",d:"The lesson: the breaking of ego and illusion for an authentic spiritual rebuilding. Sudden losses call for humility and trust. Rebirth comes from union with something higher than the self."}},
+ 19:{ro:{t:"19/1 — Datoria independenței",d:"Lecția: echilibrarea independenței cu interdependența — a învăța să primești ajutor și să dai, fără egoism sau izolare. Forța adevărată stă în a sta pe picioarele tale fără a-i exclude pe ceilalți."},en:{t:"19/1 — The debt of independence",d:"The lesson: balancing independence with interdependence — learning to receive help and to give, without selfishness or isolation. True strength is standing on your own without shutting others out."}}};
+/* ===== Karmic lessons ===== */
+const KLESS={
+ 1:{ro:"Lecție: dezvoltă voință, inițiativă și încredere în a conduce — nu te baza excesiv pe alții.",en:"Lesson: develop will, initiative and confidence to lead — don't lean too heavily on others."},
+ 2:{ro:"Lecție: cultivă tact, răbdare și cooperare — învață să lucrezi alături de ceilalți cu blândețe.",en:"Lesson: cultivate tact, patience and cooperation — learn to work alongside others gently."},
+ 3:{ro:"Lecție: exprimă-te liber și cu optimism — depășește teama de a-ți arăta creativitatea.",en:"Lesson: express yourself freely and with optimism — overcome the fear of showing your creativity."},
+ 4:{ro:"Lecție: construiește disciplină, ordine și statornicie — învață valoarea muncii răbdate.",en:"Lesson: build discipline, order and steadiness — learn the value of patient work."},
+ 5:{ro:"Lecție: îmbrățișează schimbarea și libertatea cu curaj — nu te închista în obiceiuri.",en:"Lesson: embrace change and freedom with courage — don't lock yourself into habit."},
+ 6:{ro:"Lecție: asumă-ți responsabilitatea și grija față de alții — învață devotamentul echilibrat.",en:"Lesson: take on responsibility and care for others — learn balanced devotion."},
+ 7:{ro:"Lecție: caută profunzime, cunoaștere și liniște interioară — fă loc reflecției și credinței.",en:"Lesson: seek depth, knowledge and inner quiet — make room for reflection and faith."},
+ 8:{ro:"Lecție: stăpânește lumea materială cu echilibru — învață gestiunea, autoritatea și valoarea de sine.",en:"Lesson: master the material world with balance — learn management, authority and self-worth."},
+ 9:{ro:"Lecție: dezvoltă compasiune, generozitate și viziune largă — învață să dăruiești fără condiții.",en:"Lesson: develop compassion, generosity and broad vision — learn to give without condition."}};
+/* ===== Lo Shu arrows ===== */
+const ARROWMEAN={
+ mind:{seq:"3-6-9",pres:{ro:{t:"Săgeata Minții",d:"Memorie bună, gândire limpede și capacitate de planificare. Mintea funcționează ca un instrument ascuțit."},en:{t:"Arrow of the Mind",d:"Good memory, clear thinking and a capacity to plan. The mind works as a sharp instrument."}},abs:{ro:{t:"Lipsa Minții ordonate",d:"Memorie capricioasă sau dificultate de a reține detalii. Compensezi prin notițe și rutine; nu e lipsă de inteligență, ci de stocare."},en:{t:"Missing ordered Mind",d:"Fickle memory or trouble holding detail. You compensate with notes and routines; not a lack of intellect, but of recall."}}},
+ emotion:{seq:"2-5-8",pres:{ro:{t:"Săgeata Echilibrului Emoțional",d:"Stabilitate afectivă, intuiție și sensibilitate calmă. Simți profund fără a fi copleșit."},en:{t:"Arrow of Emotional Balance",d:"Emotional steadiness, intuition and calm sensitivity. You feel deeply without being overwhelmed."}},abs:{ro:{t:"Săgeata Sensibilității",d:"Emoții intense și ușor de rănit; viața te învață să-ți construiești echilibrul afectiv conștient."},en:{t:"Arrow of Sensitivity",d:"Intense, easily wounded emotions; life teaches you to build emotional balance consciously."}}},
+ practical:{seq:"1-4-7",pres:{ro:{t:"Săgeata Practicului",d:"Îndemânare fizică, simț practic și capacitatea de a face lucruri cu mâinile tale."},en:{t:"Arrow of the Practical",d:"Physical skill, practical sense and the ability to make things with your own hands."}},abs:{ro:{t:"Lipsa simțului practic",d:"Tendință de a trăi mai mult în idei decât în concret; câștigi învățând răbdarea detaliilor practice."},en:{t:"Missing practicality",d:"A tendency to live more in ideas than in the concrete; you grow by learning patience with practical detail."}}},
+ planner:{seq:"3-2-1",pres:{ro:{t:"Săgeata Planificatorului",d:"Mintea organizează bine gândurile și pașii — vezi structura înainte de a acționa."},en:{t:"Arrow of the Planner",d:"The mind organizes thoughts and steps well — you see the structure before acting."}},abs:{ro:{t:"Lipsa planificării",d:"Preferi spontaneitatea; te ajută să-ți construiești sisteme simple care să-ți țină ideile la un loc."},en:{t:"Missing planning",d:"You prefer spontaneity; it helps to build simple systems that hold your ideas together."}}},
+ will:{seq:"6-5-4",pres:{ro:{t:"Săgeata Voinței",d:"Determinare și capacitate de a duce lucrurile la capăt în ciuda obstacolelor."},en:{t:"Arrow of Will",d:"Determination and the capacity to see things through despite obstacles."}},abs:{ro:{t:"Lipsa voinței ferme",d:"Te poți descuraja ușor; crești învățând să persiști dincolo de prima rezistență."},en:{t:"Missing firm will",d:"You may discourage easily; you grow by learning to persist past the first resistance."}}},
+ action:{seq:"9-8-7",pres:{ro:{t:"Săgeata Acțiunii",d:"Energie de a transforma ideile în fapte; treci la treabă fără ezitări lungi."},en:{t:"Arrow of Action",d:"Energy to turn ideas into deeds; you get going without long hesitation."}},abs:{ro:{t:"Săgeata Pasivității",d:"Tendință de amânare; te ajută să faci primul pas mic, fără a aștepta condiții perfecte."},en:{t:"Arrow of Passivity",d:"A tendency to delay; it helps to take the first small step without waiting for perfect conditions."}}},
+ spirit:{seq:"3-5-7",pres:{ro:{t:"Săgeata Spiritualității",d:"Înclinație firească spre credință, compasiune și înțelegere a sensurilor mai adânci."},en:{t:"Arrow of Spirituality",d:"A natural inclination toward faith, compassion and grasping deeper meaning."}},abs:{ro:{t:"Săgeata Scepticismului",d:"Ai nevoie de dovezi înainte de a crede; căutarea de sens devine o temă de viață."},en:{t:"Arrow of Skepticism",d:"You want proof before belief; the search for meaning becomes a life theme."}}},
+ determination:{seq:"1-5-9",pres:{ro:{t:"Săgeata Hotărârii",d:"Tenacitate rară: odată ce-ți propui ceva, mergi până la capăt cu o concentrare de neclintit."},en:{t:"Arrow of Determination",d:"Rare tenacity: once you set your mind on something, you go all the way with unshakable focus."}},abs:{ro:{t:"Săgeata Amânării",d:"Începi multe și finalizezi greu; crești învățând să închei ce ai pornit."},en:{t:"Arrow of Procrastination",d:"You start much and finish with difficulty; you grow by learning to complete what you begin."}}}};
+/* ===== Associations ===== */
+const ASSOC={
+ 1:{planet:{ro:"Soare",en:"Sun"},el:{ro:"Foc",en:"Fire"},col:{ro:"Roșu, auriu",en:"Red, gold"},gem:{ro:"Rubin",en:"Ruby"},day:{ro:"Duminică",en:"Sunday"},tarot:{ro:"Magicianul",en:"The Magician"},zod:{ro:"Leu",en:"Leo"},body:{ro:"Inimă, coloană",en:"Heart, spine"},car:{ro:"Antreprenor, lider, inventator",en:"Entrepreneur, leader, inventor"}},
+ 2:{planet:{ro:"Luna",en:"Moon"},el:{ro:"Apă",en:"Water"},col:{ro:"Alb, argintiu",en:"White, silver"},gem:{ro:"Perlă, piatra-lunii",en:"Pearl, moonstone"},day:{ro:"Luni",en:"Monday"},tarot:{ro:"Marea Preoteasă",en:"The High Priestess"},zod:{ro:"Rac",en:"Cancer"},body:{ro:"Stomac, fluide",en:"Stomach, fluids"},car:{ro:"Diplomat, mediator, consilier",en:"Diplomat, mediator, counselor"}},
+ 3:{planet:{ro:"Jupiter",en:"Jupiter"},el:{ro:"Foc",en:"Fire"},col:{ro:"Galben, mov",en:"Yellow, violet"},gem:{ro:"Ametist, safir galben",en:"Amethyst, yellow sapphire"},day:{ro:"Joi",en:"Thursday"},tarot:{ro:"Împărăteasa",en:"The Empress"},zod:{ro:"Săgetător",en:"Sagittarius"},body:{ro:"Ficat, șolduri",en:"Liver, hips"},car:{ro:"Artist, scriitor, comunicator",en:"Artist, writer, communicator"}},
+ 4:{planet:{ro:"Uranus / Rahu",en:"Uranus / Rahu"},el:{ro:"Pământ",en:"Earth"},col:{ro:"Verde, gri",en:"Green, grey"},gem:{ro:"Smarald, hessonit",en:"Emerald, hessonite"},day:{ro:"Sâmbătă",en:"Saturday"},tarot:{ro:"Împăratul",en:"The Emperor"},zod:{ro:"Vărsător",en:"Aquarius"},body:{ro:"Oase, structură",en:"Bones, structure"},car:{ro:"Inginer, arhitect, administrator",en:"Engineer, architect, administrator"}},
+ 5:{planet:{ro:"Mercur",en:"Mercury"},el:{ro:"Aer",en:"Air"},col:{ro:"Albastru, gri deschis",en:"Blue, light grey"},gem:{ro:"Diamant, smarald",en:"Diamond, emerald"},day:{ro:"Miercuri",en:"Wednesday"},tarot:{ro:"Hierofantul",en:"The Hierophant"},zod:{ro:"Gemeni / Fecioară",en:"Gemini / Virgo"},body:{ro:"Sistem nervos, plămâni",en:"Nervous system, lungs"},car:{ro:"Comerciant, jurnalist, călător",en:"Trader, journalist, traveler"}},
+ 6:{planet:{ro:"Venus",en:"Venus"},el:{ro:"Pământ / Apă",en:"Earth / Water"},col:{ro:"Roz, albastru, indigo",en:"Pink, blue, indigo"},gem:{ro:"Diamant, cuarț roz",en:"Diamond, rose quartz"},day:{ro:"Vineri",en:"Friday"},tarot:{ro:"Îndrăgostiții",en:"The Lovers"},zod:{ro:"Taur / Balanță",en:"Taurus / Libra"},body:{ro:"Gât, rinichi",en:"Throat, kidneys"},car:{ro:"Vindecător, profesor, designer",en:"Healer, teacher, designer"}},
+ 7:{planet:{ro:"Neptun / Ketu",en:"Neptune / Ketu"},el:{ro:"Apă",en:"Water"},col:{ro:"Violet, mov pal",en:"Violet, pale purple"},gem:{ro:"Ametist, ochi-de-pisică",en:"Amethyst, cat's eye"},day:{ro:"Luni",en:"Monday"},tarot:{ro:"Carul",en:"The Chariot"},zod:{ro:"Pești",en:"Pisces"},body:{ro:"Sistem limfatic",en:"Lymphatic system"},car:{ro:"Cercetător, filozof, mistic",en:"Researcher, philosopher, mystic"}},
+ 8:{planet:{ro:"Saturn",en:"Saturn"},el:{ro:"Pământ",en:"Earth"},col:{ro:"Negru, albastru închis",en:"Black, dark blue"},gem:{ro:"Safir albastru",en:"Blue sapphire"},day:{ro:"Sâmbătă",en:"Saturday"},tarot:{ro:"Forța",en:"Strength"},zod:{ro:"Capricorn",en:"Capricorn"},body:{ro:"Schelet, articulații",en:"Skeleton, joints"},car:{ro:"Director, financiar, strateg",en:"Executive, financier, strategist"}},
+ 9:{planet:{ro:"Marte",en:"Mars"},el:{ro:"Foc",en:"Fire"},col:{ro:"Roșu, crimson",en:"Red, crimson"},gem:{ro:"Coral roșu",en:"Red coral"},day:{ro:"Marți",en:"Tuesday"},tarot:{ro:"Pustnicul",en:"The Hermit"},zod:{ro:"Berbec / Scorpion",en:"Aries / Scorpio"},body:{ro:"Mușchi, sânge",en:"Muscles, blood"},car:{ro:"Umanitar, artist, lider spiritual",en:"Humanitarian, artist, spiritual leader"}}};
+/* ===== Letter traits ===== */
+const LETTER={
+A:{ro:"independent, hotărât",en:"independent, determined"},B:{ro:"sensibil, retras",en:"sensitive, private"},C:{ro:"expresiv, sociabil",en:"expressive, sociable"},D:{ro:"practic, statornic",en:"practical, steady"},E:{ro:"liber, curios",en:"free, curious"},F:{ro:"grijuliu, responsabil",en:"caring, responsible"},G:{ro:"introspectiv, disciplinat",en:"introspective, disciplined"},H:{ro:"ambițios, persistent",en:"ambitious, persistent"},I:{ro:"sensibil, idealist",en:"sensitive, idealistic"},J:{ro:"drept, ambițios",en:"just, ambitious"},K:{ro:"intuitiv, intens",en:"intuitive, intense"},L:{ro:"adaptabil, prietenos",en:"adaptable, friendly"},M:{ro:"muncitor, casnic",en:"hardworking, home-loving"},N:{ro:"imaginativ, dual",en:"imaginative, dual-natured"},O:{ro:"disciplinat, grijuliu",en:"disciplined, caring"},P:{ro:"intelectual, rezervat",en:"intellectual, reserved"},Q:{ro:"original, magnetic",en:"original, magnetic"},R:{ro:"tolerant, umanist",en:"tolerant, humane"},S:{ro:"emoțional, fermecător",en:"emotional, charming"},T:{ro:"idealist, tensionat",en:"idealistic, tense"},U:{ro:"creativ, norocos",en:"creative, fortunate"},V:{ro:"vizionar, constructiv",en:"visionary, constructive"},W:{ro:"sociabil, energic",en:"sociable, energetic"},X:{ro:"senzual, schimbător",en:"sensual, changeable"},Y:{ro:"liber, intuitiv",en:"free, intuitive"},Z:{ro:"înțelept, optimist",en:"wise, optimistic"}};
+/* ===== I18N ===== */
+const I18N={
+ ro:{appTitle:"Numerologia",appSub:"Portret numeric complet",
+  tabProfile:"Profil",tabCycles:"Cicluri",tabGrid:"Grila nașterii",tabName:"Calculator nume",tabCompat:"Compatibilitate",tabUniverse:"Universal & Referință",tabSaved:"Salvate",
+  fldName:"Nume complet la naștere",hintName:"Folosește numele complet de la naștere pentru rezultate clasice. Diacriticele sunt normalizate.",fldBirth:"Data nașterii",phName:"ex: Maria Ionescu",phWord:"ex: Ecoul Stringurilor",phOpt:"opțional",
+  btnCalc:"Dezvăluie portretul",btnSave:"Salvează portretul",btnShare:"Copiază link partajabil",btnDemo:"Exemplu",
+  profileFor:"Portretul pentru",born:"născut(ă)",coreTriad:"Triada centrală",lifePath:"Drumul Vieții",expression:"Expresie / Destin",soulUrge:"Dorința Sufletului",personality:"Personalitate",birthday:"Numărul Zilei",maturity:"Maturitate",balance:"Echilibru",rational:"Gândire rațională",
+  moreNumbers:"Toate numerele portretului",karmicTitle:"Datorii și lecții karmice",noKarmicDebt:"Niciun număr de datorie karmică (13/14/16/19) în calculele de bază — un drum fără poveri karmice majore în aceste poziții.",karmicDebtFound:"Datorii karmice detectate",karmicLessons:"Lecții karmice (numere absente din nume)",noKarmicLessons:"Numele conține toate cifrele 1–9 — fără lecții karmice clasice. Un set complet de instrumente interioare.",
+  hiddenPassion:"Pasiunea ascunsă",subconscious:"Sinele subconștient",cornerstone:"Piatra de temelie",capstone:"Piatra de boltă",firstVowel:"Prima vocală",letterTraits:"Trăsături de literă",
+  detailRead:"Citire detaliată",detailEye:"Sensul numărului",light:"Lumină",shadow:"Umbră",master:"Număr maestru",karmicDebtTag:"datorie karmică",methodNote:"Metodă: reducem separat ziua, luna și anul, apoi le adunăm.",method2note:"Metoda alternativă (sumă directă a cifrelor) dă",
+  fillPrompt:"Completează numele și/sau data nașterii în bara de sus, apoi apasă „Dezvăluie portretul”.",fillPromptShort:"Mai întâi completează data nașterii în fila Profil.",fillPromptName:"Acest panou are nevoie de un nume. Completează-l în fila Profil.",
+  cyclesIntro:"Ciclurile tale personale",cyclesDesc:"Energia anului, lunii și zilei, plus marile cicluri de viață.",personalYear:"Anul Personal",personalMonth:"Luna Personală",personalDay:"Ziua Personală",forecastFor:"Prognoză pentru data",
+  pinnTitle:"Vârfuri (Pinnacles) și Provocări",pinnDesc:"Patru mari perioade de viață, fiecare cu o energie dominantă (vârf) și o lecție de echilibrat (provocare).",pinnacle:"Vârf",challenge:"Provocare",ages:"Vârste",now:"acum",yearsOld:"ani",
+  cycleNineTitle:"Ciclul de nouă ani",cycleNineDesc:"Unde te afli în cercul de nouă ani al anilor personali (de la 1 la 9).",
+  essenceTitle:"Esență și Tranzite",essenceDesc:"Literele numelui se activează pe rând odată cu vârsta, formând „esența” anului curent.",physical:"Tranzit fizic (prenume)",mentalT:"Tranzit mental (mijloc)",spiritualT:"Tranzit spiritual (nume final)",essence:"Esența anului",ageNow:"Vârsta acum",
+  gridIntro:"Grila nașterii (Lo Shu)",gridDesc:"Cifrele datei tale de naștere așezate în pătratul magic pitagoreic. Repetițiile arată puncte forte, absențele arată lecții. Liniile complete sunt „săgeți”.",missingNumbers:"Numere absente din dată",repeatedNumbers:"Numere accentuate (repetate)",arrowsTitle:"Săgețile lui Pitagora",arrowsPresent:"Săgeți prezente (puncte forte)",arrowsAbsent:"Săgeți absente (lecții)",noArrows:"Nicio săgeată completă în această dată.",none:"niciunul",
+  nameEye:"Calculator de valoare numerică",nameTitle:"Orice nume sau cuvânt",nameDesc:"Vezi valoarea în ambele sisteme, defalcată literă cu literă, cu vocale și consoane separate.",fldWord:"Nume / cuvânt",btnCalcWord:"Calculează",
+  vowels:"Vocale (suflet)",consonants:"Consoane (personalitate)",total:"Total (expresie)",letterByLetter:"Literă cu literă",pyth:"Pythagoras",chal:"Chaldean",sysLabel:"Sistem",
+  cmpEye:"Analiză schimbare de nume",cmpTitle:"Compară două nume",cmpDesc:"Util pentru nume de scenă, nume după căsătorie, sau pseudonime.",cmpA:"Numele A (naștere)",cmpB:"Numele B (actual/scenă)",btnCompare:"Compară",btnShowCmp:"Deschide compararea de nume ▾",btnHideCmp:"Închide compararea ▴",cmpHeader:"Mutarea cifrelor",unchanged:"neschimbat",shifts:"se schimbă",
+  compatEye:"Numerologia relației",compatTitle:"Compatibilitate între două persoane",compatDesc:"Compară Drumul Vieții, Expresia și Dorința Sufletului. Numele e opțional.",pAName:"Persoana 1 — nume",pABirth:"Persoana 1 — data nașterii",pBName:"Persoana 2 — nume",pBBirth:"Persoana 2 — data nașterii",btnCompat:"Analizează potrivirea",
+  overallCompat:"Potrivire generală",aspectCompat:"Pe aspecte",aspect:"Aspect",person1:"Persoana 1",person2:"Persoana 2",rating:"Potrivire",lpCompat:"Drumul Vieții",exprCompat:"Expresie",soulCompat:"Dorința Sufletului",needTwoDates:"Introdu cel puțin datele de naștere pentru ambele persoane.",noName:"(fără nume)",
+  ratingExcellent:"Excelentă",ratingGood:"Bună",ratingComplex:"Complexă",ratingChallenging:"Provocatoare",
+  uniEye:"Energia colectivă a momentului",uniTitle:"Numerele universale de azi",universalYear:"Anul Universal",universalMonth:"Luna Universală",universalDay:"Ziua Universală",refTitle:"Referință completă a numerelor",refDesc:"Sensul fiecărui număr, plus corespondențele tradiționale.",
+  planet:"Planetă",element:"Element",color:"Culoare",gem:"Piatră",weekday:"Zi",tarot:"Tarot",zodiac:"Zodie",bodyA:"Corp",career:"Vocații",harmony:"Numere armonioase",
+  savedEye:"Portrete păstrate local",savedTitle:"Portretele tale salvate",savedDesc:"Salvate doar în acest browser (fără server, fără telemetrie).",noSaved:"Niciun portret salvat încă. Calculează un portret și apasă „Salvează”.",load:"Încarcă",del:"Șterge",confirmDel:"Ștergi acest portret salvat?",saveOk:"Portret salvat.",saveNeedData:"Completează numele sau data nașterii înainte de a salva.",shareOk:"Link copiat în clipboard.",shareFail:"Nu am putut copia automat — copiază din bara de adrese.",
+  themeT:"Comută tema",printT:"Tipărește / salvează PDF",
+  note1:"<b>Despre metodă:</b> aplicația folosește numerologia pitagoreică (cu opțiune chaldeană), păstrând numerele maestru 11/22/33 și marcând datoriile karmice 13/14/16/19. Calculele sunt afișate transparent, pas cu pas.",
+  note2:"<b>Notă onestă:</b> numerologia este un sistem simbolic tradițional, oferit pentru reflecție personală și explorare culturală — nu o știință. Folosește-l ca oglindă, nu ca predicție."},
+ en:{appTitle:"Numerology",appSub:"Complete numeric portrait",
+  tabProfile:"Profile",tabCycles:"Cycles",tabGrid:"Birth grid",tabName:"Name calculator",tabCompat:"Compatibility",tabUniverse:"Universal & Reference",tabSaved:"Saved",
+  fldName:"Full birth name",hintName:"Use the full name given at birth for classic results. Diacritics are normalized.",fldBirth:"Date of birth",phName:"e.g. Mary Johnson",phWord:"e.g. Echo of the Strings",phOpt:"optional",
+  btnCalc:"Reveal the portrait",btnSave:"Save portrait",btnShare:"Copy shareable link",btnDemo:"Example",
+  profileFor:"Portrait for",born:"born",coreTriad:"The core triad",lifePath:"Life Path",expression:"Expression / Destiny",soulUrge:"Soul Urge",personality:"Personality",birthday:"Birthday Number",maturity:"Maturity",balance:"Balance",rational:"Rational Thought",
+  moreNumbers:"All portrait numbers",karmicTitle:"Karmic debts & lessons",noKarmicDebt:"No karmic-debt number (13/14/16/19) in the core calculations — a path free of major karmic burdens in these positions.",karmicDebtFound:"Karmic debts detected",karmicLessons:"Karmic lessons (numbers missing from the name)",noKarmicLessons:"Your name contains all digits 1–9 — no classic karmic lessons. A complete inner toolkit.",
+  hiddenPassion:"Hidden Passion",subconscious:"Subconscious Self",cornerstone:"Cornerstone",capstone:"Capstone",firstVowel:"First Vowel",letterTraits:"Letter traits",
+  detailRead:"Detailed reading",detailEye:"Number meaning",light:"Light",shadow:"Shadow",master:"Master number",karmicDebtTag:"karmic debt",methodNote:"Method: reduce month, day and year separately, then add them.",method2note:"The alternative method (straight digit sum) gives",
+  fillPrompt:"Enter a name and/or date of birth in the bar above, then press \u201cReveal the portrait\u201d.",fillPromptShort:"First enter the date of birth on the Profile tab.",fillPromptName:"This panel needs a name. Enter one on the Profile tab.",
+  cyclesIntro:"Your personal cycles",cyclesDesc:"The energy of the current year, month and day, plus the great life cycles.",personalYear:"Personal Year",personalMonth:"Personal Month",personalDay:"Personal Day",forecastFor:"Forecast for date",
+  pinnTitle:"Pinnacles & Challenges",pinnDesc:"Four great life periods, each with a dominant energy (pinnacle) and a lesson to balance (challenge).",pinnacle:"Pinnacle",challenge:"Challenge",ages:"Ages",now:"now",yearsOld:"yrs",
+  cycleNineTitle:"The nine-year cycle",cycleNineDesc:"Where you stand in the nine-year circle of personal years (1 to 9).",
+  essenceTitle:"Essence & Transits",essenceDesc:"The letters of your name activate in turn as you age, forming the current year's \u201cessence\u201d.",physical:"Physical transit (first name)",mentalT:"Mental transit (middle)",spiritualT:"Spiritual transit (last name)",essence:"Year's essence",ageNow:"Age now",
+  gridIntro:"Birth grid (Lo Shu)",gridDesc:"The digits of your birth date placed in the Pythagorean magic square. Repeats show strengths, gaps show lessons. Complete lines are \u201carrows\u201d.",missingNumbers:"Numbers missing from the date",repeatedNumbers:"Emphasized numbers (repeated)",arrowsTitle:"Arrows of Pythagoras",arrowsPresent:"Present arrows (strengths)",arrowsAbsent:"Absent arrows (lessons)",noArrows:"No complete arrow in this date.",none:"none",
+  nameEye:"Numeric value calculator",nameTitle:"Any name or word",nameDesc:"See the value in both systems, broken down letter by letter, with vowels and consonants separated.",fldWord:"Name / word",btnCalcWord:"Calculate",
+  vowels:"Vowels (soul)",consonants:"Consonants (personality)",total:"Total (expression)",letterByLetter:"Letter by letter",pyth:"Pythagorean",chal:"Chaldean",sysLabel:"System",
+  cmpEye:"Name-change analysis",cmpTitle:"Compare two names",cmpDesc:"Useful for stage names, married names or pseudonyms.",cmpA:"Name A (birth)",cmpB:"Name B (current/stage)",btnCompare:"Compare",btnShowCmp:"Open name comparison ▾",btnHideCmp:"Close comparison ▴",cmpHeader:"How the numbers shift",unchanged:"unchanged",shifts:"shifts",
+  compatEye:"Numerology of relationship",compatTitle:"Compatibility between two people",compatDesc:"Compares Life Path, Expression and Soul Urge. Name is optional.",pAName:"Person 1 — name",pABirth:"Person 1 — date of birth",pBName:"Person 2 — name",pBBirth:"Person 2 — date of birth",btnCompat:"Analyze the match",
+  overallCompat:"Overall match",aspectCompat:"By aspect",aspect:"Aspect",person1:"Person 1",person2:"Person 2",rating:"Match",lpCompat:"Life Path",exprCompat:"Expression",soulCompat:"Soul Urge",needTwoDates:"Enter at least the dates of birth for both people.",noName:"(no name)",
+  ratingExcellent:"Excellent",ratingGood:"Good",ratingComplex:"Complex",ratingChallenging:"Challenging",
+  uniEye:"The collective energy of the moment",uniTitle:"Today's universal numbers",universalYear:"Universal Year",universalMonth:"Universal Month",universalDay:"Universal Day",refTitle:"Complete number reference",refDesc:"The meaning of each number, plus its traditional correspondences.",
+  planet:"Planet",element:"Element",color:"Color",gem:"Gemstone",weekday:"Weekday",tarot:"Tarot",zodiac:"Zodiac",bodyA:"Body",career:"Callings",harmony:"Harmonious numbers",
+  savedEye:"Portraits kept locally",savedTitle:"Your saved portraits",savedDesc:"Saved only in this browser (no server, no telemetry).",noSaved:"No saved portraits yet. Calculate a portrait and press \u201cSave\u201d.",load:"Load",del:"Delete",confirmDel:"Delete this saved portrait?",saveOk:"Portrait saved.",saveNeedData:"Enter a name or date of birth before saving.",shareOk:"Link copied to clipboard.",shareFail:"Couldn't copy automatically — copy it from the address bar.",
+  themeT:"Toggle theme",printT:"Print / save PDF",
+  note1:"<b>On method:</b> the app uses Pythagorean numerology (with a Chaldean option), preserving master numbers 11/22/33 and flagging karmic debts 13/14/16/19. Every calculation is shown transparently, step by step.",
+  note2:"<b>An honest note:</b> numerology is a traditional symbolic system, offered for personal reflection and cultural exploration — not a science. Use it as a mirror, not a prediction."}};
+/* ============================================================
+   STATE + RENDER + EVENTS
+   ============================================================ */
+const state={lang:'ro',sys:'pyth',ymode:'auto',name:'',date:null,forecast:null,tab:'profil'};
+let profile=null;
+const $=id=>document.getElementById(id);
+const t=k=>{const o=I18N[state.lang]; return (o&&o[k]!==undefined)?o[k]:(I18N.en[k]!==undefined?I18N.en[k]:k);};
+function loc(o){return o?(o[state.lang]!==undefined?o[state.lang]:o.en):'';}
+function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function coreFor(v){return CORE[v]||CORE[root(v)];}
+function badge(v){return MASTERS.indexOf(v)>=0?(v+' / '+root(v)):String(v);}
+function stepsStr(a){return a.join(' → ');}
+function readDate(val){if(!val)return null;const p=val.split('-');if(p.length!==3)return null;const y=+p[0],m=+p[1],d=+p[2];if(!y||!m||!d||m>12||d>31)return null;return {y:y,m:m,d:d};}
+function fmtDate(o){const months=MONTHS[state.lang];return o.d+' '+months[o.m-1]+' '+o.y;}
+function todayISO(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+let toastT; function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2600);}
+
+/* ---------- medallion + detail ---------- */
+function med(type,label,value,steps,karmic){
+  const isM=MASTERS.indexOf(value)>=0; const c=coreFor(value); const nm=c?loc(c).t:'';
+  let h='<div class="med'+(isM?' master':'')+'" role="button" tabindex="0" data-type="'+type+'" data-val="'+value+'" data-label="'+esc(label)+'">';
+  h+='<div class="lbl">'+esc(label)+'</div><div class="disc"><span class="num">'+value+'</span></div>';
+  if(isM)h+='<div class="root">'+value+' → '+root(value)+'</div>';
+  if(steps)h+='<div class="steps">'+esc(steps)+'</div>';
+  if(karmic)h+='<div class="kd">'+t('karmicDebtTag')+' '+karmic+'</div>';
+  if(nm)h+='<div class="name">'+esc(nm)+'</div>';
+  return h+'</div>';
+}
+function letterCard(label,ch){
+  const tr=LETTER[ch]?loc(LETTER[ch]):''; const val=(state.sys==='chal'?CHAL:PYTH)[ch]||0;
+  return '<div class="med" style="cursor:default"><div class="lbl">'+esc(label)+'</div><div class="disc"><span class="num">'+ch+'</span></div><div class="root">'+val+'</div><div class="name" style="font-size:12.5px;color:var(--mut)">'+esc(tr)+'</div></div>';
+}
+function miniNum(type,label,val){
+  return '<div class="mini" role="button" tabindex="0" data-type="'+type+'" data-val="'+val+'" data-label="'+esc(label)+'" style="cursor:pointer"><div class="l">'+esc(label)+'</div><div class="n">'+badge(val)+'</div><div class="d">'+esc(loc(coreFor(val)).t)+'</div></div>';
+}
+function showDetail(type,value,label){
+  const c=coreFor(value); if(!c)return; const cc=loc(c); let ctx=null;
+  if(type==='personalYear'&&PYEAR[root(value)]){const py=loc(PYEAR[root(value)]);ctx='<strong>'+esc(py.t)+'.</strong> '+esc(py.d);}
+  else if(type==='pinnacle'&&PINN[value])ctx=esc(loc(PINN[value]));
+  else if(type==='challenge'&&CHALL[value]!==undefined)ctx=esc(loc(CHALL[value]));
+  else if(CTX[type]&&(CTX[type][value]||CTX[type][root(value)]))ctx=esc(loc(CTX[type][value]||CTX[type][root(value)]));
+  const a=ASSOC[root(value)]; const box=$('numDetail');
+  let h='<p class="eyebrow">'+t('detailEye')+(label?' · '+esc(label):'')+'</p><div class="readout" style="margin:6px 0 0">';
+  h+='<h4>'+value+(MASTERS.indexOf(value)>=0?' <span style="font-size:13px;color:var(--cele);font-family:var(--mono)">('+t('master')+' '+value+'/'+root(value)+')</span>':'')+' — '+esc(cc.t)+'</h4>';
+  h+='<div class="kw">'+esc(cc.k)+'</div><p>'+esc(cc.d)+'</p>';
+  if(ctx)h+='<p style="color:var(--cele)">'+ctx+'</p>';
+  h+='<div class="ls"><div><b>'+t('light')+'</b><span class="light">'+esc(cc.light)+'</span></div><div><b>'+t('shadow')+'</b><span class="shadow">'+esc(cc.shadow)+'</span></div></div>';
+  if(a)h+='<div class="assoc-inline">'+t('planet')+': <span>'+loc(a.planet)+'</span> · '+t('element')+': <span>'+loc(a.el)+'</span> · '+t('color')+': <span>'+loc(a.col)+'</span> · '+t('tarot')+': <span>'+loc(a.tarot)+'</span></div>';
+  box.innerHTML=h+'</div>'; box.style.display='block'; box.scrollIntoView({behavior:'smooth',block:'start'});
+}
+window.showDetail=showDetail;
+
+/* ---------- compute ---------- */
+function computeProfile(){
+  const name=$('inName').value.trim(); const dv=$('inDate').value;
+  state.name=name; state.date=dv||null; const dt=readDate(dv);
+  if(!name&&!dt){profile=null;return;}
+  const map=state.sys==='chal'?CHAL:PYTH; const P={name:name,date:dt,hasName:!!name,hasDate:!!dt};
+  if(dt){P.lp=lifePath(dt.d,dt.m,dt.y);P.birthday=reduce(dt.d);P.pc=pinChal(dt.d,dt.m,dt.y,P.lp.single);}
+  if(name){
+    P.nn=nameNumbers(name,state.sys,state.ymode); P.karmic=karmicProfile(P.nn.tally);
+    const w=normSpaces(name).split(' ').filter(Boolean); P.firstName=w[0]||'';
+    P.cornerstone=P.firstName[0]||null; P.capstone=P.firstName[P.firstName.length-1]||null;
+    let fv=null; for(let i=0;i<P.firstName.length;i++){if(isVowelAt(P.firstName,i,state.ymode)){fv=P.firstName[i];break;}} P.firstVowel=fv;
+    let bsum=0; w.forEach(x=>{bsum+=map[x[0]]||0;}); P.balance=reduce(bsum);
+  }
+  if(name&&dt){
+    P.maturity=reduce(P.lp.primary.v+P.nn.expression.v);
+    let fsum=0; for(const ch of P.firstName)fsum+=map[ch]||0; P.rational=reduce(dt.d+fsum);
+    P.essence=essence(name,state.sys,ageNow(dt.d,dt.m,dt.y));
+  }
+  profile=P;
+}
+
+/* ---------- render: profile ---------- */
+function renderProfile(){
+  const box=$('profileOut');
+  if(!profile){box.innerHTML='<div class="card"><div class="empty-note"><span class="big">&#8757;</span>'+t('fillPrompt')+'</div></div>';return;}
+  const P=profile; let h='';
+  h+='<div class="card" style="padding:14px 22px;display:flex;flex-wrap:wrap;gap:4px 18px;align-items:baseline">';
+  if(P.name)h+='<div style="font-family:var(--serif);font-size:18px">'+t('profileFor')+': <span style="color:var(--gild)">'+esc(P.name)+'</span></div>';
+  if(P.date)h+='<div style="color:var(--mut);font-size:13.5px">'+t('born')+' '+fmtDate(P.date)+'</div>';
+  h+='</div>';
+  const triad=[];
+  if(P.hasDate)triad.push(med('lifePath',t('lifePath'),P.lp.primary.v,P.date.d+'/'+P.date.m+'/'+P.date.y+' → '+P.lp.rm.v+'+'+P.lp.rd.v+'+'+P.lp.ry.v+' = '+P.lp.total+' → '+P.lp.primary.v,P.lp.primary.karmic));
+  if(P.hasName)triad.push(med('expression',t('expression'),P.nn.expression.v,'Σ='+P.nn.sumRaw+' → '+P.nn.expression.v,P.nn.expression.karmic));
+  if(P.hasName)triad.push(med('soulUrge',t('soulUrge'),P.nn.soul.v,'Σ='+P.nn.vowRaw+' → '+P.nn.soul.v,P.nn.soul.karmic));
+  h+='<h3 class="sec-h">'+t('coreTriad')+'</h3><div class="med-grid">'+triad.join('')+'</div>';
+  const more=[];
+  if(P.hasName)more.push(med('personality',t('personality'),P.nn.personality.v,'Σ='+P.nn.consRaw+' → '+P.nn.personality.v,P.nn.personality.karmic));
+  if(P.hasDate)more.push(med('birthday',t('birthday'),P.birthday.v,(P.birthday.steps.length>1?stepsStr(P.birthday.steps):String(P.date.d)),P.birthday.karmic));
+  if(P.maturity)more.push(med('maturity',t('maturity'),P.maturity.v,'LP+Expr → '+P.maturity.v,P.maturity.karmic));
+  if(P.balance)more.push(med('balance',t('balance'),P.balance.v,null,P.balance.karmic));
+  if(P.rational)more.push(med('rational',t('rational'),P.rational.v,null,P.rational.karmic));
+  if(more.length)h+='<h3 class="sec-h">'+t('moreNumbers')+'</h3><div class="med-grid">'+more.join('')+'</div>';
+  if(P.hasDate){h+='<p class="sec-sub" style="margin-left:0;margin-top:10px">'+t('methodNote');if(P.lp.differ)h+=' '+t('method2note')+' <b style="color:var(--cele)">'+badge(P.lp.straight.v)+'</b>.';h+='</p>';}
+  if(P.hasName){
+    h+='<h3 class="sec-h">'+t('letterTraits')+'</h3><div class="med-grid">';
+    if(P.cornerstone)h+=letterCard(t('cornerstone'),P.cornerstone);
+    if(P.capstone)h+=letterCard(t('capstone'),P.capstone);
+    if(P.firstVowel)h+=letterCard(t('firstVowel'),P.firstVowel);
+    h+='<div class="med" style="cursor:default"><div class="lbl">'+t('hiddenPassion')+'</div><div class="disc"><span class="num" style="font-size:'+(P.karmic.hidden.length>2?'18px':'34px')+'">'+P.karmic.hidden.join('·')+'</span></div></div>';
+    h+='<div class="med" style="cursor:default"><div class="lbl">'+t('subconscious')+'</div><div class="disc"><span class="num">'+P.karmic.subconscious+'</span></div></div>';
+    h+='</div>';
+  }
+  h+='<h3 class="sec-h">'+t('karmicTitle')+'</h3>';
+  const debts=[];
+  if(P.hasDate&&P.lp.primary.karmic)debts.push(P.lp.primary.karmic);
+  if(P.hasName)['expression','soul','personality'].forEach(k=>{if(P.nn[k].karmic&&debts.indexOf(P.nn[k].karmic)<0)debts.push(P.nn[k].karmic);});
+  if(P.maturity&&P.maturity.karmic&&debts.indexOf(P.maturity.karmic)<0)debts.push(P.maturity.karmic);
+  if(debts.length){
+    h+='<div class="card"><p style="margin-top:0;color:var(--wine);font-weight:600">'+t('karmicDebtFound')+'</p>';
+    debts.forEach(k=>{const kd=loc(KDEBT[k]);h+='<div class="readout" style="border-left-color:var(--wine)"><h4>'+esc(kd.t)+'</h4><p>'+esc(kd.d)+'</p></div>';});
+    h+='</div>';
+  } else h+='<div class="card"><p style="margin:0;color:var(--mut)">'+t('noKarmicDebt')+'</p></div>';
+  if(P.hasName){
+    if(P.karmic.missing.length){
+      h+='<div class="card"><p style="margin-top:0;font-weight:600">'+t('karmicLessons')+'</p>';
+      P.karmic.missing.forEach(n=>{h+='<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px"><span class="rdisc" style="width:38px;height:38px;font-size:18px;flex:none">'+n+'</span><p style="margin:6px 0;font-size:13.5px;color:var(--ink)">'+esc(loc(KLESS[n]))+'</p></div>';});
+      h+='</div>';
+    } else h+='<div class="card"><p style="margin:0;color:var(--mut)">'+t('noKarmicLessons')+'</p></div>';
+  }
+  box.innerHTML=h;
+}
+
+/* ---------- render: cycles ---------- */
+window.setForecast=function(v){state.forecast=v;renderCycles();};
+function renderCycles(){
+  const box=$('cyclesOut');
+  if(!profile||!profile.hasDate){box.innerHTML='<div class="card"><div class="empty-note"><span class="big">&#9737;</span>'+t('fillPromptShort')+'</div></div>';return;}
+  const P=profile; const fdRaw=state.forecast||todayISO(); const fd=readDate(fdRaw)||readDate(todayISO());
+  const pc=personalCycles(P.date.d,P.date.m,fd.y,fd.m,fd.d); const age=ageNow(P.date.d,P.date.m,P.date.y);
+  let h='<h3 class="sec-h">'+t('cyclesIntro')+'</h3><p class="sec-sub">'+t('cyclesDesc')+'</p>';
+  h+='<div class="card" style="padding:14px 22px"><div class="field" style="max-width:240px"><label>'+t('forecastFor')+'</label><input type="date" id="forecastDate" value="'+fdRaw+'" min="1500-01-01" max="2200-12-31" onchange="window.setForecast(this.value)"></div></div>';
+  h+='<div class="three">'+miniNum('personalYear',t('personalYear'),pc.py.v)+miniNum('personalMonth',t('personalMonth'),pc.pm.v)+miniNum('personalDay',t('personalDay'),pc.pd.v)+'</div>';
+  const py=loc(PYEAR[root(pc.py.v)]);
+  h+='<div class="readout"><p class="eyebrow" style="margin-bottom:4px">'+t('personalYear')+' '+badge(pc.py.v)+'</p><h4>'+esc(py.t)+'</h4><p>'+esc(py.d)+'</p></div>';
+  h+='<h3 class="sec-h">'+t('cycleNineTitle')+'</h3><p class="sec-sub">'+t('cycleNineDesc')+'</p><div class="med-grid" style="grid-template-columns:repeat(auto-fill,minmax(76px,1fr))">';
+  const cur=root(pc.py.v);
+  for(let i=1;i<=9;i++){const on=i===cur;h+='<div class="med" data-type="personalYear" data-val="'+i+'" data-label="'+t('personalYear')+' '+i+'" style="padding:12px 8px'+(on?'':';opacity:.55')+'"><div class="disc" style="width:54px;height:54px;margin-bottom:0'+(on?';border-color:var(--gild);box-shadow:0 0 16px -4px var(--gild)':'')+'"><span class="num" style="font-size:24px">'+i+'</span></div>'+(on?'<div class="root" style="color:var(--gild);margin-top:5px">'+t('now')+'</div>':'')+'</div>';}
+  h+='</div>';
+  h+='<h3 class="sec-h">'+t('pinnTitle')+'</h3><p class="sec-sub">'+t('pinnDesc')+'</p><div class="tl">';
+  for(let i=0;i<4;i++){
+    const a=P.pc.ages[i]; const isNow=age>=a.from&&(a.to===null||age<a.to);
+    const ageLbl=a.to===null?(a.from+'+'):(a.from+'–'+a.to); const pv=P.pc.pin[i].v; const cv=P.pc.chal[i];
+    h+='<div class="body'+(isNow?' now':'')+'"><div class="yr">'+t('ages')+' '+ageLbl+(isNow?' <span class="nowtag">'+t('now')+'</span>':'')+'</div>';
+    h+='<h5>'+t('pinnacle')+' '+(i+1)+': <span style="color:var(--gild)">'+badge(pv)+'</span> &nbsp;·&nbsp; '+t('challenge')+': <span style="color:var(--wine)">'+cv+'</span></h5>';
+    h+='<p>'+esc(loc(PINN[pv]))+' — '+esc(loc(CHALL[cv]))+'</p></div>';
+  }
+  h+='</div>';
+  if(P.essence){const e=P.essence;
+    h+='<h3 class="sec-h">'+t('essenceTitle')+'</h3><p class="sec-sub">'+t('essenceDesc')+'</p><div class="three">';
+    h+='<div class="mini"><div class="l">'+t('physical')+'</div><div class="n" style="font-size:30px">'+(e.physical?e.physical.ch:'—')+'</div><div class="d">'+(e.physical?'= '+e.physical.val:'')+'</div></div>';
+    h+='<div class="mini"><div class="l">'+t('mentalT')+'</div><div class="n" style="font-size:30px">'+(e.hasMiddle&&e.mental?e.mental.ch:'—')+'</div><div class="d">'+(e.hasMiddle&&e.mental?'= '+e.mental.val:'')+'</div></div>';
+    h+='<div class="mini"><div class="l">'+t('spiritualT')+'</div><div class="n" style="font-size:30px">'+(e.spiritual?e.spiritual.ch:'—')+'</div><div class="d">'+(e.spiritual?'= '+e.spiritual.val:'')+'</div></div></div>';
+    h+='<div class="readout" style="margin-top:14px"><h4>'+t('essence')+': '+badge(e.essence.v)+' &nbsp;<span style="font-size:13px;color:var(--mut)">('+t('ageNow')+' '+age+')</span></h4><p>'+esc(loc(coreFor(e.essence.v)).d)+'</p></div>';
+  }
+  box.innerHTML=h;
+}
+
+/* ---------- render: grid ---------- */
+function renderGrid(){
+  const box=$('gridOut');
+  if(!profile||!profile.hasDate){box.innerHTML='<div class="card"><div class="empty-note"><span class="big">&#8862;</span>'+t('fillPromptShort')+'</div></div>';return;}
+  const P=profile; const digits=(String(P.date.d)+String(P.date.m)+String(P.date.y)).split('').filter(c=>c!=='0');
+  const counts={}; for(let k=1;k<=9;k++)counts[k]=0; digits.forEach(c=>counts[+c]++);
+  let h='<h3 class="sec-h">'+t('gridIntro')+'</h3><p class="sec-sub">'+t('gridDesc')+'</p><div class="card"><div class="loshu">';
+  for(let r=0;r<3;r++)for(let c=0;c<3;c++){const n=GRID[r][c];const cnt=counts[n];h+='<div class="cell'+(cnt>0?' filled':'')+'"><span class="pos">'+n+'</span>'+(cnt>0?'<span class="digits">'+String(n).repeat(cnt)+'</span>':'<span class="empty">·</span>')+'</div>';}
+  h+='</div>';
+  const missing=[],repeated=[]; for(let k=1;k<=9;k++){if(counts[k]===0)missing.push(k);if(counts[k]>=2)repeated.push(k+'×'+counts[k]);}
+  h+='<div class="three" style="margin-top:12px"><div class="mini" style="text-align:left"><div class="l">'+t('missingNumbers')+'</div><div style="font-family:var(--serif);font-size:22px;color:var(--wine);margin-top:6px;letter-spacing:3px">'+(missing.length?missing.join(' '):t('none'))+'</div></div>';
+  h+='<div class="mini" style="text-align:left"><div class="l">'+t('repeatedNumbers')+'</div><div style="font-family:var(--mono);font-size:15px;color:var(--gild);margin-top:8px">'+(repeated.length?repeated.join('  '):t('none'))+'</div></div></div></div>';
+  const pres=[],abs=[];
+  ARROWS.forEach(ar=>{const allP=ar.cells.every(n=>counts[n]>0);const allA=ar.cells.every(n=>counts[n]===0);const m=ARROWMEAN[ar.key];if(allP)pres.push(m);else if(allA)abs.push(m);});
+  h+='<h3 class="sec-h">'+t('arrowsTitle')+'</h3>';
+  if(!pres.length&&!abs.length)h+='<p class="sec-sub">'+t('noArrows')+'</p>';
+  if(pres.length){h+='<p class="eyebrow" style="margin:14px 0 6px;color:var(--good)">'+t('arrowsPresent')+'</p><div class="arrow-list">';pres.forEach(m=>{const d=loc(m.pres);h+='<div class="arrow pres"><div class="at">'+esc(d.t)+'<span class="seq">'+m.seq+'</span></div><p>'+esc(d.d)+'</p></div>';});h+='</div>';}
+  if(abs.length){h+='<p class="eyebrow" style="margin:18px 0 6px;color:var(--wine)">'+t('arrowsAbsent')+'</p><div class="arrow-list">';abs.forEach(m=>{const d=loc(m.abs);h+='<div class="arrow abs"><div class="at">'+esc(d.t)+'<span class="seq">'+m.seq+'</span></div><p>'+esc(d.d)+'</p></div>';});h+='</div>';}
+  box.innerHTML=h;
+}
+
+/* ---------- render: name calculator ---------- */
+function renderName(){
+  const w=$('inWord').value.trim(); const box=$('nameOut'); if(!w){box.innerHTML='';return;}
+  const py=nameNumbers(w,'pyth',state.ymode); const ch=nameNumbers(w,'chal',state.ymode);
+  let h='<div class="card"><div style="font-family:var(--serif);font-size:18px;margin-bottom:8px;color:var(--gild)">'+esc(w)+'</div>';
+  h+='<table class="t"><thead><tr><th></th><th>'+t('pyth')+'</th><th>'+t('chal')+'</th></tr></thead><tbody>';
+  h+='<tr><td>'+t('total')+'</td><td><span class="v">'+badge(py.expression.v)+'</span> <span style="color:var(--faint);font-family:var(--mono)">('+py.sumRaw+')</span></td><td><span class="v">'+badge(ch.expression.v)+'</span> <span style="color:var(--faint);font-family:var(--mono)">('+ch.sumRaw+')</span></td></tr>';
+  h+='<tr><td>'+t('vowels')+'</td><td><span class="v">'+badge(py.soul.v)+'</span></td><td><span class="v">'+badge(ch.soul.v)+'</span></td></tr>';
+  h+='<tr><td>'+t('consonants')+'</td><td><span class="v">'+badge(py.personality.v)+'</span></td><td><span class="v">'+badge(ch.personality.v)+'</span></td></tr>';
+  h+='</tbody></table>';
+  const act=state.sys==='chal'?ch:py;
+  h+='<p class="eyebrow" style="margin:16px 0 6px">'+t('letterByLetter')+' · '+(state.sys==='chal'?t('chal'):t('pyth'))+'</p><div class="breakdown">';
+  act.breakdown.forEach(b=>{if(b.space){h+=' &nbsp;&nbsp; ';return;}h+='<span class="'+(b.vowel?'vw':'hl')+'">'+b.ch+'</span><sub style="color:var(--faint)">'+b.val+'</sub> ';});
+  h+='</div></div>';
+  box.innerHTML=h;
+}
+function renderCmp(){
+  const a=$('cmpNameA').value.trim(),b=$('cmpNameB').value.trim(); const box=$('cmpOut'); if(!a||!b){box.innerHTML='';return;}
+  const na=nameNumbers(a,state.sys,state.ymode),nb=nameNumbers(b,state.sys,state.ymode);
+  let h='<p class="eyebrow" style="margin:16px 0 6px">'+t('cmpHeader')+'</p><table class="t"><thead><tr><th></th><th>'+esc(a)+'</th><th>'+esc(b)+'</th><th></th></tr></thead><tbody>';
+  [['expression',t('expression')],['soul',t('soulUrge')],['personality',t('personality')]].forEach(p=>{const va=na[p[0]].v,vb=nb[p[0]].v;const same=va===vb;h+='<tr><td>'+p[1]+'</td><td><span class="v">'+badge(va)+'</span></td><td><span class="v">'+badge(vb)+'</span></td><td>'+(same?'<span class="pill">'+t('unchanged')+'</span>':'<span class="pill warn">'+t('shifts')+'</span>')+'</td></tr>';});
+  box.innerHTML=h+'</tbody></table>';
+}
+
+/* ---------- render: compatibility ---------- */
+function compatText(r,a,b){
+  const ca=loc(coreFor(a)).t,cb=loc(coreFor(b)).t;
+  const T={ro:[
+    'Combinație provocatoare: '+ca+' și '+cb+' au ritmuri și nevoi destul de diferite. Funcționează cu efort conștient, comunicare deschisă și respect pentru diferențe — tensiunile pot deveni creștere dacă sunt recunoscute.',
+    'Combinație complexă: '+ca+' și '+cb+' se pot completa frumos, dar cer înțelegere reciprocă. Diferențele aduc echilibru atunci când fiecare apreciază ce oferă celălalt.',
+    'Combinație bună: '+ca+' și '+cb+' se susțin natural, cu valori și ritmuri compatibile. O bază solidă pentru o relație armonioasă.',
+    'Combinație excelentă: '+ca+' și '+cb+' rezonează profund, cu energii care se hrănesc reciproc. O potrivire firească și plină de sprijin.'],
+   en:[
+    'A challenging blend: '+ca+' and '+cb+' move at quite different rhythms and needs. It works with conscious effort, open communication and respect for difference — friction can become growth where it is acknowledged.',
+    'A complex blend: '+ca+' and '+cb+' can complement each other well, but it asks for mutual understanding. The differences bring balance when each values what the other offers.',
+    'A good blend: '+ca+' and '+cb+' support each other naturally, with compatible values and rhythms. A solid base for a harmonious relationship.',
+    'An excellent blend: '+ca+' and '+cb+' resonate deeply, with energies that feed one another. A natural, supportive match.']};
+  return esc(T[state.lang][r]);
+}
+function renderCompat(){
+  const box=$('compatOut'); const d1=readDate($('p1date').value),d2=readDate($('p2date').value);
+  if(!d1||!d2){box.innerHTML='<div class="card"><p style="margin:0;color:var(--mut)">'+t('needTwoDates')+'</p></div>';return;}
+  const n1=$('p1name').value.trim(),n2=$('p2name').value.trim();
+  const lp1=lifePath(d1.d,d1.m,d1.y).primary.v,lp2=lifePath(d2.d,d2.m,d2.y).primary.v;
+  const aspects=[['lpCompat',lp1,lp2]];
+  if(n1&&n2){const a1=nameNumbers(n1,state.sys,state.ymode),a2=nameNumbers(n2,state.sys,state.ymode);aspects.push(['exprCompat',a1.expression.v,a2.expression.v]);aspects.push(['soulCompat',a1.soul.v,a2.soul.v]);}
+  let total=0; aspects.forEach(a=>total+=ratePair(a[1],a[2]));
+  const score=Math.round(total/(aspects.length*3)*100);
+  const rl=[t('ratingChallenging'),t('ratingComplex'),t('ratingGood'),t('ratingExcellent')]; const rc=['bad','warn','good','good'];
+  let h='<div class="card"><div class="compat-head"><div class="score">'+score+'%</div><div class="lbl">'+t('overallCompat')+'</div></div><div class="bar-track"><div class="bar-fill" style="width:'+score+'%"></div></div>';
+  h+='<table class="t" style="margin-top:8px"><thead><tr><th>'+t('aspect')+'</th><th>'+(n1?esc(n1):t('person1'))+'</th><th>'+(n2?esc(n2):t('person2'))+'</th><th>'+t('rating')+'</th></tr></thead><tbody>';
+  aspects.forEach(a=>{const r=ratePair(a[1],a[2]);h+='<tr><td>'+t(a[0])+'</td><td><span class="v">'+badge(a[1])+'</span></td><td><span class="v">'+badge(a[2])+'</span></td><td><span class="pill '+rc[r]+'">'+rl[r]+'</span></td></tr>';});
+  h+='</tbody></table>';
+  h+='<p style="margin:14px 0 0;font-size:14px;color:var(--ink)">'+compatText(ratePair(lp1,lp2),lp1,lp2)+'</p></div>';
+  box.innerHTML=h;
+}
+
+/* ---------- render: universe + reference ---------- */
+function renderUniverse(){
+  const d=new Date(),y=d.getFullYear(),m=d.getMonth()+1,dd=d.getDate(); const u=universalNums(y,m,dd);
+  $('uniDateLbl').textContent=fmtDate({d:dd,m:m,y:y});
+  $('uniNums').innerHTML=miniNum('universalYear',t('universalYear'),u.uy.v)+miniNum('universalMonth',t('universalMonth'),u.um.v)+miniNum('universalDay',t('universalDay'),u.ud.v);
+  let rg=''; [1,2,3,4,5,6,7,8,9,11,22,33].forEach(n=>{const c=loc(CORE[n]);const a=ASSOC[root(n)];
+    rg+='<div class="ref-card"><div class="rh"><div class="rdisc">'+n+'</div><div><div class="rt">'+esc(c.t)+'</div><div class="rk">'+esc(c.k)+'</div></div></div><p>'+esc(c.d)+'</p>';
+    if(a){rg+='<dl class="assoc"><dt>'+t('planet')+'</dt><dd>'+loc(a.planet)+'</dd><dt>'+t('element')+'</dt><dd>'+loc(a.el)+'</dd><dt>'+t('color')+'</dt><dd>'+loc(a.col)+'</dd><dt>'+t('gem')+'</dt><dd>'+loc(a.gem)+'</dd><dt>'+t('weekday')+'</dt><dd>'+loc(a.day)+'</dd><dt>'+t('tarot')+'</dt><dd>'+loc(a.tarot)+'</dd><dt>'+t('zodiac')+'</dt><dd>'+loc(a.zod)+'</dd><dt>'+t('career')+'</dt><dd>'+loc(a.car)+'</dd></dl>';}
+    rg+='</div>';});
+  $('refGrid').innerHTML=rg;
+}
+
+/* ---------- saved (localStorage, guarded) ---------- */
+const SKEY='numerologie_saved_v1';
+function getSaved(){try{return JSON.parse(localStorage.getItem(SKEY)||'[]');}catch(e){return [];}}
+function setSaved(a){try{localStorage.setItem(SKEY,JSON.stringify(a));}catch(e){}}
+function renderSaved(){
+  const list=getSaved(); const box=$('savedList');
+  if(!list.length){box.innerHTML='<p style="color:var(--mut);font-size:14px;margin:0">'+t('noSaved')+'</p>';return;}
+  let h=''; list.forEach((it,i)=>{h+='<div class="saved-item"><div><div class="si-name">'+esc(it.name||t('noName'))+'</div><div class="si-meta">'+esc(it.date||'')+'</div></div><div class="si-act"><button class="xbtn" onclick="window.loadSaved('+i+')">'+t('load')+'</button><button class="xbtn del" onclick="window.delSaved('+i+')">'+t('del')+'</button></div></div>';});
+  box.innerHTML=h;
+}
+window.loadSaved=function(i){const it=getSaved()[i];if(!it)return;$('inName').value=it.name||'';$('inDate').value=it.date||'';computeProfile();switchTab('profil');updateHash();};
+window.delSaved=function(i){if(!confirm(t('confirmDel')))return;const list=getSaved();list.splice(i,1);setSaved(list);renderSaved();};
+
+/* ---------- tabs + dispatch ---------- */
+const NATAL_TABS=['profil','cicluri','grila'];
+function renderTab(name){
+  if(name==='profil')renderProfile(); else if(name==='cicluri')renderCycles(); else if(name==='grila')renderGrid();
+  else if(name==='nume'){renderName();renderCmp();} else if(name==='compat')renderCompat();
+  else if(name==='univers')renderUniverse(); else if(name==='salvate')renderSaved();
+}
+function switchTab(name){
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id==='panel-'+name));
+  $('natalBar').style.display=NATAL_TABS.indexOf(name)>=0?'block':'none';
+  $('numDetail').style.display='none'; state.tab=name; renderTab(name);
+}
+
+/* ---------- i18n apply ---------- */
+function applyI18N(){
+  document.documentElement.lang=state.lang;
+  document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(I18N[state.lang][k]!==undefined){const val=I18N[state.lang][k];if(val.indexOf('<')>=0)el.innerHTML=val;else el.textContent=val;}});
+  $('inName').placeholder=t('phName'); $('inWord').placeholder=t('phWord');
+  $('p1name').placeholder=t('phOpt'); $('p2name').placeholder=t('phOpt');
+  $('themeBtn').title=t('themeT'); $('printBtn').title=t('printT'); $('sysSeg').title=t('sysLabel');
+  $('toggleCmp').textContent=($('compareNamesCard').style.display!=='none')?t('btnHideCmp'):t('btnShowCmp');
+}
+
+/* ---------- hash ---------- */
+function updateHash(){
+  const p=[]; if(state.name)p.push('n='+encodeURIComponent(state.name)); if(state.date)p.push('d='+state.date);
+  p.push('l='+state.lang); p.push('s='+state.sys);
+  try{history.replaceState(null,'','#'+p.join('&'));}catch(e){location.hash=p.join('&');}
+}
+function parseHash(){
+  const hsh=location.hash.replace(/^#/,''); if(!hsh)return; const p={};
+  hsh.split('&').forEach(kv=>{const i=kv.indexOf('=');if(i>0)p[kv.slice(0,i)]=decodeURIComponent(kv.slice(i+1));});
+  if(p.l&&I18N[p.l])state.lang=p.l; if(p.s&&(p.s==='pyth'||p.s==='chal'))state.sys=p.s;
+  if(p.n)$('inName').value=p.n; if(p.d)$('inDate').value=p.d;
+}
+
+/* ---------- starfield ---------- */
+function drawSky(){
+  const c=$('sky'); if(!c)return; const ctx=c.getContext('2d');
+  const w=c.width=window.innerWidth,h=c.height=window.innerHeight; ctx.clearRect(0,0,w,h);
+  const light=document.body.dataset.theme==='light'; const n=Math.min(190,Math.floor(w*h/9000));
+  for(let i=0;i<n;i++){const x=Math.random()*w,y=Math.random()*h,r=Math.random()*1.2+0.2,gold=Math.random()<0.12,al=Math.random()*0.6+0.15;
+    ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fillStyle=gold?('rgba(212,175,106,'+al+')'):(light?'rgba(80,70,40,'+(al*0.45)+')':'rgba(220,225,245,'+al+')');ctx.fill();}
+}
+
+/* ---------- events ---------- */
+document.querySelectorAll('#langSeg button').forEach(b=>b.addEventListener('click',()=>{state.lang=b.dataset.lang;document.querySelectorAll('#langSeg button').forEach(x=>x.classList.toggle('on',x===b));$('numDetail').style.display='none';applyI18N();renderTab(state.tab);updateHash();}));
+document.querySelectorAll('#sysSeg button').forEach(b=>b.addEventListener('click',()=>{state.sys=b.dataset.sys;document.querySelectorAll('#sysSeg button').forEach(x=>x.classList.toggle('on',x===b));$('numDetail').style.display='none';computeProfile();renderTab(state.tab);updateHash();}));
+document.querySelectorAll('nav.tabs button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+$('themeBtn').addEventListener('click',()=>{document.body.dataset.theme=document.body.dataset.theme==='light'?'dark':'light';drawSky();});
+$('printBtn').addEventListener('click',()=>window.print());
+$('calcBtn').addEventListener('click',()=>{computeProfile();renderTab(state.tab);updateHash();});
+$('saveBtn').addEventListener('click',()=>{const name=$('inName').value.trim(),date=$('inDate').value;if(!name&&!date){toast(t('saveNeedData'));return;}const list=getSaved();list.unshift({name:name,date:date});setSaved(list.slice(0,50));toast(t('saveOk'));});
+$('shareBtn').addEventListener('click',()=>{computeProfile();updateHash();const url=location.href;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>toast(t('shareOk')),()=>toast(t('shareFail')));}else toast(t('shareFail'));});
+$('demoBtn').addEventListener('click',()=>{$('inName').value=state.lang==='ro'?'Maria Ionescu':'Mary Johnson';$('inDate').value='1988-07-23';computeProfile();switchTab('profil');updateHash();});
+$('wordBtn').addEventListener('click',renderName);
+$('cmpBtn').addEventListener('click',renderCmp);
+$('compatBtn').addEventListener('click',renderCompat);
+$('toggleCmp').addEventListener('click',()=>{const card=$('compareNamesCard');const open=card.style.display!=='none';card.style.display=open?'none':'block';$('toggleCmp').textContent=open?t('btnShowCmp'):t('btnHideCmp');});
+['inName','inDate'].forEach(id=>$(id).addEventListener('keydown',e=>{if(e.key==='Enter'){computeProfile();renderTab(state.tab);updateHash();}}));
+$('inWord').addEventListener('keydown',e=>{if(e.key==='Enter')renderName();});
+document.addEventListener('click',e=>{const m=e.target.closest?e.target.closest('[data-type][data-val]'):null;if(m){showDetail(m.getAttribute('data-type'),+m.getAttribute('data-val'),m.getAttribute('data-label')||'');}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const m=e.target.closest?e.target.closest('[data-type][data-val]'):null;if(m){e.preventDefault();showDetail(m.getAttribute('data-type'),+m.getAttribute('data-val'),m.getAttribute('data-label')||'');}}});
+window.addEventListener('resize',drawSky);
+window.addEventListener('hashchange',()=>{});
+
+/* ---------- init ---------- */
+(function init(){
+  parseHash();
+  document.querySelectorAll('#langSeg button').forEach(x=>x.classList.toggle('on',x.dataset.lang===state.lang));
+  document.querySelectorAll('#sysSeg button').forEach(x=>x.classList.toggle('on',x.dataset.sys===state.sys));
+  applyI18N(); computeProfile(); switchTab('profil'); drawSky();
+})();
+</script>
+</body>
+</html>
