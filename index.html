@@ -357,7 +357,10 @@ function reduce(n,master){
   return {v:n,steps:steps,karmic:karmic};
 }
 function root(n){return reduce(n,false).v;}
-function normSpaces(s){return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z ]/g,' ').replace(/\s+/g,' ').trim();}
+/* Litere latine care NU se descompun prin NFD (Ł, Ø, Đ, Æ, Œ, Þ...) — fără mapare erau înlocuite cu spațiu
+   și ieșeau din calcul (ex. „Łukasz" -> „UKASZ"); apostroful și punctul median (O'Brien, col·legi) nu mai rup numele în cuvinte. */
+const LAT_EXTRA={'Æ':'AE','æ':'ae','Œ':'OE','œ':'oe','Ø':'O','ø':'o','Ł':'L','ł':'l','Đ':'D','đ':'d','Ð':'D','ð':'d','Þ':'TH','þ':'th','ı':'i','Ħ':'H','ħ':'h'};
+function normSpaces(s){return (s||'').replace(/[\u2019'`\u02BC\u00B7\u2027]/g,'').replace(/[ÆæŒœØøŁłĐđÐðÞþıĦħ]/g,c=>LAT_EXTRA[c]).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z ]/g,' ').replace(/\s+/g,' ').trim();}
 function isVowelAt(word,i,mode){
   const ch=word[i];
   if(VOWELS.indexOf(ch)>=0)return true;
@@ -638,7 +641,7 @@ const I18N={
   savedEye:"Portrete păstrate local",savedTitle:"Portretele tale salvate",savedDesc:"Salvate doar în acest browser (fără server, fără telemetrie).",noSaved:"Niciun portret salvat încă. Calculează un portret și apasă „Salvează”.",load:"Încarcă",del:"Șterge",confirmDel:"Ștergi acest portret salvat?",saveOk:"Portret salvat.",saveNeedData:"Completează numele sau data nașterii înainte de a salva.",shareOk:"Link copiat în clipboard.",shareFail:"Nu am putut copia automat — copiază din bara de adrese.",
   themeT:"Comută tema",printT:"Tipărește / salvează PDF",close:"Închide",demoName:"Maria Ionescu",
   note1:"<b>Despre metodă:</b> aplicația folosește numerologia pitagoreică (cu opțiune chaldeană), păstrând numerele maestru 11/22/33 și marcând datoriile karmice 13/14/16/19. Calculele sunt afișate transparent, pas cu pas.",
-  note2:"<b>Notă onestă:</b> numerologia este un sistem simbolic tradițional, oferit pentru reflecție personală și explorare culturală — nu o știință. Folosește-l ca oglindă, nu ca predicție."},
+  note2:"<b>Notă onestă:</b> numerologia este un sistem simbolic tradițional, oferit pentru reflecție personală și explorare culturală — nu o știință. Folosește-l ca oglindă, nu ca predicție. Același lucru este valabil pentru secțiunile BaZi, astrologie și bioritm — sisteme tradiționale sau populare, fără validare științifică."},
  en:{appTitle:"Numerology",appSub:"Complete numeric portrait",
   tabProfile:"Profile",tabCycles:"Cycles",tabGrid:"Birth grid",tabName:"Name calculator",tabCompat:"Compatibility",tabUniverse:"Universal & Reference",tabSaved:"Saved",
   fldName:"Full birth name",hintName:"Use the full name given at birth for classic results. Diacritics are normalized.",fldBirth:"Date of birth",phName:"e.g. Mary Johnson",phWord:"e.g. Echo of the Strings",phOpt:"optional",
@@ -664,7 +667,7 @@ const I18N={
   savedEye:"Portraits kept locally",savedTitle:"Your saved portraits",savedDesc:"Saved only in this browser (no server, no telemetry).",noSaved:"No saved portraits yet. Calculate a portrait and press \u201cSave\u201d.",load:"Load",del:"Delete",confirmDel:"Delete this saved portrait?",saveOk:"Portrait saved.",saveNeedData:"Enter a name or date of birth before saving.",shareOk:"Link copied to clipboard.",shareFail:"Couldn't copy automatically — copy it from the address bar.",
   themeT:"Toggle theme",printT:"Print / save PDF",close:"Close",demoName:"Mary Johnson",
   note1:"<b>On method:</b> the app uses Pythagorean numerology (with a Chaldean option), preserving master numbers 11/22/33 and flagging karmic debts 13/14/16/19. Every calculation is shown transparently, step by step.",
-  note2:"<b>An honest note:</b> numerology is a traditional symbolic system, offered for personal reflection and cultural exploration — not a science. Use it as a mirror, not a prediction."}};
+  note2:"<b>An honest note:</b> numerology is a traditional symbolic system, offered for personal reflection and cultural exploration — not a science. Use it as a mirror, not a prediction. The same applies to the BaZi, astrology and biorhythm sections — traditional or popular systems without scientific validation."}};
 /* ===== Romance language packs (merged into base objects with EN fallback) ===== */
 const EXTRA={};
 
@@ -694,7 +697,7 @@ I18N.it={appTitle:"Numerologia",appSub:"Ritratto numerico completo",
  savedEye:"Ritratti conservati localmente",savedTitle:"I tuoi ritratti salvati",savedDesc:"Salvati solo in questo browser (nessun server, nessuna telemetria).",noSaved:"Nessun ritratto salvato. Calcola un ritratto e premi \u201cSalva\u201d.",load:"Carica",del:"Elimina",confirmDel:"Eliminare questo ritratto salvato?",saveOk:"Ritratto salvato.",saveNeedData:"Inserisci un nome o una data di nascita prima di salvare.",shareOk:"Link copiato negli appunti.",shareFail:"Impossibile copiare automaticamente — copialo dalla barra degli indirizzi.",
  themeT:"Cambia tema",printT:"Stampa / salva PDF",close:"Chiudi",demoName:"Maria Rossi",
  note1:"<b>Sul metodo:</b> l'app usa la numerologia pitagorica (con opzione caldea), conservando i numeri maestri 11/22/33 e segnalando i debiti karmici 13/14/16/19. Ogni calcolo è mostrato in modo trasparente, passo dopo passo.",
- note2:"<b>Nota onesta:</b> la numerologia è un sistema simbolico tradizionale, offerto per la riflessione personale e l'esplorazione culturale — non una scienza. Usalo come uno specchio, non come una previsione."};
+ note2:"<b>Nota onesta:</b> la numerologia è un sistema simbolico tradizionale, offerto per la riflessione personale e l'esplorazione culturale — non una scienza. Usalo come uno specchio, non come una previsione. Lo stesso vale per le sezioni BaZi, astrologia e bioritmo — sistemi tradizionali o popolari, privi di validazione scientifica."};
 
 EXTRA.it={
  CORE:{
@@ -780,7 +783,7 @@ I18N.es={appTitle:"Numerología",appSub:"Retrato numérico completo",
  savedEye:"Retratos guardados localmente",savedTitle:"Tus retratos guardados",savedDesc:"Guardados solo en este navegador (sin servidor, sin telemetría).",noSaved:"Aún no hay retratos guardados. Calcula un retrato y pulsa \u201cGuardar\u201d.",load:"Cargar",del:"Eliminar",confirmDel:"¿Eliminar este retrato guardado?",saveOk:"Retrato guardado.",saveNeedData:"Introduce un nombre o una fecha de nacimiento antes de guardar.",shareOk:"Enlace copiado al portapapeles.",shareFail:"No se pudo copiar automáticamente — cópialo de la barra de direcciones.",
  themeT:"Cambiar tema",printT:"Imprimir / guardar PDF",close:"Cerrar",demoName:"María García",
  note1:"<b>Sobre el método:</b> la app usa numerología pitagórica (con opción caldea), conservando los números maestros 11/22/33 y señalando las deudas kármicas 13/14/16/19. Cada cálculo se muestra de forma transparente, paso a paso.",
- note2:"<b>Nota honesta:</b> la numerología es un sistema simbólico tradicional, ofrecido para la reflexión personal y la exploración cultural — no una ciencia. Úsala como un espejo, no como una predicción."};
+ note2:"<b>Nota honesta:</b> la numerología es un sistema simbólico tradicional, ofrecido para la reflexión personal y la exploración cultural — no una ciencia. Úsala como un espejo, no como una predicción. Lo mismo vale para las secciones de BaZi, astrología y biorritmo: sistemas tradicionales o populares sin validación científica."};
 
 EXTRA.es={
  CORE:{
@@ -866,7 +869,7 @@ I18N.fr={appTitle:"Numérologie",appSub:"Portrait numérique complet",
  savedEye:"Portraits conservés localement",savedTitle:"Vos portraits enregistrés",savedDesc:"Enregistrés uniquement dans ce navigateur (aucun serveur, aucune télémétrie).",noSaved:"Aucun portrait enregistré pour l'instant. Calculez un portrait et appuyez sur \u201cEnregistrer\u201d.",load:"Charger",del:"Supprimer",confirmDel:"Supprimer ce portrait enregistré ?",saveOk:"Portrait enregistré.",saveNeedData:"Saisissez un nom ou une date de naissance avant d'enregistrer.",shareOk:"Lien copié dans le presse-papiers.",shareFail:"Impossible de copier automatiquement — copiez-le depuis la barre d'adresse.",
  themeT:"Changer de thème",printT:"Imprimer / enregistrer en PDF",close:"Fermer",demoName:"Marie Dubois",
  note1:"<b>À propos de la méthode :</b> l'app utilise la numérologie pythagoricienne (avec une option chaldéenne), en conservant les nombres maîtres 11/22/33 et en signalant les dettes karmiques 13/14/16/19. Chaque calcul est montré de façon transparente, étape par étape.",
- note2:"<b>Note honnête :</b> la numérologie est un système symbolique traditionnel, proposé pour la réflexion personnelle et l'exploration culturelle — pas une science. Utilisez-la comme un miroir, non comme une prédiction."};
+ note2:"<b>Note honnête :</b> la numérologie est un système symbolique traditionnel, proposé pour la réflexion personnelle et l'exploration culturelle — pas une science. Utilisez-la comme un miroir, non comme une prédiction. Il en va de même pour les sections BaZi, astrologie et biorythme — des systèmes traditionnels ou populaires, sans validation scientifique."};
 
 EXTRA.fr={
  CORE:{
@@ -952,7 +955,7 @@ I18N.pt={appTitle:"Numerologia",appSub:"Retrato numérico completo",
  savedEye:"Retratos guardados localmente",savedTitle:"Os seus retratos guardados",savedDesc:"Guardados apenas neste navegador (sem servidor, sem telemetria).",noSaved:"Ainda não há retratos guardados. Calcule um retrato e prima \u201cGuardar\u201d.",load:"Carregar",del:"Eliminar",confirmDel:"Eliminar este retrato guardado?",saveOk:"Retrato guardado.",saveNeedData:"Introduza um nome ou uma data de nascimento antes de guardar.",shareOk:"Link copiado para a área de transferência.",shareFail:"Não foi possível copiar automaticamente — copie da barra de endereço.",
  themeT:"Mudar tema",printT:"Imprimir / guardar PDF",close:"Fechar",demoName:"Maria Silva",
  note1:"<b>Sobre o método:</b> a app usa numerologia pitagórica (com opção caldeia), conservando os números mestres 11/22/33 e assinalando as dívidas cármicas 13/14/16/19. Cada cálculo é mostrado de forma transparente, passo a passo.",
- note2:"<b>Nota honesta:</b> a numerologia é um sistema simbólico tradicional, oferecido para a reflexão pessoal e a exploração cultural — não uma ciência. Use-a como um espelho, não como uma previsão."};
+ note2:"<b>Nota honesta:</b> a numerologia é um sistema simbólico tradicional, oferecido para a reflexão pessoal e a exploração cultural — não uma ciência. Use-a como um espelho, não como uma previsão. O mesmo vale para as secções de BaZi, astrologia e biorritmo — sistemas tradicionais ou populares, sem validação científica."};
 
 EXTRA.pt={
  CORE:{
@@ -1038,7 +1041,7 @@ I18N.ca={appTitle:"Numerologia",appSub:"Retrat numèric complet",
  savedEye:"Retrats desats localment",savedTitle:"Els vostres retrats desats",savedDesc:"Desats només en aquest navegador (sense servidor, sense telemetria).",noSaved:"Encara no hi ha retrats desats. Calculeu un retrat i premeu \u201cDesa\u201d.",load:"Carrega",del:"Elimina",confirmDel:"Voleu eliminar aquest retrat desat?",saveOk:"Retrat desat.",saveNeedData:"Introduïu un nom o una data de naixement abans de desar.",shareOk:"Enllaç copiat al porta-retalls.",shareFail:"No s'ha pogut copiar automàticament — copieu-lo de la barra d'adreces.",
  themeT:"Canvia el tema",printT:"Imprimeix / desa en PDF",close:"Tanca",demoName:"Maria Garcia",
  note1:"<b>Sobre el mètode:</b> l'aplicació usa numerologia pitagòrica (amb opció caldea), conservant els nombres mestres 11/22/33 i assenyalant els deutes kàrmics 13/14/16/19. Cada càlcul es mostra de manera transparent, pas a pas.",
- note2:"<b>Nota honesta:</b> la numerologia és un sistema simbòlic tradicional, ofert per a la reflexió personal i l'exploració cultural — no una ciència. Useu-la com un mirall, no com una predicció."};
+ note2:"<b>Nota honesta:</b> la numerologia és un sistema simbòlic tradicional, ofert per a la reflexió personal i l'exploració cultural — no una ciència. Useu-la com un mirall, no com una predicció. El mateix val per a les seccions de BaZi, astrologia i biorritme: sistemes tradicionals o populars sense validació científica."};
 
 EXTRA.ca={
  CORE:{
@@ -1127,7 +1130,10 @@ function esc(s){return (s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;
 function coreFor(v){return CORE[v]||CORE[root(v)];}
 function badge(v){return MASTERS.indexOf(v)>=0?(v+' / '+root(v)):String(v);}
 function stepsStr(a){return a.join(' → ');}
-function readDate(val){if(!val)return null;const p=val.split('-');if(p.length!==3)return null;const y=+p[0],m=+p[1],d=+p[2];if(!y||!m||!d||m>12||d>31)return null;return {y:y,m:m,d:d};}
+function readDate(val){if(!val)return null;const p=val.split('-');if(p.length!==3)return null;const y=+p[0],m=+p[1],d=+p[2];if(!y||!m||!d||m>12||d>31)return null;
+  if(!Number.isInteger(y)||!Number.isInteger(m)||!Number.isInteger(d)||y<1||y>9999||m<1||d<1)return null;
+  const dim=[31,(y%4===0&&(y%100!==0||y%400===0))?29:28,31,30,31,30,31,31,30,31,30,31][m-1]; if(d>dim)return null; /* 31 feb etc. */
+  return {y:y,m:m,d:d};}
 function fmtDate(o){const months=MONTHS[state.lang]||MONTHS.en;return o.d+' '+months[o.m-1]+' '+o.y;}
 function todayISO(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 let toastT; function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2600);}
@@ -1175,6 +1181,7 @@ function computeProfile(){
   const rawName=$('inName').value.trim(); const dv=$('inDate').value;
   state.name=rawName; state.date=dv||null; const dt=readDate(dv);
   const norm=normSpaces(rawName); const hasName=norm.replace(/ /g,'').length>0;
+  if(rawName&&!hasName)toast(t('nameNoLatin')); /* nume doar cu alfabet ne-latin: înainte era ignorat în tăcere */
   if(!hasName&&!dt){profile=null;return;}
   const map=state.sys==='chal'?CHAL:PYTH; const P={name:rawName,date:dt,hasName:hasName,hasDate:!!dt};
   if(dt){P.lp=lifePath(dt.d,dt.m,dt.y);P.birthday=reduce(dt.d);P.pc=pinChal(dt.d,dt.m,dt.y,P.lp.single);}
@@ -1306,6 +1313,7 @@ function renderGrid(){
 /* ---------- render: name calculator ---------- */
 function renderName(){
   const w=$('inWord').value.trim(); const box=$('nameOut'); if(!w){box.innerHTML='';return;}
+  if(!normSpaces(w).replace(/ /g,'')){box.innerHTML='<div class="card"><p style="margin:0;color:var(--wine)">'+t('nameNoLatin')+'</p></div>';return;}
   const py=nameNumbers(w,'pyth',state.ymode); const ch=nameNumbers(w,'chal',state.ymode);
   let h='<div class="card"><div style="font-family:var(--serif);font-size:18px;margin-bottom:8px;color:var(--gild)">'+esc(w)+'</div>';
   h+='<table class="t"><thead><tr><th></th><th>'+t('pyth')+'</th><th>'+t('chal')+'</th></tr></thead><tbody>';
@@ -1419,7 +1427,7 @@ function renderUniverse(){
 
 /* ---------- saved (localStorage, guarded) ---------- */
 const SKEY='numerologie_saved_v1';
-function getSaved(){try{return JSON.parse(localStorage.getItem(SKEY)||'[]');}catch(e){return [];}}function setSaved(a){try{localStorage.setItem(SKEY,JSON.stringify(a));}catch(e){}}
+function getSaved(){try{const a=JSON.parse(localStorage.getItem(SKEY)||'[]');return Array.isArray(a)?a.filter(x=>x&&typeof x==='object'):[];}catch(e){return [];}}function setSaved(a){try{localStorage.setItem(SKEY,JSON.stringify(a));}catch(e){}}
 function prefGet(k){try{return localStorage.getItem('num_pref_'+k);}catch(e){return null;}}
 function prefSet(k,v){try{localStorage.setItem('num_pref_'+k,v);}catch(e){}}
 function renderSaved(){
@@ -1467,8 +1475,9 @@ function updateHash(){
 }
 function parseHash(){
   const hsh=location.hash.replace(/^#/,''); if(!hsh)return; const p={};
-  hsh.split('&').forEach(kv=>{const i=kv.indexOf('=');if(i>0)p[kv.slice(0,i)]=decodeURIComponent(kv.slice(i+1));});
-  if(p.l&&I18N[p.l])state.lang=p.l; if(p.s&&(p.s==='pyth'||p.s==='chal'))state.sys=p.s;
+  const dec=s=>{try{return decodeURIComponent(s);}catch(e){return s;}}; /* un % malformat în #hash arunca URIError la pornire și bloca aplicația */
+  hsh.split('&').forEach(kv=>{const i=kv.indexOf('=');if(i>0)p[kv.slice(0,i)]=dec(kv.slice(i+1));});
+  if(p.l&&Object.prototype.hasOwnProperty.call(I18N,p.l))state.lang=p.l; if(p.s&&(p.s==='pyth'||p.s==='chal'))state.sys=p.s;
   if(p.n)$('inName').value=p.n; if(p.d)$('inDate').value=p.d;
   if(p.t&&$('inTime')&&/^\d{1,2}:\d{2}/.test(p.t))$('inTime').value=p.t;
 }
@@ -1846,7 +1855,10 @@ async function aiChat(messages,onToken,onDone,onError){
   const url=base+'/chat/completions';
   const headers={'Content-Type':'application/json'}; if(key)headers['Authorization']='Bearer '+key;
   try{
-    const res=await fetch(url,{method:'POST',headers:headers,body:JSON.stringify({model:model,messages:messages,stream:true,temperature:0.75})});
+    /* timeout pe conexiune: altfel un endpoint blocat lăsa aiBusy=true până la reîncărcare */
+    const ctl=(typeof AbortController==='function')?new AbortController():null; const to=ctl?setTimeout(()=>ctl.abort(),120000):null;
+    const res=await fetch(url,{method:'POST',headers:headers,body:JSON.stringify({model:model,messages:messages,stream:true,temperature:0.75}),signal:ctl?ctl.signal:undefined});
+    if(to)clearTimeout(to);
     if(!res.ok){let tx='';try{tx=await res.text();}catch(e){} onError('HTTP '+res.status+(tx?': '+tx.slice(0,160):'')); return;}
     if(!res.body||!res.body.getReader){ try{const j=await res.json();const c=j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content;if(c)onToken(c);onDone();}catch(e){onError(String(e&&e.message||e));} return; }
     const reader=res.body.getReader(),dec=new TextDecoder(); let buf='';
@@ -2084,6 +2096,16 @@ window.closeReport=function(){document.body.classList.remove('report-open');cons
 ["ca",{rptNumbers:"Números clau",rptCycles:"Cicles ara",rptAstro:"Astrologia",rptGenerated:"Generat",rptDisclaimer:"NumeroLogIA — per a reflexió i entreteniment, no una predicció determinista ni un consell professional.",rptPrint:"Desa com a PDF / Imprimeix",rptClose:"Tanca",rptCompareTitle:"Informe de compatibilitat",btnReport:"Informe PDF",btnReportCompare:"Informe comparatiu PDF"}]
 ].forEach(function(e){Object.assign(I18N[e[0]],e[1]);});
 
+/* --- notă: nume fără litere latine (7 limbi) --- */
+[["ro",{nameNoLatin:"Nu am găsit litere latine — se convertesc doar literele A–Z (inclusiv cu diacritice). Transliterează numele (ex. Александр → Aleksandr)."}],
+["en",{nameNoLatin:"No Latin letters found — only A–Z letters (including accented ones) can be converted. Please transliterate the name (e.g. Александр → Aleksandr)."}],
+["it",{nameNoLatin:"Nessuna lettera latina trovata — si convertono solo le lettere A–Z (anche accentate). Traslittera il nome (es. Александр → Aleksandr)."}],
+["es",{nameNoLatin:"No se encontraron letras latinas: solo se convierten las letras A–Z (también con acentos). Translitera el nombre (p. ej. Александр → Aleksandr)."}],
+["fr",{nameNoLatin:"Aucune lettre latine trouvée — seules les lettres A–Z (accentuées comprises) sont converties. Translittérez le nom (ex. Александр → Aleksandr)."}],
+["pt",{nameNoLatin:"Nenhuma letra latina encontrada — só se convertem as letras A–Z (também acentuadas). Transliterar o nome (ex. Александр → Aleksandr)."}],
+["ca",{nameNoLatin:"No s'han trobat lletres llatines: només es converteixen les lletres A–Z (també amb accents). Translitereu el nom (p. ex. Александр → Aleksandr)."}]
+].forEach(function(e){Object.assign(I18N[e[0]],e[1]);});
+
 /* ---------- events ---------- */
 $('langSel').addEventListener('change',()=>{state.lang=$('langSel').value;prefSet('lang',state.lang);$('numDetail').style.display='none';applyI18N();renderTab(state.tab);updateHash();});
 document.querySelectorAll('#sysSeg button').forEach(b=>b.addEventListener('click',()=>{state.sys=b.dataset.sys;prefSet('sys',state.sys);document.querySelectorAll('#sysSeg button').forEach(x=>x.classList.toggle('on',x===b));$('numDetail').style.display='none';computeProfile();renderTab(state.tab);updateHash();}));
@@ -2112,7 +2134,7 @@ window.addEventListener('hashchange',()=>{});
 (function init(){
   const savedTheme=prefGet('theme'); if(savedTheme==='light'||savedTheme==='dark')document.body.dataset.theme=savedTheme;
   state.lang=detectLang();
-  const savedLang=prefGet('lang'); if(savedLang&&I18N[savedLang])state.lang=savedLang;
+  const savedLang=prefGet('lang'); if(savedLang&&Object.prototype.hasOwnProperty.call(I18N,savedLang))state.lang=savedLang;
   const savedSys=prefGet('sys'); if(savedSys==='pyth'||savedSys==='chal')state.sys=savedSys;
   parseHash();
   document.querySelectorAll('#sysSeg button').forEach(x=>x.classList.toggle('on',x.dataset.sys===state.sys));
