@@ -7,8 +7,8 @@
 <style>
 :root{
   --bg:#0a0d18; --bg2:#0d1120; --surf:#12172a; --surf2:#171d33; --line:#262d47;
-  --ink:#ece8dd; --mut:#9aa0bd; --faint:#6a7095;
-  --gild:#d4af6a; --gild2:#b8954f; --cele:#8497d2; --verd:#5fa8a0; --wine:#c07a8c;
+  --ink:#ece8dd; --mut:#9aa0bd; --faint:#8890b5;
+  --gild:#d4af6a; --gild-t:#d4af6a; --gild2:#b8954f; --cele:#8497d2; --verd:#5fa8a0; --wine:#c07a8c;
   --good:#6db98f; --warn:#d6a35a; --bad:#c4707f;
   --serif:"Palatino Linotype","Palatino","Book Antiqua",Georgia,"Times New Roman",serif;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -17,9 +17,9 @@
 }
 [data-theme="light"]{
   --bg:#efe9da; --bg2:#e9e2cf; --surf:#fbf7ec; --surf2:#f4eedd; --line:#dccfb3;
-  --ink:#221f33; --mut:#5e5a6e; --faint:#8a8497;
-  --gild:#a8801f; --gild2:#8c6a16; --cele:#4b5aa0; --verd:#3f817a; --wine:#9a4f63;
-  --good:#3d8b62; --warn:#a8751f; --bad:#9a4f5e;
+  --ink:#221f33; --mut:#5e5a6e; --faint:#625c73;
+  --gild:#a8801f; --gild-t:#7d5f12; --gild2:#8c6a16; --cele:#4b5aa0; --verd:#3f817a; --wine:#9a4f63;
+  --good:#276a46; --warn:#a8751f; --bad:#9a4f5e;
   --sh:0 14px 34px -22px rgba(60,50,20,.45);
 }
 *{box-sizing:border-box}
@@ -34,25 +34,25 @@ header.top{display:flex; align-items:flex-end; justify-content:space-between; ga
 .sigil{width:54px; height:54px; flex:none}
 .sigil svg{width:100%; height:100%; display:block}
 .brand h1{font-family:var(--serif); font-weight:600; font-size:clamp(22px,3.4vw,30px); margin:0; letter-spacing:.06em; line-height:1.05;}
-.brand h1 .sub{display:block; font-size:12.5px; letter-spacing:.34em; text-transform:uppercase; color:var(--gild); font-weight:500; margin-top:5px; font-family:var(--sans)}
+.brand h1 .sub{display:block; font-size:12.5px; letter-spacing:.34em; text-transform:uppercase; color:var(--gild-t); font-weight:500; margin-top:5px; font-family:var(--sans)}
 .controls{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
 .seg{display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; background:var(--surf)}
 .seg button{background:none; border:none; color:var(--mut); font-family:var(--sans); font-size:12.5px; padding:7px 13px; cursor:pointer; letter-spacing:.04em; transition:.15s;}
 .seg button.on{background:var(--gild); color:#1a1408; font-weight:600}
 .seg button:not(.on):hover{color:var(--ink)}
 .icon-btn{background:var(--surf); border:1px solid var(--line); color:var(--mut); width:36px; height:34px; border-radius:9px; cursor:pointer; font-size:15px; display:grid; place-items:center; transition:.15s;}
-.icon-btn:hover{color:var(--gild); border-color:var(--gild2)}
+.icon-btn:hover{color:var(--gild-t); border-color:var(--gild2)}
 .lang-sel{background:var(--surf); border:1px solid var(--line); color:var(--ink); font-family:var(--sans); font-size:13px; padding:7px 28px 7px 12px; border-radius:999px; cursor:pointer; appearance:none; -webkit-appearance:none; background-image:linear-gradient(45deg,transparent 50%,var(--gild) 50%),linear-gradient(135deg,var(--gild) 50%,transparent 50%); background-position:calc(100% - 14px) center,calc(100% - 9px) center; background-size:5px 5px,5px 5px; background-repeat:no-repeat;}
 .lang-sel:hover{border-color:var(--gild2)}
 .lang-sel:focus{outline:none; border-color:var(--gild); box-shadow:0 0 0 3px rgba(212,175,106,.16)}
 .detail-close{position:absolute; top:12px; right:14px; width:30px; height:30px; border-radius:8px; border:1px solid var(--line); background:var(--surf2); color:var(--mut); font-size:20px; line-height:1; cursor:pointer; transition:.15s; z-index:2}
-.detail-close:hover{color:var(--gild); border-color:var(--gild2)}
+.detail-close:hover{color:var(--gild-t); border-color:var(--gild2)}
 :focus-visible{outline:2px solid var(--gild); outline-offset:2px; border-radius:4px}
 .med:focus-visible,.mini:focus-visible{outline:2px solid var(--gild); outline-offset:2px}
 nav.tabs{display:flex; gap:4px; flex-wrap:wrap; border-bottom:1px solid var(--line); margin:6px 0 22px;}
 nav.tabs button{background:none; border:none; border-bottom:2px solid transparent; color:var(--mut); font-family:var(--sans); font-size:14px; padding:11px 15px 12px; cursor:pointer; letter-spacing:.02em; transition:.15s; margin-bottom:-1px; white-space:nowrap;}
 nav.tabs button:hover{color:var(--ink)}
-nav.tabs button.on{color:var(--gild); border-bottom-color:var(--gild)}
+nav.tabs button.on{color:var(--gild-t); border-bottom-color:var(--gild)}
 .panel{display:none; animation:fade .4s ease both}
 .panel.on{display:block}
 @keyframes fade{from{opacity:0; transform:translateY(8px)}to{opacity:1; transform:none}}
@@ -67,12 +67,12 @@ nav.tabs button.on{color:var(--gild); border-bottom-color:var(--gild)}
 .btn{background:linear-gradient(180deg,var(--gild),var(--gild2)); color:#1a1408; border:none; font-family:var(--sans); font-weight:600; font-size:14.5px; letter-spacing:.03em; padding:12px 24px; border-radius:10px; cursor:pointer; transition:.15s; box-shadow:0 8px 18px -10px rgba(212,175,106,.7);}
 .btn:hover{filter:brightness(1.06); transform:translateY(-1px)}
 .btn.ghost{background:none; border:1px solid var(--line); color:var(--mut); box-shadow:none; font-weight:500}
-.btn.ghost:hover{color:var(--gild); border-color:var(--gild2); transform:none}
+.btn.ghost:hover{color:var(--gild-t); border-color:var(--gild2); transform:none}
 .btn-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:4px}
 .sec-h{font-family:var(--serif); font-size:20px; font-weight:600; letter-spacing:.03em; margin:30px 0 4px; display:flex; align-items:center; gap:12px;}
 .sec-h::before{content:""; width:22px; height:1px; background:var(--gild); flex:none}
 .sec-sub{color:var(--mut); font-size:13.5px; margin:0 0 16px 34px}
-.eyebrow{font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:var(--gild); font-weight:600; margin:0 0 3px}
+.eyebrow{font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:var(--gild-t); font-weight:600; margin:0 0 3px}
 .med-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); gap:14px}
 .med{background:var(--surf2); border:1px solid var(--line); border-radius:var(--r); padding:18px 16px 16px; text-align:center; cursor:pointer; transition:.18s; position:relative; overflow:hidden;}
 .med:hover{border-color:var(--gild2); transform:translateY(-2px)}
@@ -80,7 +80,7 @@ nav.tabs button.on{color:var(--gild); border-bottom-color:var(--gild)}
 .med .lbl{font-size:11px; letter-spacing:.13em; text-transform:uppercase; color:var(--faint); font-weight:600; min-height:26px; display:flex; align-items:center; justify-content:center}
 .disc{width:78px; height:78px; margin:8px auto 6px; border-radius:50%; position:relative; display:grid; place-items:center; background:radial-gradient(circle at 50% 36%, var(--surf) 0%, var(--bg2) 75%); border:1px solid var(--gild2);}
 .disc::before{content:""; position:absolute; inset:5px; border-radius:50%; border:1px solid rgba(212,175,106,.25)}
-.disc .num{font-family:var(--serif); font-size:34px; font-weight:600; color:var(--gild); line-height:1}
+.disc .num{font-family:var(--serif); font-size:34px; font-weight:600; color:var(--gild-t); line-height:1}
 .med.master .disc{border-color:var(--gild); box-shadow:0 0 22px -6px rgba(212,175,106,.55)}
 .med .root{font-family:var(--mono); font-size:11px; color:var(--cele); margin-top:1px}
 .med .steps{font-family:var(--mono); font-size:11px; color:var(--faint); margin-top:5px; word-break:break-word}
@@ -91,14 +91,14 @@ nav.tabs button.on{color:var(--gild); border-bottom-color:var(--gild)}
 .readout .kw{color:var(--cele); font-size:13px; font-family:var(--mono); margin:0 0 10px; letter-spacing:.02em}
 .readout p{margin:0 0 9px; font-size:14.5px; color:var(--ink)}
 .readout .ls{display:flex; gap:18px; flex-wrap:wrap; margin-top:10px; font-size:13px}
-.readout .ls b{display:block; color:var(--gild); font-size:11px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:2px}
+.readout .ls b{display:block; color:var(--gild-t); font-size:11px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:2px}
 .ls .light{color:var(--good)} .ls .shadow{color:var(--wine)}
 .readout .assoc-inline{margin-top:12px; font-size:12.5px; color:var(--mut); border-top:1px solid var(--line); padding-top:10px}
 .readout .assoc-inline span{color:var(--ink)}
 table.t{width:100%; border-collapse:collapse; font-size:13.5px}
 table.t th, table.t td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--line)}
 table.t th{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); font-weight:600}
-table.t td .v{font-family:var(--mono); color:var(--gild); font-weight:600}
+table.t td .v{font-family:var(--mono); color:var(--gild-t); font-weight:600}
 table.t tr:hover td{background:var(--surf2)}
 .pill{display:inline-block; font-size:11px; padding:2px 9px; border-radius:99px; border:1px solid var(--line); color:var(--mut)}
 .pill.good{color:var(--good); border-color:var(--good)}
@@ -107,7 +107,7 @@ table.t tr:hover td{background:var(--surf2)}
 .loshu{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; max-width:330px; margin:6px auto 8px; aspect-ratio:1}
 .loshu .cell{background:var(--surf2); border:1px solid var(--line); border-radius:12px; display:flex; align-items:center; justify-content:center; flex-direction:column; min-height:88px; position:relative;}
 .loshu .cell.filled{border-color:var(--gild2)}
-.loshu .cell .digits{font-family:var(--serif); font-size:24px; color:var(--gild); letter-spacing:2px; font-weight:600}
+.loshu .cell .digits{font-family:var(--serif); font-size:24px; color:var(--gild-t); letter-spacing:2px; font-weight:600}
 .loshu .cell .empty{font-family:var(--serif); font-size:20px; color:var(--faint); opacity:.45}
 .loshu .cell .pos{position:absolute; top:6px; left:9px; font-family:var(--mono); font-size:10px; color:var(--faint)}
 .arrow-list{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:10px; margin-top:6px}
@@ -127,17 +127,17 @@ table.t tr:hover td{background:var(--surf2)}
 @media(max-width:560px){.three{grid-template-columns:1fr}}
 .mini{background:var(--surf2); border:1px solid var(--line); border-radius:12px; padding:16px; text-align:center}
 .mini .l{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); font-weight:600}
-.mini .n{font-family:var(--serif); font-size:40px; color:var(--gild); font-weight:600; line-height:1.1; margin:4px 0}
+.mini .n{font-family:var(--serif); font-size:40px; color:var(--gild-t); font-weight:600; line-height:1.1; margin:4px 0}
 .mini .d{font-size:12.5px; color:var(--mut)}
 .compat-head{text-align:center; padding:8px 0 4px}
-.compat-head .score{font-family:var(--serif); font-size:54px; color:var(--gild); font-weight:600; line-height:1}
+.compat-head .score{font-family:var(--serif); font-size:54px; color:var(--gild-t); font-weight:600; line-height:1}
 .compat-head .lbl{font-size:13px; color:var(--mut); letter-spacing:.04em}
 .bar-track{height:9px; background:var(--bg2); border:1px solid var(--line); border-radius:99px; overflow:hidden; margin:10px 0}
 .bar-fill{height:100%; background:linear-gradient(90deg,var(--wine),var(--gild),var(--good)); border-radius:99px; transition:width .6s}
 .ref-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px}
 .ref-card{background:var(--surf2); border:1px solid var(--line); border-radius:12px; padding:16px 18px}
 .ref-card .rh{display:flex; align-items:center; gap:12px; margin-bottom:8px}
-.ref-card .rdisc{width:46px; height:46px; border-radius:50%; border:1px solid var(--gild2); display:grid; place-items:center; font-family:var(--serif); font-size:22px; color:var(--gild); font-weight:600; flex:none; background:var(--bg2)}
+.ref-card .rdisc{width:46px; height:46px; border-radius:50%; border:1px solid var(--gild2); display:grid; place-items:center; font-family:var(--serif); font-size:22px; color:var(--gild-t); font-weight:600; flex:none; background:var(--bg2)}
 .ref-card .rt{font-family:var(--serif); font-size:16px; font-weight:600}
 .ref-card .rk{font-size:11.5px; color:var(--cele); font-family:var(--mono)}
 .ref-card>p{font-size:13px; color:var(--mut); margin:6px 0}
@@ -145,18 +145,18 @@ table.t tr:hover td{background:var(--surf2)}
 .assoc dt{color:var(--faint); text-transform:uppercase; font-size:10.5px; letter-spacing:.06em; padding-top:2px}
 .assoc dd{margin:0; color:var(--ink)}
 .empty-note{text-align:center; color:var(--mut); padding:40px 20px; font-size:14px}
-.empty-note .big{font-family:var(--serif); font-size:40px; color:var(--gild); opacity:.5; display:block; margin-bottom:8px}
+.empty-note .big{font-family:var(--serif); font-size:40px; color:var(--gild-t); opacity:.5; display:block; margin-bottom:8px}
 .note{font-size:12.5px; color:var(--faint); line-height:1.55; border-top:1px solid var(--line); margin-top:30px; padding-top:16px}
 .note b{color:var(--mut)}
 .calc-result{display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px; margin-top:14px}
 .breakdown{font-family:var(--mono); font-size:13px; color:var(--mut); background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-top:12px; line-height:2; word-break:break-word}
-.breakdown .hl{color:var(--gild)} .breakdown .vw{color:var(--wine)}
+.breakdown .hl{color:var(--gild-t)} .breakdown .vw{color:var(--wine)}
 .saved-item{display:flex; align-items:center; justify-content:space-between; gap:12px; background:var(--surf2); border:1px solid var(--line); border-radius:11px; padding:12px 16px; margin-bottom:8px}
 .saved-item .si-name{font-family:var(--serif); font-size:15px}
 .saved-item .si-meta{font-size:12px; color:var(--mut); font-family:var(--mono)}
 .saved-item .si-act{display:flex; gap:6px}
 .xbtn{background:none; border:1px solid var(--line); color:var(--mut); border-radius:8px; padding:5px 11px; cursor:pointer; font-size:12.5px; transition:.15s}
-.xbtn:hover{border-color:var(--gild2); color:var(--gild)}
+.xbtn:hover{border-color:var(--gild2); color:var(--gild-t)}
 .xbtn.del:hover{border-color:var(--bad); color:var(--bad)}
 .toast{position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px); background:var(--surf); border:1px solid var(--gild2); color:var(--ink); padding:11px 20px; border-radius:10px; font-size:14px; box-shadow:var(--sh); opacity:0; transition:.3s; z-index:50; pointer-events:none}
 .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
@@ -166,12 +166,12 @@ body.report-open #reportView{display:block;position:fixed;inset:0;z-index:9999;o
 #reportView .report-toolbar{position:sticky;top:0;display:flex;gap:10px;justify-content:flex-end;padding:13px 20px;background:var(--surf);border-bottom:1px solid var(--line);z-index:2}
 #reportView .report-body{max-width:820px;margin:0 auto;padding:28px 28px 60px}
 #reportView .rpt-head{text-align:center;border-bottom:2px solid var(--gild);padding-bottom:15px;margin-bottom:6px}
-#reportView .rpt-mark{font-family:var(--mono);letter-spacing:.28em;text-transform:uppercase;font-size:11px;color:var(--gild)}
+#reportView .rpt-mark{font-family:var(--mono);letter-spacing:.28em;text-transform:uppercase;font-size:11px;color:var(--gild-t)}
 #reportView .rpt-head h1{font-family:var(--serif);font-size:29px;margin:8px 0 4px;color:var(--ink)}
 #reportView .rpt-sub{font-size:15px;color:var(--cele);margin:2px 0}
 #reportView .rpt-date{font-size:11.5px;color:var(--mut);margin:6px 0 0}
 #reportView .rpt-sec{margin-top:20px;break-inside:avoid}
-#reportView .rpt-sec h2{font-family:var(--serif);font-size:18px;color:var(--gild);border-bottom:1px solid var(--line);padding-bottom:5px;margin:0 0 9px}
+#reportView .rpt-sec h2{font-family:var(--serif);font-size:18px;color:var(--gild-t);border-bottom:1px solid var(--line);padding-bottom:5px;margin:0 0 9px}
 #reportView .rpt-row{display:flex;gap:12px;align-items:baseline;padding:5px 0;border-bottom:1px dotted var(--line)}
 #reportView .rpt-row .rl{width:180px;font-size:13px;color:var(--mut);flex-shrink:0}
 #reportView .rpt-row .rv{font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
@@ -179,7 +179,7 @@ body.report-open #reportView{display:block;position:fixed;inset:0;z-index:9999;o
 #reportView .rpt-pills{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
 #reportView .rpt-pill{flex:1;min-width:88px;text-align:center;border:1px solid var(--line);border-radius:10px;padding:9px 6px;background:var(--surf)}
 #reportView .rpt-pill .pl{font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.08em}
-#reportView .rpt-pill .pc{font-family:var(--serif);font-size:25px;color:var(--gild);margin:3px 0}
+#reportView .rpt-pill .pc{font-family:var(--serif);font-size:25px;color:var(--gild-t);margin:3px 0}
 #reportView .rpt-pill .pm{font-size:10px;color:var(--mut)}
 #reportView .rpt-chart{max-width:340px;margin:8px auto 0}
 #reportView .rpt-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
@@ -251,8 +251,8 @@ body.report-open #reportView{display:block;position:fixed;inset:0;z-index:9999;o
       <input id="inName" type="text" autocomplete="off" spellcheck="false" placeholder="ex: Maria Ionescu">
       <span class="hint" data-i="hintName">Folosește numele complet de la naștere pentru rezultate clasice. Diacriticele sunt normalizate.</span>
     </div>
-    <div class="field" style="flex:1 1 180px"><label data-i="fldBirth">Data nașterii</label><input id="inDate" type="date" min="1500-01-01" max="2200-12-31"></div>
-    <div class="field" style="flex:0 1 150px"><label data-i="fldTime">Ora nașterii (opțional)</label><input id="inTime" type="time"></div>
+    <div class="field" style="flex:1 1 180px"><label data-i="fldBirth" for="inDate">Data nașterii</label><input id="inDate" type="date" min="1500-01-01" max="2200-12-31"></div>
+    <div class="field" style="flex:0 1 150px"><label data-i="fldTime" for="inTime">Ora nașterii (opțional)</label><input id="inTime" type="time"></div>
     <div class="field" style="flex:0 0 auto; min-width:auto"><label>&nbsp;</label><button class="btn" id="calcBtn" data-i="btnCalc">Dezvăluie portretul</button></div>
   </div>
   <div class="btn-row">
@@ -298,11 +298,11 @@ body.report-open #reportView{display:block;position:fixed;inset:0;z-index:9999;o
     <div class="three" style="gap:18px">
       <div>
         <div class="field"><label data-i="pAName">Persoana 1 — nume</label><input id="p1name" type="text" autocomplete="off" placeholder="opțional"></div>
-        <div class="field" style="margin-top:10px"><label data-i="pABirth">Persoana 1 — data nașterii</label><input id="p1date" type="date" min="1500-01-01" max="2200-12-31"></div>
+        <div class="field" style="margin-top:10px"><label data-i="pABirth" for="p1date">Persoana 1 — data nașterii</label><input id="p1date" type="date" min="1500-01-01" max="2200-12-31"></div>
       </div>
       <div>
         <div class="field"><label data-i="pBName">Persoana 2 — nume</label><input id="p2name" type="text" autocomplete="off" placeholder="opțional"></div>
-        <div class="field" style="margin-top:10px"><label data-i="pBBirth">Persoana 2 — data nașterii</label><input id="p2date" type="date" min="1500-01-01" max="2200-12-31"></div>
+        <div class="field" style="margin-top:10px"><label data-i="pBBirth" for="p2date">Persoana 2 — data nașterii</label><input id="p2date" type="date" min="1500-01-01" max="2200-12-31"></div>
       </div>
       <div style="display:flex;align-items:flex-end"><button class="btn" id="compatBtn" style="width:100%" data-i="btnCompat">Analizează potrivirea</button></div>
     </div>
@@ -1206,7 +1206,7 @@ function renderProfile(){
   if(!profile){box.innerHTML='<div class="card"><div class="empty-note"><span class="big">&#8757;</span>'+t('fillPrompt')+'</div></div>';return;}
   const P=profile; let h='';
   h+='<div class="card" style="padding:14px 22px;display:flex;flex-wrap:wrap;gap:4px 18px;align-items:baseline">';
-  if(P.name)h+='<div style="font-family:var(--serif);font-size:18px">'+t('profileFor')+': <span style="color:var(--gild)">'+esc(P.name)+'</span></div>';
+  if(P.name)h+='<div style="font-family:var(--serif);font-size:18px">'+t('profileFor')+': <span style="color:var(--gild-t)">'+esc(P.name)+'</span></div>';
   if(P.date)h+='<div style="color:var(--mut);font-size:13.5px">'+t('born')+' '+fmtDate(P.date)+'</div>';
   h+='</div>';
   const triad=[];
@@ -1261,13 +1261,13 @@ function renderCycles(){
   const P=profile; const fdRaw=state.forecast||todayISO(); const fd=readDate(fdRaw)||readDate(todayISO());
   const pc=personalCycles(P.date.d,P.date.m,fd.y,fd.m,fd.d); const age=ageNow(P.date.d,P.date.m,P.date.y);
   let h='<h3 class="sec-h">'+t('cyclesIntro')+'</h3><p class="sec-sub">'+t('cyclesDesc')+'</p>';
-  h+='<div class="card" style="padding:14px 22px"><div class="field" style="max-width:240px"><label>'+t('forecastFor')+'</label><input type="date" id="forecastDate" value="'+fdRaw+'" min="1500-01-01" max="2200-12-31" onchange="window.setForecast(this.value)"></div></div>';
+  h+='<div class="card" style="padding:14px 22px"><div class="field" style="max-width:240px"><label for="forecastDate">'+t('forecastFor')+'</label><input type="date" id="forecastDate" value="'+fdRaw+'" min="1500-01-01" max="2200-12-31" onchange="window.setForecast(this.value)"></div></div>';
   h+='<div class="three">'+miniNum('personalYear',t('personalYear'),pc.py.v)+miniNum('personalMonth',t('personalMonth'),pc.pm.v)+miniNum('personalDay',t('personalDay'),pc.pd.v)+'</div>';
   const py=loc(PYEAR[root(pc.py.v)]);
   h+='<div class="readout"><p class="eyebrow" style="margin-bottom:4px">'+t('personalYear')+' '+badge(pc.py.v)+'</p><h4>'+esc(py.t)+'</h4><p>'+esc(py.d)+'</p></div>';
   h+='<h3 class="sec-h">'+t('cycleNineTitle')+'</h3><p class="sec-sub">'+t('cycleNineDesc')+'</p><div class="med-grid" style="grid-template-columns:repeat(auto-fill,minmax(76px,1fr))">';
   const cur=root(pc.py.v);
-  for(let i=1;i<=9;i++){const on=i===cur;h+='<div class="med" data-type="personalYear" data-val="'+i+'" data-label="'+t('personalYear')+' '+i+'" style="padding:12px 8px'+(on?'':';opacity:.55')+'"><div class="disc" style="width:54px;height:54px;margin-bottom:0'+(on?';border-color:var(--gild);box-shadow:0 0 16px -4px var(--gild)':'')+'"><span class="num" style="font-size:24px">'+i+'</span></div>'+(on?'<div class="root" style="color:var(--gild);margin-top:5px">'+t('now')+'</div>':'')+'</div>';}
+  for(let i=1;i<=9;i++){const on=i===cur;h+='<div class="med" data-type="personalYear" data-val="'+i+'" data-label="'+t('personalYear')+' '+i+'" style="padding:12px 8px'+(on?'':';opacity:.55')+'"><div class="disc" style="width:54px;height:54px;margin-bottom:0'+(on?';border-color:var(--gild);box-shadow:0 0 16px -4px var(--gild)':'')+'"><span class="num" style="font-size:24px">'+i+'</span></div>'+(on?'<div class="root" style="color:var(--gild-t);margin-top:5px">'+t('now')+'</div>':'')+'</div>';}
   h+='</div>';
   h+='<div class="card" style="margin:0 0 4px 0"><p class="eyebrow">'+t('cycleWaveTitle')+'</p>'+cycleWaveSVG(P.date.m,P.date.d,fd.y)+'</div>';
   h+='<h3 class="sec-h">'+t('pinnTitle')+'</h3><p class="sec-sub">'+t('pinnDesc')+'</p><div class="tl">';
@@ -1275,7 +1275,7 @@ function renderCycles(){
     const a=P.pc.ages[i]; const isNow=age>=a.from&&(a.to===null||age<a.to);
     const ageLbl=a.to===null?(a.from+'+'):(a.from+'–'+a.to); const pv=P.pc.pin[i].v; const cv=P.pc.chal[i];
     h+='<div class="body'+(isNow?' now':'')+'"><div class="yr">'+t('ages')+' '+ageLbl+(isNow?' <span class="nowtag">'+t('now')+'</span>':'')+'</div>';
-    h+='<h5>'+t('pinnacle')+' '+(i+1)+': <span style="color:var(--gild)">'+badge(pv)+'</span> &nbsp;·&nbsp; '+t('challenge')+': <span style="color:var(--wine)">'+cv+'</span></h5>';
+    h+='<h5>'+t('pinnacle')+' '+(i+1)+': <span style="color:var(--gild-t)">'+badge(pv)+'</span> &nbsp;·&nbsp; '+t('challenge')+': <span style="color:var(--wine)">'+cv+'</span></h5>';
     h+='<p>'+esc(loc(PINN[pv]))+' — '+esc(loc(CHALL[cv]))+'</p></div>';
   }
   h+='</div>';
@@ -1300,7 +1300,7 @@ function renderGrid(){
   h+='</div>';
   const missing=[],repeated=[]; for(let k=1;k<=9;k++){if(counts[k]===0)missing.push(k);if(counts[k]>=2)repeated.push(k+'×'+counts[k]);}
   h+='<div class="three" style="margin-top:12px"><div class="mini" style="text-align:left"><div class="l">'+t('missingNumbers')+'</div><div style="font-family:var(--serif);font-size:22px;color:var(--wine);margin-top:6px;letter-spacing:3px">'+(missing.length?missing.join(' '):t('none'))+'</div></div>';
-  h+='<div class="mini" style="text-align:left"><div class="l">'+t('repeatedNumbers')+'</div><div style="font-family:var(--mono);font-size:15px;color:var(--gild);margin-top:8px">'+(repeated.length?repeated.join('  '):t('none'))+'</div></div></div></div>';
+  h+='<div class="mini" style="text-align:left"><div class="l">'+t('repeatedNumbers')+'</div><div style="font-family:var(--mono);font-size:15px;color:var(--gild-t);margin-top:8px">'+(repeated.length?repeated.join('  '):t('none'))+'</div></div></div></div>';
   const pres=[],abs=[];
   ARROWS.forEach(ar=>{const allP=ar.cells.every(n=>counts[n]>0);const allA=ar.cells.every(n=>counts[n]===0);const m=ARROWMEAN[ar.key];if(allP)pres.push(m);else if(allA)abs.push(m);});
   h+='<h3 class="sec-h">'+t('arrowsTitle')+'</h3>';
@@ -1315,7 +1315,7 @@ function renderName(){
   const w=$('inWord').value.trim(); const box=$('nameOut'); if(!w){box.innerHTML='';return;}
   if(!normSpaces(w).replace(/ /g,'')){box.innerHTML='<div class="card"><p style="margin:0;color:var(--wine)">'+t('nameNoLatin')+'</p></div>';return;}
   const py=nameNumbers(w,'pyth',state.ymode); const ch=nameNumbers(w,'chal',state.ymode);
-  let h='<div class="card"><div style="font-family:var(--serif);font-size:18px;margin-bottom:8px;color:var(--gild)">'+esc(w)+'</div>';
+  let h='<div class="card"><div style="font-family:var(--serif);font-size:18px;margin-bottom:8px;color:var(--gild-t)">'+esc(w)+'</div>';
   h+='<table class="t"><thead><tr><th></th><th>'+t('pyth')+'</th><th>'+t('chal')+'</th></tr></thead><tbody>';
   h+='<tr><td>'+t('total')+'</td><td><span class="v">'+badge(py.expression.v)+'</span> <span style="color:var(--faint);font-family:var(--mono)">('+py.sumRaw+')</span></td><td><span class="v">'+badge(ch.expression.v)+'</span> <span style="color:var(--faint);font-family:var(--mono)">('+ch.sumRaw+')</span></td></tr>';
   h+='<tr><td>'+t('vowels')+'</td><td><span class="v">'+badge(py.soul.v)+'</span></td><td><span class="v">'+badge(ch.soul.v)+'</span></td></tr>';
@@ -1630,7 +1630,7 @@ function bzPillarCard(label,col,isDay){
   const se=Math.floor(col.s/2),sp=col.s%2,be=GZ_BRANCH_ELEM[col.b];
   let h='<div class="med'+(isDay?' master':'')+'" style="cursor:default;min-height:158px">';
   h+='<div class="lbl">'+esc(label)+'</div>';
-  h+='<div style="font-family:var(--serif);font-size:33px;color:var(--gild);line-height:1.05;margin-top:2px">'+GZ_STEM_CHAR[col.s]+'</div>';
+  h+='<div style="font-family:var(--serif);font-size:33px;color:var(--gild-t);line-height:1.05;margin-top:2px">'+GZ_STEM_CHAR[col.s]+'</div>';
   h+='<div style="font-size:11px;color:var(--mut);margin-top:1px">'+GZ_STEM_PIN[col.s]+' · '+E[se]+' '+P[sp]+'</div>';
   h+='<div style="height:1px;background:var(--line);margin:8px 8px"></div>';
   h+='<div style="font-family:var(--serif);font-size:33px;color:var(--ink);line-height:1.05">'+GZ_BRANCH_CHAR[col.b]+'</div>';
@@ -1789,9 +1789,9 @@ function renderBio(){
   let h='<div class="card"><p class="eyebrow">'+t('bioEye')+'</p><h3 class="sec-h" style="margin-top:2px">'+t('bioTitle')+'</h3><p class="sec-sub" style="margin:2px 0 12px 0">'+t('bioDesc')+'</p>';
   h+='<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px">';
   h+='<label style="font-size:13px;color:var(--mut)">'+t('bioTargetLbl')+'</label>';
-  h+='<input type="range" id="bioSlider" min="-60" max="60" value="0" step="1" oninput="bioUpdate()" style="flex:1;min-width:170px;accent-color:var(--gild)">';
+  h+='<input type="range" id="bioSlider" aria-labelledby="bioDateLbl" min="-60" max="60" value="0" step="1" oninput="bioUpdate()" style="flex:1;min-width:170px;accent-color:var(--gild)">';
   h+='<button class="btn ghost" style="padding:6px 12px" onclick="var s=document.getElementById(\'bioSlider\');s.value=0;bioUpdate();">'+t('bioToday')+'</button>';
-  h+='<span id="bioDateLbl" style="font-family:var(--mono);font-size:13px;color:var(--gild);min-width:130px;text-align:right"></span></div>';
+  h+='<span id="bioDateLbl" style="font-family:var(--mono);font-size:13px;color:var(--gild-t);min-width:130px;text-align:right"></span></div>';
   h+='<div id="bioChart" style="margin:4px 0"></div>';
   h+='<div id="bioVals" class="med-grid" style="margin-top:8px"></div>';
   h+='<div id="bioExtra" class="sec-sub" style="margin-top:10px"></div>';
@@ -1956,13 +1956,13 @@ window.aiSaveSettings=function(){aiSet('base',$('aiBase').value.trim());aiSet('m
 window.aiTest=function(){const s=$('aiStatus');window.aiSaveSettings();if(s){s.style.color='var(--mut)';s.textContent=t('aiTesting');}let got='';aiChat([{role:'user',content:'Reply with just the word OK.'}],function(tok){got+=tok;},function(){if(s){s.style.color='var(--good)';s.textContent=t('aiTestOk')+(got?(' — '+got.trim().slice(0,40)):'');}},function(err){if(s){s.style.color='var(--wine)';s.textContent=t('aiTestFail')+': '+err;}});};
 
 /* --- IA UI strings + app rename (7 languages) --- */
-[["en",{tabIA:"AI",aiEye:"Local AI oracle · bring your own model",aiTitle:"AI synthesis & oracle",aiDesc:"Turn all your numbers, pillars and rhythms into a flowing reading, using a language model that runs on your own machine.",aiPrivacy:"Privacy: this talks only to the endpoint you set below. With a local model (Ollama, LM Studio, llama.cpp) nothing ever leaves your computer — no keys bundled, no telemetry.",aiSettings:"Connection settings",aiBaseLbl:"Endpoint base URL (OpenAI-compatible)",aiModelLbl:"Model",aiKeyLbl:"API key (optional — leave empty for local)",aiSave:"Save",aiTest:"Test connection",aiSaved:"Saved",aiTesting:"Testing…",aiTestOk:"Connected",aiTestFail:"Failed",aiSetupHint:"Tip: install Ollama and run e.g. 'ollama run llama3.2'. If this page is on a website (not a local file), start Ollama with OLLAMA_ORIGINS=* so the browser may connect.",aiBtnPortrait:"Portrait synthesis",aiBtnDaily:"Guidance for today",aiBtnCompat:"Compatibility reading",aiAskLbl:"Ask anything (your chart is the context)",aiAskBtn:"Ask",aiAskPh:"e.g. What should I focus on this year?",aiNeedProfile:"Enter a birth date in the bar above first.",aiNeedCompat:"Fill both people's dates in the Compatibility tab first.",aiNeedQuestion:"Type a question first.",aiThinking:"Thinking…",aiEmpty:"No response received. Check the model name and connection settings.",aiError:"Error",aiHint:"is the endpoint running and reachable?",aiDisclaimer:"AI text is generated by your chosen model and may be wrong or invented. For reflection and fun — not advice.",appTitle:"NumeroLog<span style='color:var(--gild)'>IA</span><span class='sub'>Numerology · BaZi · biorhythm · AI</span>"}],
-["ro",{tabIA:"IA",aiEye:"Oracol IA local · adu-ți propriul model",aiTitle:"Sinteză și oracol IA",aiDesc:"Transformă toate numerele, stâlpii și ritmurile într-o interpretare fluidă, cu un model lingvistic care rulează pe propriul tău calculator.",aiPrivacy:"Confidențialitate: comunică doar cu adresa setată mai jos. Cu un model local (Ollama, LM Studio, llama.cpp) nimic nu părăsește calculatorul tău — fără chei incluse, fără telemetrie.",aiSettings:"Setări conexiune",aiBaseLbl:"Adresă endpoint (compatibil OpenAI)",aiModelLbl:"Model",aiKeyLbl:"Cheie API (opțional — gol pentru local)",aiSave:"Salvează",aiTest:"Testează conexiunea",aiSaved:"Salvat",aiTesting:"Se testează…",aiTestOk:"Conectat",aiTestFail:"Eșuat",aiSetupHint:"Sfat: instalează Ollama și rulează ex. 'ollama run llama3.2'. Dacă pagina e pe un site (nu fișier local), pornește Ollama cu OLLAMA_ORIGINS=* ca browserul să se poată conecta.",aiBtnPortrait:"Sinteză de portret",aiBtnDaily:"Ghidaj pentru azi",aiBtnCompat:"Interpretare compatibilitate",aiAskLbl:"Întreabă orice (harta ta e contextul)",aiAskBtn:"Întreabă",aiAskPh:"ex. Pe ce să mă concentrez anul acesta?",aiNeedProfile:"Introdu mai întâi o dată de naștere în bara de sus.",aiNeedCompat:"Completează mai întâi datele ambelor persoane în tab-ul Compatibilitate.",aiNeedQuestion:"Scrie mai întâi o întrebare.",aiThinking:"Se gândește…",aiEmpty:"Niciun răspuns. Verifică numele modelului și setările de conexiune.",aiError:"Eroare",aiHint:"rulează și e accesibil endpoint-ul?",aiDisclaimer:"Textul IA e generat de modelul ales și poate fi greșit sau inventat. Pentru reflecție și distracție — nu un sfat.",appTitle:"NumeroLog<span style='color:var(--gild)'>IA</span><span class='sub'>Numerologie · BaZi · bioritm · IA</span>"}],
-["it",{tabIA:"IA",aiEye:"Oracolo IA locale · porta il tuo modello",aiTitle:"Sintesi e oracolo IA",aiDesc:"Trasforma tutti i tuoi numeri, pilastri e ritmi in una lettura fluida, usando un modello linguistico che gira sul tuo computer.",aiPrivacy:"Privacy: comunica solo con l'indirizzo impostato qui sotto. Con un modello locale (Ollama, LM Studio, llama.cpp) nulla lascia il tuo computer — nessuna chiave inclusa, nessuna telemetria.",aiSettings:"Impostazioni connessione",aiBaseLbl:"URL endpoint (compatibile OpenAI)",aiModelLbl:"Modello",aiKeyLbl:"Chiave API (facoltativa — vuota per locale)",aiSave:"Salva",aiTest:"Prova connessione",aiSaved:"Salvato",aiTesting:"Verifica…",aiTestOk:"Connesso",aiTestFail:"Fallito",aiSetupHint:"Suggerimento: installa Ollama e avvia es. 'ollama run llama3.2'. Se la pagina è su un sito (non un file locale), avvia Ollama con OLLAMA_ORIGINS=* per permettere la connessione del browser.",aiBtnPortrait:"Sintesi del ritratto",aiBtnDaily:"Guida per oggi",aiBtnCompat:"Lettura compatibilità",aiAskLbl:"Chiedi qualsiasi cosa (il contesto è il tuo profilo)",aiAskBtn:"Chiedi",aiAskPh:"es. Su cosa concentrarmi quest'anno?",aiNeedProfile:"Inserisci prima una data di nascita nella barra in alto.",aiNeedCompat:"Compila prima le date di entrambe le persone nella scheda Compatibilità.",aiNeedQuestion:"Scrivi prima una domanda.",aiThinking:"Sto pensando…",aiEmpty:"Nessuna risposta. Controlla il nome del modello e le impostazioni di connessione.",aiError:"Errore",aiHint:"l'endpoint è in esecuzione e raggiungibile?",aiDisclaimer:"Il testo IA è generato dal modello scelto e può essere errato o inventato. Per riflessione e divertimento — non un consiglio.",appTitle:"NumeroLog<span style='color:var(--gild)'>IA</span><span class='sub'>Numerologia · BaZi · bioritmo · IA</span>"}],
-["es",{tabIA:"IA",aiEye:"Oráculo IA local · trae tu propio modelo",aiTitle:"Síntesis y oráculo IA",aiDesc:"Convierte todos tus números, pilares y ritmos en una lectura fluida, usando un modelo de lenguaje que corre en tu propia máquina.",aiPrivacy:"Privacidad: solo se comunica con la dirección que configures abajo. Con un modelo local (Ollama, LM Studio, llama.cpp) nada sale de tu ordenador — sin claves incluidas, sin telemetría.",aiSettings:"Ajustes de conexión",aiBaseLbl:"URL del endpoint (compatible con OpenAI)",aiModelLbl:"Modelo",aiKeyLbl:"Clave API (opcional — vacía para local)",aiSave:"Guardar",aiTest:"Probar conexión",aiSaved:"Guardado",aiTesting:"Probando…",aiTestOk:"Conectado",aiTestFail:"Falló",aiSetupHint:"Consejo: instala Ollama y ejecuta p.ej. 'ollama run llama3.2'. Si la página está en un sitio (no un archivo local), inicia Ollama con OLLAMA_ORIGINS=* para que el navegador pueda conectarse.",aiBtnPortrait:"Síntesis del retrato",aiBtnDaily:"Guía para hoy",aiBtnCompat:"Lectura de compatibilidad",aiAskLbl:"Pregunta lo que sea (tu carta es el contexto)",aiAskBtn:"Preguntar",aiAskPh:"ej. ¿En qué enfocarme este año?",aiNeedProfile:"Introduce primero una fecha de nacimiento en la barra superior.",aiNeedCompat:"Completa primero las fechas de ambas personas en la pestaña Compatibilidad.",aiNeedQuestion:"Escribe primero una pregunta.",aiThinking:"Pensando…",aiEmpty:"No se recibió respuesta. Revisa el nombre del modelo y los ajustes de conexión.",aiError:"Error",aiHint:"¿está el endpoint en marcha y accesible?",aiDisclaimer:"El texto de IA lo genera el modelo elegido y puede ser erróneo o inventado. Para reflexión y diversión — no un consejo.",appTitle:"NumeroLog<span style='color:var(--gild)'>IA</span><span class='sub'>Numerología · BaZi · biorritmo · IA</span>"}],
-["fr",{tabIA:"IA",aiEye:"Oracle IA local · apportez votre modèle",aiTitle:"Synthèse et oracle IA",aiDesc:"Transformez tous vos nombres, piliers et rythmes en une lecture fluide, avec un modèle de langage qui tourne sur votre propre machine.",aiPrivacy:"Confidentialité : ne communique qu'avec l'adresse que vous définissez ci-dessous. Avec un modèle local (Ollama, LM Studio, llama.cpp) rien ne quitte votre ordinateur — aucune clé incluse, aucune télémétrie.",aiSettings:"Paramètres de connexion",aiBaseLbl:"URL de l'endpoint (compatible OpenAI)",aiModelLbl:"Modèle",aiKeyLbl:"Clé API (facultative — vide pour local)",aiSave:"Enregistrer",aiTest:"Tester la connexion",aiSaved:"Enregistré",aiTesting:"Test…",aiTestOk:"Connecté",aiTestFail:"Échec",aiSetupHint:"Astuce : installez Ollama et lancez par ex. 'ollama run llama3.2'. Si la page est sur un site (pas un fichier local), démarrez Ollama avec OLLAMA_ORIGINS=* pour autoriser la connexion du navigateur.",aiBtnPortrait:"Synthèse du portrait",aiBtnDaily:"Conseils pour aujourd'hui",aiBtnCompat:"Lecture de compatibilité",aiAskLbl:"Demandez ce que vous voulez (votre thème est le contexte)",aiAskBtn:"Demander",aiAskPh:"ex. Sur quoi me concentrer cette année ?",aiNeedProfile:"Saisissez d'abord une date de naissance dans la barre du haut.",aiNeedCompat:"Renseignez d'abord les dates des deux personnes dans l'onglet Compatibilité.",aiNeedQuestion:"Écrivez d'abord une question.",aiThinking:"Réflexion…",aiEmpty:"Aucune réponse reçue. Vérifiez le nom du modèle et les paramètres de connexion.",aiError:"Erreur",aiHint:"le point de terminaison est-il actif et accessible ?",aiDisclaimer:"Le texte IA est généré par le modèle choisi et peut être erroné ou inventé. Pour la réflexion et le plaisir — pas un conseil.",appTitle:"NumeroLog<span style='color:var(--gild)'>IA</span><span class='sub'>Numérologie · BaZi · biorythme · IA</span>"}],
-["pt",{tabIA:"IA",aiEye:"Oráculo IA local · traga o seu modelo",aiTitle:"Síntese e oráculo IA",aiDesc:"Transforme todos os seus números, pilares e ritmos numa leitura fluida, com um modelo de linguagem que corre no seu próprio computador.",aiPrivacy:"Privacidade: comunica apenas com o endereço que definir abaixo. Com um modelo local (Ollama, LM Studio, llama.cpp) nada sai do seu computador — sem chaves incluídas, sem telemetria.",aiSettings:"Definições de ligação",aiBaseLbl:"URL do endpoint (compatível com OpenAI)",aiModelLbl:"Modelo",aiKeyLbl:"Chave API (opcional — vazia para local)",aiSave:"Guardar",aiTest:"Testar ligação",aiSaved:"Guardado",aiTesting:"A testar…",aiTestOk:"Ligado",aiTestFail:"Falhou",aiSetupHint:"Dica: instale o Ollama e execute ex. 'ollama run llama3.2'. Se a página estiver num site (não um ficheiro local), inicie o Ollama com OLLAMA_ORIGINS=* para o navegador poder ligar-se.",aiBtnPortrait:"Síntese do retrato",aiBtnDaily:"Orientação para hoje",aiBtnCompat:"Leitura de compatibilidade",aiAskLbl:"Pergunte qualquer coisa (o seu mapa é o contexto)",aiAskBtn:"Perguntar",aiAskPh:"ex. Em que me focar este ano?",aiNeedProfile:"Introduza primeiro uma data de nascimento na barra superior.",aiNeedCompat:"Preencha primeiro as datas de ambas as pessoas no separador Compatibilidade.",aiNeedQuestion:"Escreva primeiro uma pergunta.",aiThinking:"A pensar…",aiEmpty:"Nenhuma resposta recebida. Verifique o nome do modelo e as definições de ligação.",aiError:"Erro",aiHint:"o endpoint está ativo e acessível?",aiDisclaimer:"O texto de IA é gerado pelo modelo escolhido e pode estar errado ou inventado. Para reflexão e diversão — não um conselho.",appTitle:"NumeroLog<span style='color:var(--gild)'>IA</span><span class='sub'>Numerologia · BaZi · biorritmo · IA</span>"}],
-["ca",{tabIA:"IA",aiEye:"Oracle IA local · porta el teu model",aiTitle:"Síntesi i oracle IA",aiDesc:"Converteix tots els teus números, pilars i ritmes en una lectura fluida, amb un model de llenguatge que s'executa al teu propi ordinador.",aiPrivacy:"Privadesa: només es comunica amb l'adreça que configuris a sota. Amb un model local (Ollama, LM Studio, llama.cpp) res no surt del teu ordinador — sense claus incloses, sense telemetria.",aiSettings:"Configuració de connexió",aiBaseLbl:"URL de l'endpoint (compatible amb OpenAI)",aiModelLbl:"Model",aiKeyLbl:"Clau API (opcional — buida per a local)",aiSave:"Desa",aiTest:"Prova la connexió",aiSaved:"Desat",aiTesting:"Provant…",aiTestOk:"Connectat",aiTestFail:"Ha fallat",aiSetupHint:"Consell: instal·la Ollama i executa p.ex. 'ollama run llama3.2'. Si la pàgina és en un lloc web (no un fitxer local), inicia Ollama amb OLLAMA_ORIGINS=* perquè el navegador s'hi pugui connectar.",aiBtnPortrait:"Síntesi del retrat",aiBtnDaily:"Guia per avui",aiBtnCompat:"Lectura de compatibilitat",aiAskLbl:"Pregunta qualsevol cosa (la teva carta és el context)",aiAskBtn:"Pregunta",aiAskPh:"ex. En què centrar-me aquest any?",aiNeedProfile:"Introdueix primer una data de naixement a la barra superior.",aiNeedCompat:"Omple primer les dates de totes dues persones a la pestanya Compatibilitat.",aiNeedQuestion:"Escriu primer una pregunta.",aiThinking:"Pensant…",aiEmpty:"No s'ha rebut cap resposta. Comprova el nom del model i la configuració de connexió.",aiError:"Error",aiHint:"l'endpoint està actiu i accessible?",aiDisclaimer:"El text d'IA el genera el model triat i pot ser erroni o inventat. Per a reflexió i diversió — no un consell.",appTitle:"NumeroLog<span style='color:var(--gild)'>IA</span><span class='sub'>Numerologia · BaZi · biorritme · IA</span>"}]
+[["en",{tabIA:"AI",aiEye:"Local AI oracle · bring your own model",aiTitle:"AI synthesis & oracle",aiDesc:"Turn all your numbers, pillars and rhythms into a flowing reading, using a language model that runs on your own machine.",aiPrivacy:"Privacy: this talks only to the endpoint you set below. With a local model (Ollama, LM Studio, llama.cpp) nothing ever leaves your computer — no keys bundled, no telemetry.",aiSettings:"Connection settings",aiBaseLbl:"Endpoint base URL (OpenAI-compatible)",aiModelLbl:"Model",aiKeyLbl:"API key (optional — leave empty for local)",aiSave:"Save",aiTest:"Test connection",aiSaved:"Saved",aiTesting:"Testing…",aiTestOk:"Connected",aiTestFail:"Failed",aiSetupHint:"Tip: install Ollama and run e.g. 'ollama run llama3.2'. If this page is on a website (not a local file), start Ollama with OLLAMA_ORIGINS=* so the browser may connect.",aiBtnPortrait:"Portrait synthesis",aiBtnDaily:"Guidance for today",aiBtnCompat:"Compatibility reading",aiAskLbl:"Ask anything (your chart is the context)",aiAskBtn:"Ask",aiAskPh:"e.g. What should I focus on this year?",aiNeedProfile:"Enter a birth date in the bar above first.",aiNeedCompat:"Fill both people's dates in the Compatibility tab first.",aiNeedQuestion:"Type a question first.",aiThinking:"Thinking…",aiEmpty:"No response received. Check the model name and connection settings.",aiError:"Error",aiHint:"is the endpoint running and reachable?",aiDisclaimer:"AI text is generated by your chosen model and may be wrong or invented. For reflection and fun — not advice.",appTitle:"NumeroLog<span style='color:var(--gild-t)'>IA</span><span class='sub'>Numerology · BaZi · biorhythm · AI</span>"}],
+["ro",{tabIA:"IA",aiEye:"Oracol IA local · adu-ți propriul model",aiTitle:"Sinteză și oracol IA",aiDesc:"Transformă toate numerele, stâlpii și ritmurile într-o interpretare fluidă, cu un model lingvistic care rulează pe propriul tău calculator.",aiPrivacy:"Confidențialitate: comunică doar cu adresa setată mai jos. Cu un model local (Ollama, LM Studio, llama.cpp) nimic nu părăsește calculatorul tău — fără chei incluse, fără telemetrie.",aiSettings:"Setări conexiune",aiBaseLbl:"Adresă endpoint (compatibil OpenAI)",aiModelLbl:"Model",aiKeyLbl:"Cheie API (opțional — gol pentru local)",aiSave:"Salvează",aiTest:"Testează conexiunea",aiSaved:"Salvat",aiTesting:"Se testează…",aiTestOk:"Conectat",aiTestFail:"Eșuat",aiSetupHint:"Sfat: instalează Ollama și rulează ex. 'ollama run llama3.2'. Dacă pagina e pe un site (nu fișier local), pornește Ollama cu OLLAMA_ORIGINS=* ca browserul să se poată conecta.",aiBtnPortrait:"Sinteză de portret",aiBtnDaily:"Ghidaj pentru azi",aiBtnCompat:"Interpretare compatibilitate",aiAskLbl:"Întreabă orice (harta ta e contextul)",aiAskBtn:"Întreabă",aiAskPh:"ex. Pe ce să mă concentrez anul acesta?",aiNeedProfile:"Introdu mai întâi o dată de naștere în bara de sus.",aiNeedCompat:"Completează mai întâi datele ambelor persoane în tab-ul Compatibilitate.",aiNeedQuestion:"Scrie mai întâi o întrebare.",aiThinking:"Se gândește…",aiEmpty:"Niciun răspuns. Verifică numele modelului și setările de conexiune.",aiError:"Eroare",aiHint:"rulează și e accesibil endpoint-ul?",aiDisclaimer:"Textul IA e generat de modelul ales și poate fi greșit sau inventat. Pentru reflecție și distracție — nu un sfat.",appTitle:"NumeroLog<span style='color:var(--gild-t)'>IA</span><span class='sub'>Numerologie · BaZi · bioritm · IA</span>"}],
+["it",{tabIA:"IA",aiEye:"Oracolo IA locale · porta il tuo modello",aiTitle:"Sintesi e oracolo IA",aiDesc:"Trasforma tutti i tuoi numeri, pilastri e ritmi in una lettura fluida, usando un modello linguistico che gira sul tuo computer.",aiPrivacy:"Privacy: comunica solo con l'indirizzo impostato qui sotto. Con un modello locale (Ollama, LM Studio, llama.cpp) nulla lascia il tuo computer — nessuna chiave inclusa, nessuna telemetria.",aiSettings:"Impostazioni connessione",aiBaseLbl:"URL endpoint (compatibile OpenAI)",aiModelLbl:"Modello",aiKeyLbl:"Chiave API (facoltativa — vuota per locale)",aiSave:"Salva",aiTest:"Prova connessione",aiSaved:"Salvato",aiTesting:"Verifica…",aiTestOk:"Connesso",aiTestFail:"Fallito",aiSetupHint:"Suggerimento: installa Ollama e avvia es. 'ollama run llama3.2'. Se la pagina è su un sito (non un file locale), avvia Ollama con OLLAMA_ORIGINS=* per permettere la connessione del browser.",aiBtnPortrait:"Sintesi del ritratto",aiBtnDaily:"Guida per oggi",aiBtnCompat:"Lettura compatibilità",aiAskLbl:"Chiedi qualsiasi cosa (il contesto è il tuo profilo)",aiAskBtn:"Chiedi",aiAskPh:"es. Su cosa concentrarmi quest'anno?",aiNeedProfile:"Inserisci prima una data di nascita nella barra in alto.",aiNeedCompat:"Compila prima le date di entrambe le persone nella scheda Compatibilità.",aiNeedQuestion:"Scrivi prima una domanda.",aiThinking:"Sto pensando…",aiEmpty:"Nessuna risposta. Controlla il nome del modello e le impostazioni di connessione.",aiError:"Errore",aiHint:"l'endpoint è in esecuzione e raggiungibile?",aiDisclaimer:"Il testo IA è generato dal modello scelto e può essere errato o inventato. Per riflessione e divertimento — non un consiglio.",appTitle:"NumeroLog<span style='color:var(--gild-t)'>IA</span><span class='sub'>Numerologia · BaZi · bioritmo · IA</span>"}],
+["es",{tabIA:"IA",aiEye:"Oráculo IA local · trae tu propio modelo",aiTitle:"Síntesis y oráculo IA",aiDesc:"Convierte todos tus números, pilares y ritmos en una lectura fluida, usando un modelo de lenguaje que corre en tu propia máquina.",aiPrivacy:"Privacidad: solo se comunica con la dirección que configures abajo. Con un modelo local (Ollama, LM Studio, llama.cpp) nada sale de tu ordenador — sin claves incluidas, sin telemetría.",aiSettings:"Ajustes de conexión",aiBaseLbl:"URL del endpoint (compatible con OpenAI)",aiModelLbl:"Modelo",aiKeyLbl:"Clave API (opcional — vacía para local)",aiSave:"Guardar",aiTest:"Probar conexión",aiSaved:"Guardado",aiTesting:"Probando…",aiTestOk:"Conectado",aiTestFail:"Falló",aiSetupHint:"Consejo: instala Ollama y ejecuta p.ej. 'ollama run llama3.2'. Si la página está en un sitio (no un archivo local), inicia Ollama con OLLAMA_ORIGINS=* para que el navegador pueda conectarse.",aiBtnPortrait:"Síntesis del retrato",aiBtnDaily:"Guía para hoy",aiBtnCompat:"Lectura de compatibilidad",aiAskLbl:"Pregunta lo que sea (tu carta es el contexto)",aiAskBtn:"Preguntar",aiAskPh:"ej. ¿En qué enfocarme este año?",aiNeedProfile:"Introduce primero una fecha de nacimiento en la barra superior.",aiNeedCompat:"Completa primero las fechas de ambas personas en la pestaña Compatibilidad.",aiNeedQuestion:"Escribe primero una pregunta.",aiThinking:"Pensando…",aiEmpty:"No se recibió respuesta. Revisa el nombre del modelo y los ajustes de conexión.",aiError:"Error",aiHint:"¿está el endpoint en marcha y accesible?",aiDisclaimer:"El texto de IA lo genera el modelo elegido y puede ser erróneo o inventado. Para reflexión y diversión — no un consejo.",appTitle:"NumeroLog<span style='color:var(--gild-t)'>IA</span><span class='sub'>Numerología · BaZi · biorritmo · IA</span>"}],
+["fr",{tabIA:"IA",aiEye:"Oracle IA local · apportez votre modèle",aiTitle:"Synthèse et oracle IA",aiDesc:"Transformez tous vos nombres, piliers et rythmes en une lecture fluide, avec un modèle de langage qui tourne sur votre propre machine.",aiPrivacy:"Confidentialité : ne communique qu'avec l'adresse que vous définissez ci-dessous. Avec un modèle local (Ollama, LM Studio, llama.cpp) rien ne quitte votre ordinateur — aucune clé incluse, aucune télémétrie.",aiSettings:"Paramètres de connexion",aiBaseLbl:"URL de l'endpoint (compatible OpenAI)",aiModelLbl:"Modèle",aiKeyLbl:"Clé API (facultative — vide pour local)",aiSave:"Enregistrer",aiTest:"Tester la connexion",aiSaved:"Enregistré",aiTesting:"Test…",aiTestOk:"Connecté",aiTestFail:"Échec",aiSetupHint:"Astuce : installez Ollama et lancez par ex. 'ollama run llama3.2'. Si la page est sur un site (pas un fichier local), démarrez Ollama avec OLLAMA_ORIGINS=* pour autoriser la connexion du navigateur.",aiBtnPortrait:"Synthèse du portrait",aiBtnDaily:"Conseils pour aujourd'hui",aiBtnCompat:"Lecture de compatibilité",aiAskLbl:"Demandez ce que vous voulez (votre thème est le contexte)",aiAskBtn:"Demander",aiAskPh:"ex. Sur quoi me concentrer cette année ?",aiNeedProfile:"Saisissez d'abord une date de naissance dans la barre du haut.",aiNeedCompat:"Renseignez d'abord les dates des deux personnes dans l'onglet Compatibilité.",aiNeedQuestion:"Écrivez d'abord une question.",aiThinking:"Réflexion…",aiEmpty:"Aucune réponse reçue. Vérifiez le nom du modèle et les paramètres de connexion.",aiError:"Erreur",aiHint:"le point de terminaison est-il actif et accessible ?",aiDisclaimer:"Le texte IA est généré par le modèle choisi et peut être erroné ou inventé. Pour la réflexion et le plaisir — pas un conseil.",appTitle:"NumeroLog<span style='color:var(--gild-t)'>IA</span><span class='sub'>Numérologie · BaZi · biorythme · IA</span>"}],
+["pt",{tabIA:"IA",aiEye:"Oráculo IA local · traga o seu modelo",aiTitle:"Síntese e oráculo IA",aiDesc:"Transforme todos os seus números, pilares e ritmos numa leitura fluida, com um modelo de linguagem que corre no seu próprio computador.",aiPrivacy:"Privacidade: comunica apenas com o endereço que definir abaixo. Com um modelo local (Ollama, LM Studio, llama.cpp) nada sai do seu computador — sem chaves incluídas, sem telemetria.",aiSettings:"Definições de ligação",aiBaseLbl:"URL do endpoint (compatível com OpenAI)",aiModelLbl:"Modelo",aiKeyLbl:"Chave API (opcional — vazia para local)",aiSave:"Guardar",aiTest:"Testar ligação",aiSaved:"Guardado",aiTesting:"A testar…",aiTestOk:"Ligado",aiTestFail:"Falhou",aiSetupHint:"Dica: instale o Ollama e execute ex. 'ollama run llama3.2'. Se a página estiver num site (não um ficheiro local), inicie o Ollama com OLLAMA_ORIGINS=* para o navegador poder ligar-se.",aiBtnPortrait:"Síntese do retrato",aiBtnDaily:"Orientação para hoje",aiBtnCompat:"Leitura de compatibilidade",aiAskLbl:"Pergunte qualquer coisa (o seu mapa é o contexto)",aiAskBtn:"Perguntar",aiAskPh:"ex. Em que me focar este ano?",aiNeedProfile:"Introduza primeiro uma data de nascimento na barra superior.",aiNeedCompat:"Preencha primeiro as datas de ambas as pessoas no separador Compatibilidade.",aiNeedQuestion:"Escreva primeiro uma pergunta.",aiThinking:"A pensar…",aiEmpty:"Nenhuma resposta recebida. Verifique o nome do modelo e as definições de ligação.",aiError:"Erro",aiHint:"o endpoint está ativo e acessível?",aiDisclaimer:"O texto de IA é gerado pelo modelo escolhido e pode estar errado ou inventado. Para reflexão e diversão — não um conselho.",appTitle:"NumeroLog<span style='color:var(--gild-t)'>IA</span><span class='sub'>Numerologia · BaZi · biorritmo · IA</span>"}],
+["ca",{tabIA:"IA",aiEye:"Oracle IA local · porta el teu model",aiTitle:"Síntesi i oracle IA",aiDesc:"Converteix tots els teus números, pilars i ritmes en una lectura fluida, amb un model de llenguatge que s'executa al teu propi ordinador.",aiPrivacy:"Privadesa: només es comunica amb l'adreça que configuris a sota. Amb un model local (Ollama, LM Studio, llama.cpp) res no surt del teu ordinador — sense claus incloses, sense telemetria.",aiSettings:"Configuració de connexió",aiBaseLbl:"URL de l'endpoint (compatible amb OpenAI)",aiModelLbl:"Model",aiKeyLbl:"Clau API (opcional — buida per a local)",aiSave:"Desa",aiTest:"Prova la connexió",aiSaved:"Desat",aiTesting:"Provant…",aiTestOk:"Connectat",aiTestFail:"Ha fallat",aiSetupHint:"Consell: instal·la Ollama i executa p.ex. 'ollama run llama3.2'. Si la pàgina és en un lloc web (no un fitxer local), inicia Ollama amb OLLAMA_ORIGINS=* perquè el navegador s'hi pugui connectar.",aiBtnPortrait:"Síntesi del retrat",aiBtnDaily:"Guia per avui",aiBtnCompat:"Lectura de compatibilitat",aiAskLbl:"Pregunta qualsevol cosa (la teva carta és el context)",aiAskBtn:"Pregunta",aiAskPh:"ex. En què centrar-me aquest any?",aiNeedProfile:"Introdueix primer una data de naixement a la barra superior.",aiNeedCompat:"Omple primer les dates de totes dues persones a la pestanya Compatibilitat.",aiNeedQuestion:"Escriu primer una pregunta.",aiThinking:"Pensant…",aiEmpty:"No s'ha rebut cap resposta. Comprova el nom del model i la configuració de connexió.",aiError:"Error",aiHint:"l'endpoint està actiu i accessible?",aiDisclaimer:"El text d'IA el genera el model triat i pot ser erroni o inventat. Per a reflexió i diversió — no un consell.",appTitle:"NumeroLog<span style='color:var(--gild-t)'>IA</span><span class='sub'>Numerologia · BaZi · biorritme · IA</span>"}]
 ].forEach(function(e){Object.assign(I18N[e[0]],e[1]);});
 
 /* ============================================================
