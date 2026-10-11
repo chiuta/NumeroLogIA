@@ -4,6 +4,8 @@ Numerologie pitagoreică și chaldeană, cu analiză a ciclurilor, compatibilita
 
 **Live:** https://chiuta.github.io/NumeroLogIA/
 
+**Ultima actualizare:** 11 octombrie 2026
+
 ![Captura de ecran](screenshot.png)
 
 ## Ce este
@@ -45,6 +47,12 @@ Conținut informativ/de divertisment, fără validare științifică: numerologi
 ## Rulare locală / offline
 
 Descarcă `index.html` și deschide-l în browser; numerologia funcționează fără internet. Oracolul IA are nevoie de un server de modele local (de exemplu Ollama) sau de o adresă la alegerea ta.
+
+## Istoric / Changelog
+
+### 11 octombrie 2026
+- Accesibilitate: conținutul încadrat în <main>, canvas-ul decorativ ascuns de cititoarele de ecran, etichete legate de câmpuri (axe: 0 violări).
+- Datele „azi” (numere universale, BaZi) se calculează dinamic din data curentă; nu există date fixe perimate. Atributele `on*` inline din interfața IA rămân (CSP permite scripturi inline).
 
 ## Licență
 
