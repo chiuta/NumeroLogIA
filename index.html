@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src http: https:; base-uri 'none'; form-action 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src  'sha256-+IPdaisfzXkAXsBUdKUnLY6JP40ukyKfHoPuEeKIn+4='; style-src 'unsafe-inline'; img-src data:; connect-src http: https:; base-uri 'none'; form-action 'none';">
 <meta name="copyright" content="Licență nedeclarată de autor; toate drepturile rezervate până la o declarație contrară. Contact: alexio@trom.tf">
 <title>NumeroLogIA — Numerologie + IA</title>
 <!-- Licență: nedeclarată de autor; toate drepturile rezervate până la o declarație contrară. Contact: alexio@trom.tf
@@ -266,6 +266,7 @@ body.report-open #reportView{display:block;position:fixed;inset:0;z-index:9999;o
     <button class="btn ghost" id="shareBtn" data-i="btnShare">Copiază link partajabil</button>
     <button class="btn ghost" id="demoBtn" data-i="btnDemo">Exemplu</button>
     <button class="btn ghost" id="reportBtn" data-i="btnReport">Raport PDF</button>
+    <button class="btn ghost" id="copySumBtn" data-i="btnCopySum">Copiază rezumatul</button>
   </div>
 </div>
 <div id="numDetail" class="card" style="display:none;position:relative" role="region" aria-live="polite"></div>
@@ -334,6 +335,11 @@ body.report-open #reportView{display:block;position:fixed;inset:0;z-index:9999;o
     <p class="eyebrow" data-i="savedEye">Portrete păstrate local</p>
     <h3 class="sec-h" style="margin-top:2px" data-i="savedTitle">Portretele tale salvate</h3>
     <p class="sec-sub" style="margin-left:34px" data-i="savedDesc">Salvate doar în acest browser (fără server, fără telemetrie).</p>
+    <div class="btn-row" style="margin:6px 0 12px 34px">
+      <button class="btn ghost" id="expSavedBtn" data-i="btnExport">Exportă (JSON)</button>
+      <button class="btn ghost" id="impSavedBtn" data-i="btnImport">Importă (JSON)</button>
+      <input type="file" id="impFile" accept="application/json,.json" hidden>
+    </div>
     <div id="savedList"></div>
   </div>
 </section>
@@ -649,7 +655,7 @@ const I18N={
   ratingExcellent:"Excelentă",ratingGood:"Bună",ratingComplex:"Complexă",ratingChallenging:"Provocatoare",
   uniEye:"Energia colectivă a momentului",uniTitle:"Numerele universale de azi",universalYear:"Anul Universal",universalMonth:"Luna Universală",universalDay:"Ziua Universală",refTitle:"Referință completă a numerelor",refDesc:"Sensul fiecărui număr, plus corespondențele tradiționale.",
   planet:"Planetă",element:"Element",color:"Culoare",gem:"Piatră",weekday:"Zi",tarot:"Tarot",zodiac:"Zodie",bodyA:"Corp",career:"Vocații",harmony:"Numere armonioase",
-  savedEye:"Portrete păstrate local",savedTitle:"Portretele tale salvate",savedDesc:"Salvate doar în acest browser (fără server, fără telemetrie).",noSaved:"Niciun portret salvat încă. Calculează un portret și apasă „Salvează”.",load:"Încarcă",del:"Șterge",confirmDel:"Ștergi acest portret salvat?",saveOk:"Portret salvat.",saveNeedData:"Completează numele sau data nașterii înainte de a salva.",shareOk:"Link copiat în clipboard. Conține numele și data nașterii.",shareFail:"Nu am putut copia automat — copiază din bara de adrese.",
+  btnCopySum:"Copiază rezumatul",sumOk:"Rezumat copiat în clipboard.",sumNote:"Numerologia este un sistem simbolic, fără validare științifică.",btnExport:"Exportă (JSON)",btnImport:"Importă (JSON)",expEmpty:"Nu ai portrete salvate de exportat.",expOk:"Exportate:",impOk:"Importate:",impFail:"Fișier invalid (se așteaptă un export NumeroLogIA în JSON, sub 1 MB).",dateInvalid:"Data introdusă nu este validă.",savedEye:"Portrete păstrate local",savedTitle:"Portretele tale salvate",savedDesc:"Salvate doar în acest browser (fără server, fără telemetrie).",noSaved:"Niciun portret salvat încă. Calculează un portret și apasă „Salvează”.",load:"Încarcă",del:"Șterge",confirmDel:"Ștergi acest portret salvat?",saveOk:"Portret salvat.",saveNeedData:"Completează numele sau data nașterii înainte de a salva.",shareOk:"Link copiat în clipboard. Conține numele și data nașterii.",shareFail:"Nu am putut copia automat — copiază din bara de adrese.",
   themeT:"Comută tema",printT:"Tipărește / salvează PDF",close:"Închide",demoName:"Maria Ionescu",
   note1:"<b>Despre metodă:</b> aplicația folosește numerologia pitagoreică (cu opțiune chaldeană), păstrând numerele maestru 11/22/33 și marcând datoriile karmice 13/14/16/19. Calculele sunt afișate transparent, pas cu pas.",
   note2:"<b>Notă onestă:</b> numerologia este un sistem simbolic tradițional, oferit pentru reflecție personală și explorare culturală — nu o știință. Folosește-l ca oglindă, nu ca predicție. Același lucru este valabil pentru secțiunile BaZi, astrologie și bioritm — sisteme tradiționale sau populare, fără validare științifică."},
@@ -675,7 +681,7 @@ const I18N={
   ratingExcellent:"Excellent",ratingGood:"Good",ratingComplex:"Complex",ratingChallenging:"Challenging",
   uniEye:"The collective energy of the moment",uniTitle:"Today's universal numbers",universalYear:"Universal Year",universalMonth:"Universal Month",universalDay:"Universal Day",refTitle:"Complete number reference",refDesc:"The meaning of each number, plus its traditional correspondences.",
   planet:"Planet",element:"Element",color:"Color",gem:"Gemstone",weekday:"Weekday",tarot:"Tarot",zodiac:"Zodiac",bodyA:"Body",career:"Callings",harmony:"Harmonious numbers",
-  savedEye:"Portraits kept locally",savedTitle:"Your saved portraits",savedDesc:"Saved only in this browser (no server, no telemetry).",noSaved:"No saved portraits yet. Calculate a portrait and press \u201cSave\u201d.",load:"Load",del:"Delete",confirmDel:"Delete this saved portrait?",saveOk:"Portrait saved.",saveNeedData:"Enter a name or date of birth before saving.",shareOk:"Link copied to clipboard. It contains the name and birth date.",shareFail:"Couldn't copy automatically — copy it from the address bar.",
+  btnCopySum:"Copy summary",sumOk:"Summary copied to the clipboard.",sumNote:"Numerology is a symbolic system with no scientific validation.",btnExport:"Export (JSON)",btnImport:"Import (JSON)",expEmpty:"No saved portraits to export.",expOk:"Exported:",impOk:"Imported:",impFail:"Invalid file (a NumeroLogIA JSON export under 1 MB is expected).",dateInvalid:"The date you entered is not valid.",savedEye:"Portraits kept locally",savedTitle:"Your saved portraits",savedDesc:"Saved only in this browser (no server, no telemetry).",noSaved:"No saved portraits yet. Calculate a portrait and press \u201cSave\u201d.",load:"Load",del:"Delete",confirmDel:"Delete this saved portrait?",saveOk:"Portrait saved.",saveNeedData:"Enter a name or date of birth before saving.",shareOk:"Link copied to clipboard. It contains the name and birth date.",shareFail:"Couldn't copy automatically — copy it from the address bar.",
   themeT:"Toggle theme",printT:"Print / save PDF",close:"Close",demoName:"Mary Johnson",
   note1:"<b>On method:</b> the app uses Pythagorean numerology (with a Chaldean option), preserving master numbers 11/22/33 and flagging karmic debts 13/14/16/19. Every calculation is shown transparently, step by step.",
   note2:"<b>An honest note:</b> numerology is a traditional symbolic system, offered for personal reflection and cultural exploration — not a science. Use it as a mirror, not a prediction. The same applies to the BaZi, astrology and biorhythm sections — traditional or popular systems without scientific validation."}};
@@ -705,7 +711,7 @@ I18N.it={appTitle:"Numerologia",appSub:"Ritratto numerico completo",
  ratingExcellent:"Eccellente",ratingGood:"Buona",ratingComplex:"Complessa",ratingChallenging:"Impegnativa",
  uniEye:"L'energia collettiva del momento",uniTitle:"I numeri universali di oggi",universalYear:"Anno Universale",universalMonth:"Mese Universale",universalDay:"Giorno Universale",refTitle:"Riferimento completo dei numeri",refDesc:"Il significato di ogni numero, più le sue corrispondenze tradizionali.",
  planet:"Pianeta",element:"Elemento",color:"Colore",gem:"Pietra",weekday:"Giorno",tarot:"Tarocco",zodiac:"Zodiaco",bodyA:"Corpo",career:"Vocazioni",harmony:"Numeri armoniosi",
- savedEye:"Ritratti conservati localmente",savedTitle:"I tuoi ritratti salvati",savedDesc:"Salvati solo in questo browser (nessun server, nessuna telemetria).",noSaved:"Nessun ritratto salvato. Calcola un ritratto e premi \u201cSalva\u201d.",load:"Carica",del:"Elimina",confirmDel:"Eliminare questo ritratto salvato?",saveOk:"Ritratto salvato.",saveNeedData:"Inserisci un nome o una data di nascita prima di salvare.",shareOk:"Link copiato negli appunti. Contiene nome e data di nascita.",shareFail:"Impossibile copiare automaticamente — copialo dalla barra degli indirizzi.",
+ btnCopySum:"Copia riepilogo",sumOk:"Riepilogo copiato negli appunti.",sumNote:"La numerologia è un sistema simbolico, senza validazione scientifica.",btnExport:"Esporta (JSON)",btnImport:"Importa (JSON)",expEmpty:"Nessun ritratto salvato da esportare.",expOk:"Esportati:",impOk:"Importati:",impFail:"File non valido (si attende un export JSON di NumeroLogIA sotto 1 MB).",dateInvalid:"La data inserita non è valida.",savedEye:"Ritratti conservati localmente",savedTitle:"I tuoi ritratti salvati",savedDesc:"Salvati solo in questo browser (nessun server, nessuna telemetria).",noSaved:"Nessun ritratto salvato. Calcola un ritratto e premi \u201cSalva\u201d.",load:"Carica",del:"Elimina",confirmDel:"Eliminare questo ritratto salvato?",saveOk:"Ritratto salvato.",saveNeedData:"Inserisci un nome o una data di nascita prima di salvare.",shareOk:"Link copiato negli appunti. Contiene nome e data di nascita.",shareFail:"Impossibile copiare automaticamente — copialo dalla barra degli indirizzi.",
  themeT:"Cambia tema",printT:"Stampa / salva PDF",close:"Chiudi",demoName:"Maria Rossi",
  note1:"<b>Sul metodo:</b> l'app usa la numerologia pitagorica (con opzione caldea), conservando i numeri maestri 11/22/33 e segnalando i debiti karmici 13/14/16/19. Ogni calcolo è mostrato in modo trasparente, passo dopo passo.",
  note2:"<b>Nota onesta:</b> la numerologia è un sistema simbolico tradizionale, offerto per la riflessione personale e l'esplorazione culturale — non una scienza. Usalo come uno specchio, non come una previsione. Lo stesso vale per le sezioni BaZi, astrologia e bioritmo — sistemi tradizionali o popolari, privi di validazione scientifica."};
@@ -791,7 +797,7 @@ I18N.es={appTitle:"Numerología",appSub:"Retrato numérico completo",
  ratingExcellent:"Excelente",ratingGood:"Buena",ratingComplex:"Compleja",ratingChallenging:"Desafiante",
  uniEye:"La energía colectiva del momento",uniTitle:"Los números universales de hoy",universalYear:"Año Universal",universalMonth:"Mes Universal",universalDay:"Día Universal",refTitle:"Referencia completa de los números",refDesc:"El significado de cada número, más sus correspondencias tradicionales.",
  planet:"Planeta",element:"Elemento",color:"Color",gem:"Piedra",weekday:"Día",tarot:"Tarot",zodiac:"Zodíaco",bodyA:"Cuerpo",career:"Vocaciones",harmony:"Números armoniosos",
- savedEye:"Retratos guardados localmente",savedTitle:"Tus retratos guardados",savedDesc:"Guardados solo en este navegador (sin servidor, sin telemetría).",noSaved:"Aún no hay retratos guardados. Calcula un retrato y pulsa \u201cGuardar\u201d.",load:"Cargar",del:"Eliminar",confirmDel:"¿Eliminar este retrato guardado?",saveOk:"Retrato guardado.",saveNeedData:"Introduce un nombre o una fecha de nacimiento antes de guardar.",shareOk:"Enlace copiado al portapapeles. Contiene el nombre y la fecha de nacimiento.",shareFail:"No se pudo copiar automáticamente — cópialo de la barra de direcciones.",
+ btnCopySum:"Copiar resumen",sumOk:"Resumen copiado al portapapeles.",sumNote:"La numerología es un sistema simbólico, sin validación científica.",btnExport:"Exportar (JSON)",btnImport:"Importar (JSON)",expEmpty:"No hay retratos guardados para exportar.",expOk:"Exportados:",impOk:"Importados:",impFail:"Archivo no válido (se espera una exportación JSON de NumeroLogIA de menos de 1 MB).",dateInvalid:"La fecha introducida no es válida.",savedEye:"Retratos guardados localmente",savedTitle:"Tus retratos guardados",savedDesc:"Guardados solo en este navegador (sin servidor, sin telemetría).",noSaved:"Aún no hay retratos guardados. Calcula un retrato y pulsa \u201cGuardar\u201d.",load:"Cargar",del:"Eliminar",confirmDel:"¿Eliminar este retrato guardado?",saveOk:"Retrato guardado.",saveNeedData:"Introduce un nombre o una fecha de nacimiento antes de guardar.",shareOk:"Enlace copiado al portapapeles. Contiene el nombre y la fecha de nacimiento.",shareFail:"No se pudo copiar automáticamente — cópialo de la barra de direcciones.",
  themeT:"Cambiar tema",printT:"Imprimir / guardar PDF",close:"Cerrar",demoName:"María García",
  note1:"<b>Sobre el método:</b> la app usa numerología pitagórica (con opción caldea), conservando los números maestros 11/22/33 y señalando las deudas kármicas 13/14/16/19. Cada cálculo se muestra de forma transparente, paso a paso.",
  note2:"<b>Nota honesta:</b> la numerología es un sistema simbólico tradicional, ofrecido para la reflexión personal y la exploración cultural — no una ciencia. Úsala como un espejo, no como una predicción. Lo mismo vale para las secciones de BaZi, astrología y biorritmo: sistemas tradicionales o populares sin validación científica."};
@@ -877,7 +883,7 @@ I18N.fr={appTitle:"Numérologie",appSub:"Portrait numérique complet",
  ratingExcellent:"Excellente",ratingGood:"Bonne",ratingComplex:"Complexe",ratingChallenging:"Exigeante",
  uniEye:"L'énergie collective du moment",uniTitle:"Les nombres universels d'aujourd'hui",universalYear:"Année Universelle",universalMonth:"Mois Universel",universalDay:"Jour Universel",refTitle:"Référence complète des nombres",refDesc:"Le sens de chaque nombre, ainsi que ses correspondances traditionnelles.",
  planet:"Planète",element:"Élément",color:"Couleur",gem:"Pierre",weekday:"Jour",tarot:"Tarot",zodiac:"Zodiaque",bodyA:"Corps",career:"Vocations",harmony:"Nombres harmonieux",
- savedEye:"Portraits conservés localement",savedTitle:"Vos portraits enregistrés",savedDesc:"Enregistrés uniquement dans ce navigateur (aucun serveur, aucune télémétrie).",noSaved:"Aucun portrait enregistré pour l'instant. Calculez un portrait et appuyez sur \u201cEnregistrer\u201d.",load:"Charger",del:"Supprimer",confirmDel:"Supprimer ce portrait enregistré ?",saveOk:"Portrait enregistré.",saveNeedData:"Saisissez un nom ou une date de naissance avant d'enregistrer.",shareOk:"Lien copié dans le presse-papiers. Il contient le nom et la date de naissance.",shareFail:"Impossible de copier automatiquement — copiez-le depuis la barre d'adresse.",
+ btnCopySum:"Copier le résumé",sumOk:"Résumé copié dans le presse-papiers.",sumNote:"La numérologie est un système symbolique, sans validation scientifique.",btnExport:"Exporter (JSON)",btnImport:"Importer (JSON)",expEmpty:"Aucun portrait enregistré à exporter.",expOk:"Exportés :",impOk:"Importés :",impFail:"Fichier invalide (un export JSON de NumeroLogIA de moins de 1 Mo est attendu).",dateInvalid:"La date saisie n’est pas valide.",savedEye:"Portraits conservés localement",savedTitle:"Vos portraits enregistrés",savedDesc:"Enregistrés uniquement dans ce navigateur (aucun serveur, aucune télémétrie).",noSaved:"Aucun portrait enregistré pour l'instant. Calculez un portrait et appuyez sur \u201cEnregistrer\u201d.",load:"Charger",del:"Supprimer",confirmDel:"Supprimer ce portrait enregistré ?",saveOk:"Portrait enregistré.",saveNeedData:"Saisissez un nom ou une date de naissance avant d'enregistrer.",shareOk:"Lien copié dans le presse-papiers. Il contient le nom et la date de naissance.",shareFail:"Impossible de copier automatiquement — copiez-le depuis la barre d'adresse.",
  themeT:"Changer de thème",printT:"Imprimer / enregistrer en PDF",close:"Fermer",demoName:"Marie Dubois",
  note1:"<b>À propos de la méthode :</b> l'app utilise la numérologie pythagoricienne (avec une option chaldéenne), en conservant les nombres maîtres 11/22/33 et en signalant les dettes karmiques 13/14/16/19. Chaque calcul est montré de façon transparente, étape par étape.",
  note2:"<b>Note honnête :</b> la numérologie est un système symbolique traditionnel, proposé pour la réflexion personnelle et l'exploration culturelle — pas une science. Utilisez-la comme un miroir, non comme une prédiction. Il en va de même pour les sections BaZi, astrologie et biorythme — des systèmes traditionnels ou populaires, sans validation scientifique."};
@@ -963,7 +969,7 @@ I18N.pt={appTitle:"Numerologia",appSub:"Retrato numérico completo",
  ratingExcellent:"Excelente",ratingGood:"Boa",ratingComplex:"Complexa",ratingChallenging:"Exigente",
  uniEye:"A energia coletiva do momento",uniTitle:"Os números universais de hoje",universalYear:"Ano Universal",universalMonth:"Mês Universal",universalDay:"Dia Universal",refTitle:"Referência completa dos números",refDesc:"O significado de cada número, além das suas correspondências tradicionais.",
  planet:"Planeta",element:"Elemento",color:"Cor",gem:"Pedra",weekday:"Dia",tarot:"Tarô",zodiac:"Zodíaco",bodyA:"Corpo",career:"Vocações",harmony:"Números harmoniosos",
- savedEye:"Retratos guardados localmente",savedTitle:"Os seus retratos guardados",savedDesc:"Guardados apenas neste navegador (sem servidor, sem telemetria).",noSaved:"Ainda não há retratos guardados. Calcule um retrato e prima \u201cGuardar\u201d.",load:"Carregar",del:"Eliminar",confirmDel:"Eliminar este retrato guardado?",saveOk:"Retrato guardado.",saveNeedData:"Introduza um nome ou uma data de nascimento antes de guardar.",shareOk:"Link copiado para a área de transferência. Contém o nome e a data de nascimento.",shareFail:"Não foi possível copiar automaticamente — copie da barra de endereço.",
+ btnCopySum:"Copiar resumo",sumOk:"Resumo copiado para a área de transferência.",sumNote:"A numerologia é um sistema simbólico, sem validação científica.",btnExport:"Exportar (JSON)",btnImport:"Importar (JSON)",expEmpty:"Não há retratos guardados para exportar.",expOk:"Exportados:",impOk:"Importados:",impFail:"Ficheiro inválido (espera-se uma exportação JSON do NumeroLogIA com menos de 1 MB).",dateInvalid:"A data introduzida não é válida.",savedEye:"Retratos guardados localmente",savedTitle:"Os seus retratos guardados",savedDesc:"Guardados apenas neste navegador (sem servidor, sem telemetria).",noSaved:"Ainda não há retratos guardados. Calcule um retrato e prima \u201cGuardar\u201d.",load:"Carregar",del:"Eliminar",confirmDel:"Eliminar este retrato guardado?",saveOk:"Retrato guardado.",saveNeedData:"Introduza um nome ou uma data de nascimento antes de guardar.",shareOk:"Link copiado para a área de transferência. Contém o nome e a data de nascimento.",shareFail:"Não foi possível copiar automaticamente — copie da barra de endereço.",
  themeT:"Mudar tema",printT:"Imprimir / guardar PDF",close:"Fechar",demoName:"Maria Silva",
  note1:"<b>Sobre o método:</b> a app usa numerologia pitagórica (com opção caldeia), conservando os números mestres 11/22/33 e assinalando as dívidas cármicas 13/14/16/19. Cada cálculo é mostrado de forma transparente, passo a passo.",
  note2:"<b>Nota honesta:</b> a numerologia é um sistema simbólico tradicional, oferecido para a reflexão pessoal e a exploração cultural — não uma ciência. Use-a como um espelho, não como uma previsão. O mesmo vale para as secções de BaZi, astrologia e biorritmo — sistemas tradicionais ou populares, sem validação científica."};
@@ -1049,7 +1055,7 @@ I18N.ca={appTitle:"Numerologia",appSub:"Retrat numèric complet",
  ratingExcellent:"Excel·lent",ratingGood:"Bona",ratingComplex:"Complexa",ratingChallenging:"Exigent",
  uniEye:"L'energia col·lectiva del moment",uniTitle:"Els nombres universals d'avui",universalYear:"Any Universal",universalMonth:"Mes Universal",universalDay:"Dia Universal",refTitle:"Referència completa dels nombres",refDesc:"El significat de cada nombre, a més de les seves correspondències tradicionals.",
  planet:"Planeta",element:"Element",color:"Color",gem:"Pedra",weekday:"Dia",tarot:"Tarot",zodiac:"Zodíac",bodyA:"Cos",career:"Vocacions",harmony:"Nombres harmoniosos",
- savedEye:"Retrats desats localment",savedTitle:"Els vostres retrats desats",savedDesc:"Desats només en aquest navegador (sense servidor, sense telemetria).",noSaved:"Encara no hi ha retrats desats. Calculeu un retrat i premeu \u201cDesa\u201d.",load:"Carrega",del:"Elimina",confirmDel:"Voleu eliminar aquest retrat desat?",saveOk:"Retrat desat.",saveNeedData:"Introduïu un nom o una data de naixement abans de desar.",shareOk:"Enllaç copiat al porta-retalls. Conté el nom i la data de naixement.",shareFail:"No s'ha pogut copiar automàticament — copieu-lo de la barra d'adreces.",
+ btnCopySum:"Copia el resum",sumOk:"Resum copiat al porta-retalls.",sumNote:"La numerologia és un sistema simbòlic, sense validació científica.",btnExport:"Exporta (JSON)",btnImport:"Importa (JSON)",expEmpty:"No hi ha retrats desats per exportar.",expOk:"Exportats:",impOk:"Importats:",impFail:"Fitxer no vàlid (s’espera una exportació JSON de NumeroLogIA de menys d’1 MB).",dateInvalid:"La data introduïda no és vàlida.",savedEye:"Retrats desats localment",savedTitle:"Els vostres retrats desats",savedDesc:"Desats només en aquest navegador (sense servidor, sense telemetria).",noSaved:"Encara no hi ha retrats desats. Calculeu un retrat i premeu \u201cDesa\u201d.",load:"Carrega",del:"Elimina",confirmDel:"Voleu eliminar aquest retrat desat?",saveOk:"Retrat desat.",saveNeedData:"Introduïu un nom o una data de naixement abans de desar.",shareOk:"Enllaç copiat al porta-retalls. Conté el nom i la data de naixement.",shareFail:"No s'ha pogut copiar automàticament — copieu-lo de la barra d'adreces.",
  themeT:"Canvia el tema",printT:"Imprimeix / desa en PDF",close:"Tanca",demoName:"Maria Garcia",
  note1:"<b>Sobre el mètode:</b> l'aplicació usa numerologia pitagòrica (amb opció caldea), conservant els nombres mestres 11/22/33 i assenyalant els deutes kàrmics 13/14/16/19. Cada càlcul es mostra de manera transparent, pas a pas.",
  note2:"<b>Nota honesta:</b> la numerologia és un sistema simbòlic tradicional, ofert per a la reflexió personal i l'exploració cultural — no una ciència. Useu-la com un mirall, no com una predicció. El mateix val per a les seccions de BaZi, astrologia i biorritme: sistemes tradicionals o populars sense validació científica."};
@@ -1191,6 +1197,7 @@ window.showDetail=showDetail;
 function computeProfile(){
   const rawName=$('inName').value.trim(); const dv=$('inDate').value;
   state.name=rawName; state.date=dv||null; const dt=readDate(dv);
+  if(dv&&!dt)toast(t('dateInvalid'));
   const norm=normSpaces(rawName); const hasName=norm.replace(/ /g,'').length>0;
   if(rawName&&!hasName)toast(t('nameNoLatin')); /* nume doar cu alfabet ne-latin: înainte era ignorat în tăcere */
   if(!hasName&&!dt){profile=null;return;}
@@ -1272,7 +1279,7 @@ function renderCycles(){
   const P=profile; const fdRaw=state.forecast||todayISO(); const fd=readDate(fdRaw)||readDate(todayISO());
   const pc=personalCycles(P.date.d,P.date.m,fd.y,fd.m,fd.d); const age=ageNow(P.date.d,P.date.m,P.date.y);
   let h='<h3 class="sec-h">'+t('cyclesIntro')+'</h3><p class="sec-sub">'+t('cyclesDesc')+'</p>';
-  h+='<div class="card" style="padding:14px 22px"><div class="field" style="max-width:240px"><label for="forecastDate">'+t('forecastFor')+'</label><input type="date" id="forecastDate" value="'+fdRaw+'" min="1500-01-01" max="2200-12-31" onchange="window.setForecast(this.value)"></div></div>';
+  h+='<div class="card" style="padding:14px 22px"><div class="field" style="max-width:240px"><label for="forecastDate">'+t('forecastFor')+'</label><input type="date" id="forecastDate" value="'+fdRaw+'" min="1500-01-01" max="2200-12-31" data-change="setForecast" data-a="[&quot;$v&quot;]"></div></div>';
   h+='<div class="three">'+miniNum('personalYear',t('personalYear'),pc.py.v)+miniNum('personalMonth',t('personalMonth'),pc.pm.v)+miniNum('personalDay',t('personalDay'),pc.pd.v)+'</div>';
   const py=loc(PYEAR[root(pc.py.v)]);
   h+='<div class="readout"><p class="eyebrow" style="margin-bottom:4px">'+t('personalYear')+' '+badge(pc.py.v)+'</p><h4>'+esc(py.t)+'</h4><p>'+esc(py.d)+'</p></div>';
@@ -1420,7 +1427,7 @@ function renderCompat(){
   let bsum=0;const jd1=bzJDN(d1.y,d1.m,d1.d),jd2=bzJDN(d2.y,d2.m,d2.d);for(let i=0;i<3;i++){bsum+=(Math.cos(2*Math.PI*(jd2-jd1)/BIO_RHYTHMS[i].period)+1)/2;}
   radarAx.push({label:t('rxBio'),value:bsum});
   h+='<div class="card" style="text-align:center"><p class="eyebrow" style="text-align:left">'+t('compatRadarTitle')+'</p>'+radarSVG(radarAx,3,'#d4af6a')+'</div>';
-  h+='<div style="text-align:center;margin-top:4px"><button class="btn ghost" onclick="reportCompare()">'+t('btnReportCompare')+'</button></div>';
+  h+='<div style="text-align:center;margin-top:4px"><button class="btn ghost" data-click="reportCompare">'+t('btnReportCompare')+'</button></div>';
   box.innerHTML=h;
 }
 
@@ -1444,8 +1451,46 @@ function prefSet(k,v){try{localStorage.setItem('num_pref_'+k,v);}catch(e){}}
 function renderSaved(){
   const list=getSaved(); const box=$('savedList');
   if(!list.length){box.innerHTML='<p style="color:var(--mut);font-size:14px;margin:0">'+t('noSaved')+'</p>';return;}
-  let h=''; list.forEach((it,i)=>{h+='<div class="saved-item"><div><div class="si-name">'+esc(it.name||t('noName'))+'</div><div class="si-meta">'+esc((it.date||'')+(it.time?' · '+it.time:''))+'</div></div><div class="si-act"><button class="xbtn" onclick="window.loadSaved('+i+')">'+t('load')+'</button><button class="xbtn del" onclick="window.delSaved('+i+')">'+t('del')+'</button></div></div>';});
+  let h=''; list.forEach((it,i)=>{h+='<div class="saved-item"><div><div class="si-name">'+esc(it.name||t('noName'))+'</div><div class="si-meta">'+esc((it.date||'')+(it.time?' · '+it.time:''))+'</div></div><div class="si-act"><button class="xbtn" data-click="loadSaved" data-a="['+i+']">'+t('load')+'</button><button class="xbtn del" data-click="delSaved" data-a="['+i+']">'+t('del')+'</button></div></div>';});
   box.innerHTML=h;
+}
+function summaryText(){
+  if(!profile)return '';
+  const P=profile,L=['NumeroLogIA · '+(state.sys==='chal'?'Chaldean':'Pythagoras')];
+  if(P.name)L.push(t('profileFor')+': '+P.name);
+  if(P.date)L.push(t('born')+' '+fmtDate(P.date));
+  const add=function(lbl,o){if(o&&o.v!==undefined)L.push(lbl+': '+o.v+(o.karmic?' ('+o.karmic+')':''));};
+  if(P.hasDate)add(t('lifePath'),P.lp.primary);
+  if(P.hasName){add(t('expression'),P.nn.expression);add(t('soulUrge'),P.nn.soul);add(t('personality'),P.nn.personality);}
+  if(P.hasDate)add(t('birthday'),P.birthday);
+  if(P.maturity)add(t('maturity'),P.maturity);
+  L.push('',t('sumNote'));
+  return L.join('\n');
+}
+function exportSaved(){
+  const list=getSaved();
+  if(!list.length){toast(t('expEmpty'));return;}
+  const blob=new Blob([JSON.stringify({app:'NumeroLogIA',version:1,saved:list},null,1)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='numerologia-portrete.json';
+  document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},2000);
+  toast(t('expOk')+' '+list.length);
+}
+function importSaved(text){
+  let data;try{data=JSON.parse(text);}catch(e){toast(t('impFail'));return;}
+  const arr=Array.isArray(data)?data:(data&&Array.isArray(data.saved)?data.saved:null);
+  if(!arr){toast(t('impFail'));return;}
+  const list=getSaved();let added=0;
+  arr.forEach(function(x){
+    if(!x||typeof x!=='object')return;
+    const name=typeof x.name==='string'?x.name.slice(0,120):'';
+    const date=typeof x.date==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x.date)&&readDate(x.date)?x.date:'';
+    const time=typeof x.time==='string'&&/^\d{2}:\d{2}$/.test(x.time)?x.time:'';
+    if(!name&&!date)return;
+    if(list.some(function(y){return y.name===name&&y.date===date&&(y.time||'')===time;}))return;
+    if(list.length>=50)return;
+    list.push({name:name,date:date,time:time});added++;
+  });
+  setSaved(list);renderSaved();toast(t('impOk')+' '+added);
 }
 window.loadSaved=function(i){const it=getSaved()[i];if(!it)return;$('inName').value=it.name||'';$('inDate').value=it.date||'';if($('inTime'))$('inTime').value=it.time||'';computeProfile();switchTab('profil');updateHash();};
 window.delSaved=function(i){if(!confirm(t('confirmDel')))return;const list=getSaved();list.splice(i,1);setSaved(list);renderSaved();};
@@ -1800,8 +1845,8 @@ function renderBio(){
   let h='<div class="card"><p class="eyebrow">'+t('bioEye')+'</p><h3 class="sec-h" style="margin-top:2px">'+t('bioTitle')+'</h3><p class="sec-sub" style="margin:2px 0 12px 0">'+t('bioDesc')+'</p>';
   h+='<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px">';
   h+='<label style="font-size:13px;color:var(--mut)">'+t('bioTargetLbl')+'</label>';
-  h+='<input type="range" id="bioSlider" aria-labelledby="bioDateLbl" min="-60" max="60" value="0" step="1" oninput="bioUpdate()" style="flex:1;min-width:170px;accent-color:var(--gild)">';
-  h+='<button class="btn ghost" style="padding:6px 12px" onclick="var s=document.getElementById(\'bioSlider\');s.value=0;bioUpdate();">'+t('bioToday')+'</button>';
+  h+='<input type="range" id="bioSlider" aria-labelledby="bioDateLbl" min="-60" max="60" value="0" step="1" data-input="bioUpdate" style="flex:1;min-width:170px;accent-color:var(--gild)">';
+  h+='<button class="btn ghost" style="padding:6px 12px" data-click="bioToday">'+t('bioToday')+'</button>';
   h+='<span id="bioDateLbl" style="font-family:var(--mono);font-size:13px;color:var(--gild-t);min-width:130px;text-align:right"></span></div>';
   h+='<div id="bioChart" style="margin:4px 0"></div>';
   h+='<div id="bioVals" class="med-grid" style="margin-top:8px"></div>';
@@ -1940,19 +1985,19 @@ function renderAI(){
   h+='<details style="margin-bottom:14px"><summary style="cursor:pointer;font-size:13.5px;color:var(--cele)">'+t('aiSettings')+'</summary><div style="margin-top:10px">';
   h+='<div class="field"><label>'+t('aiBaseLbl')+'</label><input type="text" id="aiBase" value="'+base+'" autocomplete="off" spellcheck="false"></div>';
   h+='<div class="field" style="margin-top:8px"><label>'+t('aiModelLbl')+'</label><input type="text" id="aiModel" value="'+model+'" autocomplete="off" spellcheck="false"></div>';
-  h+='<div class="field" style="margin-top:10px"><label>'+t('aiInstalledLbl')+'</label><div style="display:flex;gap:8px"><select id="aiModelList" onchange="aiPickModel()" style="flex:1"><option value="">—</option></select><button class="btn ghost" style="padding:7px 12px" onclick="aiRefreshModels()">'+t('aiRefresh')+'</button></div></div>';
-  h+='<div class="field" style="margin-top:10px"><label>'+t('aiPullLbl')+'</label><div style="display:flex;gap:8px"><input type="text" id="aiPullName" value="'+model+'" autocomplete="off" spellcheck="false" style="flex:1"><button class="btn" style="padding:7px 14px" onclick="aiPullModel()">'+t('aiPullBtn')+'</button></div></div>';
-  h+='<div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">'+["llama3.2:1b","llama3.2","qwen2.5:3b","gemma2:2b","phi3.5"].map(function(m){return '<button onclick="aiSetPull(&#39;'+m+'&#39;)" style="font-size:12px;padding:4px 9px;border:1px solid var(--line);border-radius:99px;background:var(--surf);color:var(--cele);cursor:pointer">'+m+'</button>';}).join('')+'</div>';
+  h+='<div class="field" style="margin-top:10px"><label>'+t('aiInstalledLbl')+'</label><div style="display:flex;gap:8px"><select id="aiModelList" data-change="aiPickModel" style="flex:1"><option value="">—</option></select><button class="btn ghost" style="padding:7px 12px" data-click="aiRefreshModels">'+t('aiRefresh')+'</button></div></div>';
+  h+='<div class="field" style="margin-top:10px"><label>'+t('aiPullLbl')+'</label><div style="display:flex;gap:8px"><input type="text" id="aiPullName" value="'+model+'" autocomplete="off" spellcheck="false" style="flex:1"><button class="btn" style="padding:7px 14px" data-click="aiPullModel">'+t('aiPullBtn')+'</button></div></div>';
+  h+='<div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">'+["llama3.2:1b","llama3.2","qwen2.5:3b","gemma2:2b","phi3.5"].map(function(m){return '<button data-click="aiSetPull" data-a="[&quot;'+m+'&quot;]" style="font-size:12px;padding:4px 9px;border:1px solid var(--line);border-radius:99px;background:var(--surf);color:var(--cele);cursor:pointer">'+m+'</button>';}).join('')+'</div>';
   h+='<div id="aiPullBar" style="height:8px;background:var(--surf2);border-radius:99px;overflow:hidden;margin-top:8px"><div id="aiPullBarFill" style="height:100%;width:0;background:var(--gild);transition:width .3s"></div></div>';
   h+='<div id="aiPullStatus" style="font-size:12px;color:var(--mut);margin-top:5px;min-height:14px"></div>';
   h+='<p class="sec-sub" style="margin-top:4px">'+t('aiDownloadHint')+'</p>';
   h+='<div class="field" style="margin-top:8px"><label>'+t('aiKeyLbl')+'</label><input type="password" id="aiKey" value="'+key+'" autocomplete="off" spellcheck="false"></div>';
   h+='<p class="sec-sub" id="aiKeyWarn" style="margin:4px 0 0">'+t('aiKeyWarn')+'</p>';
-  h+='<div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button class="btn ghost" style="padding:7px 14px" onclick="aiSaveSettings()">'+t('aiSave')+'</button><button class="btn ghost" style="padding:7px 14px" onclick="aiTest()">'+t('aiTest')+'</button><span id="aiStatus" style="font-size:12.5px;color:var(--mut)"></span></div>';
+  h+='<div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button class="btn ghost" style="padding:7px 14px" data-click="aiSaveSettings">'+t('aiSave')+'</button><button class="btn ghost" style="padding:7px 14px" data-click="aiTest">'+t('aiTest')+'</button><span id="aiStatus" style="font-size:12.5px;color:var(--mut)"></span></div>';
   h+='<p class="sec-sub" style="margin-top:10px">'+t('aiSetupHint')+'</p>';
   h+='</div></details>';
-  h+='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px"><button class="btn" onclick="aiPortrait()">'+t('aiBtnPortrait')+'</button><button class="btn" onclick="aiDaily()">'+t('aiBtnDaily')+'</button><button class="btn" onclick="aiCompatRun()">'+t('aiBtnCompat')+'</button></div>';
-  h+='<div class="field"><label>'+t('aiAskLbl')+'</label><div style="display:flex;gap:8px"><input type="text" id="aiAsk" placeholder="'+esc(t('aiAskPh'))+'" autocomplete="off" style="flex:1" onkeydown="aiAskKey(event)"><button class="btn" onclick="aiAsk()">'+t('aiAskBtn')+'</button></div></div>';
+  h+='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px"><button class="btn" data-click="aiPortrait">'+t('aiBtnPortrait')+'</button><button class="btn" data-click="aiDaily">'+t('aiBtnDaily')+'</button><button class="btn" data-click="aiCompatRun">'+t('aiBtnCompat')+'</button></div>';
+  h+='<div class="field"><label>'+t('aiAskLbl')+'</label><div style="display:flex;gap:8px"><input type="text" id="aiAsk" placeholder="'+esc(t('aiAskPh'))+'" autocomplete="off" style="flex:1" data-keydown="aiAskKey" data-a="[&quot;$ev&quot;]"><button class="btn" data-click="aiAsk">'+t('aiAskBtn')+'</button></div></div>';
   h+='<div id="aiResp" style="margin-top:14px;white-space:pre-wrap;line-height:1.62;font-size:14.5px;min-height:8px"></div>';
   h+='<p class="sec-sub" style="margin-top:14px">'+t('aiDisclaimer')+'</p></div>';
   box.innerHTML=h;
@@ -2089,7 +2134,7 @@ function openReport(kind){
   const v=$('reportView'); if(!v)return;
   const html=(kind==='compare')?buildCompareReport():buildPersonalReport();
   if(!html){toast(kind==='compare'?t('aiNeedCompat'):t('aiNeedProfile'));return;}
-  v.innerHTML='<div class="report-toolbar"><button class="btn" onclick="reportPrint()">'+t('rptPrint')+'</button><button class="btn ghost" onclick="closeReport()">'+t('rptClose')+'</button></div><div class="report-body">'+html+'</div>';
+  v.innerHTML='<div class="report-toolbar"><button class="btn" data-click="reportPrint">'+t('rptPrint')+'</button><button class="btn ghost" data-click="closeReport">'+t('rptClose')+'</button></div><div class="report-body">'+html+'</div>';
   document.body.classList.add('report-open');
 }
 window.openReport=openReport;
@@ -2129,6 +2174,10 @@ $('saveBtn').addEventListener('click',()=>{const name=$('inName').value.trim(),d
 $('shareBtn').addEventListener('click',()=>{computeProfile();updateHash();const url=location.href;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>toast(t('shareOk')),()=>toast(t('shareFail')));}else toast(t('shareFail'));});
 $('demoBtn').addEventListener('click',()=>{$('inName').value=t('demoName');$('inDate').value='1988-07-23';if($('inTime'))$('inTime').value='14:30';computeProfile();switchTab('profil');updateHash();});
 $('reportBtn').addEventListener('click',()=>openReport('personal'));
+$('copySumBtn').addEventListener('click',()=>{computeProfile();const tx=summaryText();if(!tx){toast(t('fillPrompt'));return;}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(tx).then(()=>toast(t('sumOk')),()=>toast(t('shareFail')));}else toast(t('shareFail'));});
+$('expSavedBtn').addEventListener('click',exportSaved);
+$('impSavedBtn').addEventListener('click',()=>$('impFile').click());
+$('impFile').addEventListener('change',function(){const f=this.files&&this.files[0];if(!f)return;if(f.size>1000000){toast(t('impFail'));this.value='';return;}const r=new FileReader();r.onload=function(){importSaved(String(r.result));};r.onerror=function(){toast(t('impFail'));};r.readAsText(f);this.value='';});
 $('wordBtn').addEventListener('click',renderName);
 $('cmpBtn').addEventListener('click',renderCmp);
 $('compatBtn').addEventListener('click',renderCompat);
@@ -2143,6 +2192,20 @@ window.addEventListener('resize',drawSky);
 window.addEventListener('hashchange',()=>{});
 
 /* ---------- init ---------- */
+window.bioToday=function(){const sl=document.getElementById('bioSlider');if(sl){sl.value=0;bioUpdate();}};
+/* dispatcher delegat: înlocuiește atributele on* inline (CSP fără 'unsafe-inline' pentru scripturi) */
+(function(){
+  const ALLOWED=new Set(["aiAsk", "aiAskKey", "aiCompatRun", "aiDaily", "aiPickModel", "aiPortrait", "aiPullModel", "aiRefreshModels", "aiSaveSettings", "aiSetPull", "aiTest", "bioToday", "bioUpdate", "closeReport", "delSaved", "loadSaved", "reportCompare", "reportPrint", "setForecast"]);
+  ['click','change','input','keydown'].forEach(function(type){
+    document.addEventListener(type,function(ev){
+      const el=ev.target&&ev.target.closest?ev.target.closest('[data-'+type+']'):null; if(!el)return;
+      const name=el.getAttribute('data-'+type); if(!ALLOWED.has(name)||typeof window[name]!=='function')return;
+      let args=[]; const raw=el.getAttribute('data-a'); if(raw){try{args=JSON.parse(raw);}catch(e){args=[];}}
+      if(!Array.isArray(args))args=[];
+      window[name].apply(el,args.map(function(a){return a==='$ev'?ev:(a==='$v'?el.value:a);}));
+    });
+  });
+})();
 (function init(){
   const savedTheme=prefGet('theme'); if(savedTheme==='light'||savedTheme==='dark')document.body.dataset.theme=savedTheme;
   state.lang=detectLang();

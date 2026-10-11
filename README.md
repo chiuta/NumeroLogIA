@@ -21,7 +21,8 @@ NumeroLogIA calculează un „portret” numerologic pornind de la numele comple
 - Calculator de valoare numerică pentru orice nume sau cuvânt, defalcat literă cu literă (vocale și consoane), în ambele sisteme, și compararea a două nume (nume de scenă, după căsătorie, pseudonime).
 - Compatibilitate între două persoane (Drumul Vieții, Expresia, Dorința Sufletului).
 - Numerele universale ale zilei și o referință completă a numerelor.
-- **Portrete salvate** în browser.
+- **Portrete salvate** în browser, cu **export / import JSON** (copie de siguranță; la import se validează numele, data și ora, se elimină duplicatele, maximum 50 de intrări, fișier sub 1 MB).
+- **Copiază rezumatul** (Profil): numerele principale ca text simplu, cu nota că numerologia nu are validare științifică; o dată introdusă invalidă produce acum un mesaj.
 - **Oracol IA** (opțional): sinteză de portret, ghidaj pentru azi, interpretare de compatibilitate și întrebări libere, trimise către un model lingvistic la o adresă pe care o setezi tu (implicit Ollama local). Poate lista modele instalate și descărca modele prin Ollama.
 
 ## Manual de utilizare
@@ -52,7 +53,8 @@ Descarcă `index.html` și deschide-l în browser; numerologia funcționează f�
 
 ### 11 octombrie 2026
 - Accesibilitate: conținutul încadrat în <main>, canvas-ul decorativ ascuns de cititoarele de ecran, etichete legate de câmpuri (axe: 0 violări).
-- Datele „azi” (numere universale, BaZi) se calculează dinamic din data curentă; nu există date fixe perimate. Atributele `on*` inline din interfața IA rămân (CSP permite scripturi inline).
+- Datele „azi” (numere universale, BaZi) se calculează dinamic din data curentă; nu există date fixe perimate. Atributele `on*` inline (22) au fost înlocuite cu un dispatcher delegat (`data-click` / `data-change` / `data-input` / `data-keydown`, listă albă de funcții, argumente JSON) iar CSP folosește hash pentru script, fără `'unsafe-inline'` la scripturi (rămâne la stiluri; `connect-src http: https:` rămâne pentru adresa configurabilă a modelului IA).
+- Nou: export/import JSON al portretelor salvate, „Copiază rezumatul”, mesaj pentru dată invalidă (în cele 7 limbi). Captura de ecran actualizată.
 
 ## Licență
 
