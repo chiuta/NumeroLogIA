@@ -38,9 +38,9 @@ Conținut informativ/de divertisment, fără validare științifică: numerologi
 
 ## Confidențialitate și rețea
 
-- **Stocare locală (localStorage):** `numerologie_saved_v1` (portretele salvate), chei `num_pref_*` (limbă, sistem, temă) și `num_ai_*` (adresa, modelul și, dacă o introduci, cheia API a oracolului IA, stocată necriptat).
+- **Stocare locală (localStorage):** `numerologie_saved_v1` (portretele salvate), chei `num_pref_*` (limbă, sistem, temă) și `num_ai_*` (adresa, modelul și, dacă o introduci, cheia API a oracolului IA, stocată necriptat; aplicația afișează acum un avertisment vizibil sub câmpul „Cheie API” din Setările IA, în toate cele 7 limbi).
 - **Rețea:** calculele numerologice nu fac cereri. Singurele cereri posibile sunt cele din fila IA, doar când apeși o acțiune IA (sau listare/descărcare de modele), către adresa configurată de tine, implicit `http://localhost:11434` (Ollama pe calculatorul tău). Dacă setezi o adresă la distanță, numele, datele și întrebările tale ajung la acel server. Aplicația nu include chei, analytics sau telemetrie și nu încarcă resurse de la terți.
-- Linkul partajabil conține în partea de după `#` numele și data introduse; partajează-l conștient.
+- Linkul partajabil conține în partea de după `#` numele și data introduse (hash-ul se actualizează la fiecare calcul, deci apare și în bara de adrese/istoricul browserului, dar nu este trimis niciunui server); mesajul de confirmare la copiere spune acum explicit că linkul conține numele și data nașterii; partajează-l conștient.
 
 ## Rulare locală / offline
 
