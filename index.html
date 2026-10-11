@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src http: https:; base-uri 'none'; form-action 'none';">
+<meta name="copyright" content="Licență nedeclarată de autor; toate drepturile rezervate până la o declarație contrară. Contact: alexio@trom.tf">
 <title>NumeroLogIA — Numerologie + IA</title>
+<!-- Licență: nedeclarată de autor; toate drepturile rezervate până la o declarație contrară. Contact: alexio@trom.tf
+     License: not declared by the author; all rights reserved until stated otherwise. Contact: alexio@trom.tf -->
 <style>
 :root{
   --bg:#0a0d18; --bg2:#0d1120; --surf:#12172a; --surf2:#171d33; --line:#262d47;
@@ -148,6 +152,7 @@ table.t tr:hover td{background:var(--surf2)}
 .empty-note .big{font-family:var(--serif); font-size:40px; color:var(--gild-t); opacity:.5; display:block; margin-bottom:8px}
 .note{font-size:12.5px; color:var(--faint); line-height:1.55; border-top:1px solid var(--line); margin-top:30px; padding-top:16px}
 .note b{color:var(--mut)}
+#licNote a{color:var(--gild-t)}
 .calc-result{display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px; margin-top:14px}
 .breakdown{font-family:var(--mono); font-size:13px; color:var(--mut); background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-top:12px; line-height:2; word-break:break-word}
 .breakdown .hl{color:var(--gild-t)} .breakdown .vw{color:var(--wine)}
@@ -334,6 +339,10 @@ body.report-open #reportView{display:block;position:fixed;inset:0;z-index:9999;o
 <p class="note">
   <span data-i="note1"><b>Despre metodă:</b> aplicația folosește numerologia pitagoreică (cu opțiune chaldeană), păstrând numerele maestru 11/22/33 și marcând datoriile karmice 13/14/16/19. Calculele sunt afișate transparent, pas cu pas.</span><br>
   <span data-i="note2"><b>Notă onestă:</b> numerologia este un sistem simbolic tradițional, oferit pentru reflecție personală și explorare culturală — nu o știință. Folosește-l ca oglindă, nu ca predicție.</span>
+</p>
+<p class="note" id="licNote">
+  Licență: nedeclarată de autor; toate drepturile rezervate până la o declarație contrară. Contact: <a href="mailto:alexio@trom.tf">alexio@trom.tf</a><br>
+  <span lang="en">License: not declared by the author; all rights reserved until stated otherwise. Contact: <a href="mailto:alexio@trom.tf">alexio@trom.tf</a></span>
 </p>
 </div>
 <div class="toast" id="toast"></div>
