@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Lb3lhL3JJHeIgItvwWcp1MZ91ghLly3MOFR7hIxaeMw='; style-src 'unsafe-inline'; img-src data:; connect-src http: https:; base-uri 'none'; form-action 'none';">
+<meta name="application-version" content="1.0.0">
+<meta name="last-updated" content="2026-10-12">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-rrLFqpe0qNnx8rMlvEghcjkdEf680oU1/QNgncCf0jI='; style-src 'unsafe-inline'; img-src data:; connect-src http: https:; base-uri 'none'; form-action 'none';">
 <meta name="copyright" content="Licență nedeclarată de autor; toate drepturile rezervate până la o declarație contrară. Contact: alexio@trom.tf">
 <title>NumeroLogIA — Numerologie + IA</title>
 <!-- Licență: nedeclarată de autor; toate drepturile rezervate până la o declarație contrară. Contact: alexio@trom.tf
@@ -349,7 +351,8 @@ body.report-open #reportView{display:block;position:fixed;inset:0;z-index:9999;o
 </p>
 <p class="note" id="licNote">
   Licență: nedeclarată de autor; toate drepturile rezervate până la o declarație contrară. Contact: <a href="mailto:alexio@trom.tf">alexio@trom.tf</a><br>
-  <span lang="en">License: not declared by the author; all rights reserved until stated otherwise. Contact: <a href="mailto:alexio@trom.tf">alexio@trom.tf</a></span>
+  <span lang="en">License: not declared by the author; all rights reserved until stated otherwise. Contact: <a href="mailto:alexio@trom.tf">alexio@trom.tf</a></span><br>
+  <span data-i="verLabel">Versiune</span> <span id="app-version">v 1.0.0 · 2026-10-12</span>
 </p>
 </main>
 </div>
@@ -1744,6 +1747,7 @@ window.renderBazi=renderBazi;
 ["pt",{dmSupportLbl:"Apoio do Mestre do Dia (Recurso + Companheiro)",dmStrong:"tende a auto-forte (身強)",dmBalanced:"bastante equilibrado (中和)",dmWeak:"tende a auto-fraco (身弱)",dmSupportNote:"Apenas uma indicação aproximada — a verdadeira força depende sobretudo da estação de nascimento (o comando do mês) e do mapa completo."}],
 ["ca",{dmSupportLbl:"Suport de l'Amo del Dia (Recurs + Company)",dmStrong:"tendeix a auto-fort (身強)",dmBalanced:"força equilibrat (中和)",dmWeak:"tendeix a auto-feble (身弱)",dmSupportNote:"Només una indicació aproximada — la força real depèn sobretot de l'estació de naixement (el comandament del mes) i de la carta completa."}]
 ].forEach(function(e){Object.assign(I18N[e[0]],e[1]);});
+Object.assign(I18N.ro,{verLabel:"Versiune"});Object.assign(I18N.en,{verLabel:"Version"});Object.assign(I18N.it,{verLabel:"Versione"});Object.assign(I18N.es,{verLabel:"Versión"});Object.assign(I18N.fr,{verLabel:"Version"});Object.assign(I18N.pt,{verLabel:"Versão"});Object.assign(I18N.ca,{verLabel:"Versió"});
 
 /* --- UI strings (en, ro, it, es) --- */
 Object.assign(I18N.en,{tabBazi:"BaZi",fldTime:"Birth time (optional)",baziEye:"Chinese Four Pillars of Destiny · 八字",baziTitle:"BaZi — The Four Pillars",baziDesc:"Your birth moment expressed as four pillars of Heavenly Stems and Earthly Branches — the foundation of Chinese astrology. A birth time adds the Hour pillar.",baziNeedDate:"Enter a birth date in the bar above to cast the Four Pillars.",pillarYear:"Year",pillarMonth:"Month",pillarDay:"Day",pillarHour:"Hour",hourNeedTime:"Add a birth time above to reveal the Hour pillar.",dayMasterLbl:"Day Master 日主",dayMasterTitle:"Day Master — your core self",fiveElemTitle:"Five Elements balance",fiveElemDesc:"How the five elements are distributed across your pillars. The strongest shapes your nature; the weakest shows what to cultivate.",strongestLbl:"Strongest",weakestLbl:"Weakest",zodiacEye:"Year animal & element",zodiacTitle:"Chinese Zodiac",zodiacDesc:"Your year animal and its element, adjusted to Lìchūn — the solar start of the year, around 4 February.",sunEye:"Tropical zodiac by date",sunTitle:"Western Sun Sign",sunDesc:"Your sun sign from the birth date, with its element and modality.",mayanEye:"260-day sacred calendar",mayanTitle:"Maya Tzolk'in — Day Sign",mayanDesc:"Your day-sign and tone in the Tzolk'in (GMT correlation, 584283).",toneLbl:"Tone",baziMethodNote:"Conventions: the year changes at Lìchūn (~4 Feb), the months follow the solar terms, the day changes at midnight, and the clock time is used as entered (no timezone conversion). Near a boundary, verify with a localized calculator."});

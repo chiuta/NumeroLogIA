@@ -4,7 +4,7 @@ Numerologie pitagoreică și chaldeană, cu analiză a ciclurilor, compatibilita
 
 **Live:** https://chiuta.github.io/NumeroLogIA/
 
-**Ultima actualizare:** 11 octombrie 2026
+**Versiune:** 1.0.0 · **Ultima actualizare:** 12 octombrie 2026
 
 ![Captura de ecran](screenshot.png)
 
@@ -50,6 +50,9 @@ Conținut informativ/de divertisment, fără validare științifică: numerologi
 Descarcă `index.html` și deschide-l în browser; numerologia funcționează fără internet. Oracolul IA are nevoie de un server de modele local (de exemplu Ollama) sau de o adresă la alegerea ta.
 
 ## Istoric / Changelog
+
+### 12 octombrie 2026 (v1.0.0)
+- 1.0.0 — 2026-10-12: versiunea și data ultimei actualizări sunt afișate în aplicație
 
 ### 11 octombrie 2026 (a doua intrare)
 - Securitate: cheia API a oracolului IA se păstrează implicit doar în sesiune; stocarea în `localStorage` este opțiune explicită („Reține cheia între sesiuni”, 7 limbi), iar la salvare o cheie veche din `localStorage` este mutată în sesiune dacă opțiunea nu e bifată. Testat în browser.
