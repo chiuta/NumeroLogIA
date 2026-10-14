@@ -67,7 +67,7 @@ Descarcă `index.html` și deschide-l în browser; numerologia funcționează f�
 
 ## Licență
 
-Licență: nedeclarată de autor; toate drepturile rezervate până la o declarație contrară. Contact: alexio@trom.tf
+MIT — vezi fișierul `LICENSE`. © 2026 Alexandru-Ionuț Chiuță (Alexio). Eventualele biblioteci terțe incluse în fișier își păstrează licențele proprii.
 
 License: not declared by the author; all rights reserved until stated otherwise. Contact: alexio@trom.tf
 
