@@ -4,7 +4,7 @@
   "name": "NumeroLogIA — Numerologie + IA",
   "version": "1.1.0",
   "updated": "2026-10-14",
-  "description": "",
+  "description": "Numerologie pitagoreică și chaldeană, cu analiză a ciclurilor, compatibilitate și un oracol IA opțional care rulează pe modelul tău local.",
   "egress": [
     {
       "host": "http:(orice gazdă)",
@@ -30,8 +30,8 @@
     "num_ai_keypersist",
     "num_pref_"
   ],
-  "sizeBytes": 466081,
-  "sha256": "20404acf0bb85e815862d2aa88cbc7b2cc43cf6afb8fc91baa14eff4bd83faaa",
+  "sizeBytes": 466410,
+  "sha256": "54c004ff84b6202790e59eddea9f6e1b1ea6a87a2d8a8b9535c51f5659cabc75",
   "csp": {
     "present": true,
     "directives": {
