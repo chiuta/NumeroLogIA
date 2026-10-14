@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "slug": "numerologia",
+  "name": "NumeroLogIA — Numerologie + IA",
+  "version": "1.1.0",
+  "updated": "2026-10-14",
+  "description": "",
+  "egress": [
+    {
+      "host": "http:(orice gazdă)",
+      "via": [
+        "csp:connect-src"
+      ]
+    },
+    {
+      "host": "https:(orice gazdă)",
+      "via": [
+        "csp:connect-src"
+      ]
+    }
+  ],
+  "permissions": [
+    "clipboard",
+    "serviceWorker",
+    "localStorage"
+  ],
+  "storageKeys": [
+    "num_ai_",
+    "num_ai_key",
+    "num_ai_keypersist",
+    "num_pref_"
+  ],
+  "sizeBytes": 466081,
+  "sha256": "20404acf0bb85e815862d2aa88cbc7b2cc43cf6afb8fc91baa14eff4bd83faaa",
+  "csp": {
+    "present": true,
+    "directives": {
+      "default-src": "'none'",
+      "script-src": "sha256×3",
+      "style-src": "'unsafe-inline'",
+      "img-src": "'self' data:",
+      "connect-src": "http: https:",
+      "base-uri": "'none'",
+      "form-action": "'none'",
+      "manifest-src": "'self'",
+      "worker-src": "'self'"
+    },
+    "scriptInline": "hash",
+    "connect": "http: https:"
+  },
+  "features": {
+    "export": true,
+    "import": true,
+    "i18n": [
+      "ro",
+      "en",
+      "fr",
+      "it",
+      "es",
+      "pt"
+    ],
+    "pwa": {
+      "manifest": true,
+      "serviceWorker": true
+    },
+    "modules": [
+      "core",
+      "label",
+      "bundle"
+    ]
+  },
+  "kit": {
+    "version": "1.0.0",
+    "modules": [
+      "core",
+      "label",
+      "bundle"
+    ]
+  },
+  "selfSerializing": false
+}
