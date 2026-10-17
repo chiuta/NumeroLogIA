@@ -69,9 +69,9 @@ Descarcă `index.html` și deschide-l în browser; numerologia funcționează f�
 
 MIT — vezi fișierul `LICENSE`. © 2026 Alexandru-Ionuț Chiuță (Alexio). Eventualele biblioteci terțe incluse în fișier își păstrează licențele proprii.
 
-License: not declared by the author; all rights reserved until stated otherwise. Contact: alexio@trom.tf
+License: MIT (see the LICENSE file). Contact: alexio@trom.tf
 
-Aceeași declarație apare în antetul HTML și în subsolul aplicației (RO + EN). Nu există fișier LICENSE: alegerea unei licențe aparține autorului.
+Aceeași declarație apare în antetul HTML și în subsolul aplicației (RO + EN). Textul licenței se află în fișierul LICENSE.
 
 ## Audit
 
@@ -83,6 +83,6 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 
 ## English summary
 
-NumeroLogIA is a single-file numerology tool (Pythagorean and Chaldean systems, master numbers, cycles, birth grid, name calculator, compatibility, BaZi, biorhythm) in 7 languages, with saved portraits in localStorage. An optional AI tab talks only to an endpoint you configure (default: local Ollama at localhost:11434); with a remote endpoint your inputs would be sent there. No telemetry or third-party resources. License: not declared by the author; all rights reserved until stated otherwise (contact: alexio@trom.tf).
+NumeroLogIA is a single-file numerology tool (Pythagorean and Chaldean systems, master numbers, cycles, birth grid, name calculator, compatibility, BaZi, biorhythm) in 7 languages, with saved portraits in localStorage. An optional AI tab talks only to an endpoint you configure (default: local Ollama at localhost:11434); with a remote endpoint your inputs would be sent there. No telemetry or third-party resources. License: MIT (see the LICENSE file) (contact: alexio@trom.tf).
 
 Runda 3 (2026-10-11): declarație explicită de licență nedeclarată (antet, subsol, README); adăugat CSP; tema esoterică și stocarea cheii API rămân decizii ale autorului.
