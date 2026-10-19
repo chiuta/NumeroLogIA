@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 1.1.0 · **Última atualização:** 2026-10-14
+**Versão:** 1.2.0 · **Última atualização:** 2026-10-19
+
+Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
 Numerologia pitagórica e caldaica, com análise de ciclos, compatibilidade e um oráculo de IA opcional que funciona no seu modelo local.
 
@@ -16,7 +18,7 @@ O NumeroLogIA calcula um «retrato» numerológico a partir do nome completo de 
 
 ## Funcionalidades
 
-- Interface em 7 línguas: inglês, romeno, italiano, espanhol, francês, português, catalão.
+- Interface em 9 línguas: inglês, romeno, italiano, espanhol, francês, português, catalão, alemão, húngaro.
 - Comutador de sistema **Pitágoras / Caldeu**; tema claro/escuro (botão ◐); **⎙** para imprimir / guardar em PDF.
 - Separadores: **Perfil**, **Ciclos**, **Grelha de nascimento**, **Calculadora de nomes**, **Compatibilidade**, **Universal e Referência**, **BaZi**, **Biorritmo**, **IA**, **Guardados**.
 - Botões no Perfil: **Revelar o retrato**, **Guardar o retrato**, **Copiar ligação partilhável**, **Exemplo**, **Relatório PDF**.
@@ -85,6 +87,6 @@ Alexio — Alexandru-Ionuț Chiuță. Contacto: alexio@trom.tf
 
 ## Resumo em inglês
 
-O NumeroLogIA é uma ferramenta de numerologia de ficheiro único (sistemas pitagórico e caldaico, números mestres, ciclos, grelha de nascimento, calculadora de nomes, compatibilidade, BaZi, biorritmo) em 7 línguas, com retratos guardados em localStorage. Um separador de IA opcional comunica apenas com um ponto de acesso que você configura (por predefinição: Ollama local em localhost:11434); com um ponto de acesso remoto, os seus dados seriam enviados para lá. Sem telemetria nem recursos de terceiros. Licença: MIT (veja o ficheiro LICENSE) (contacto: alexio@trom.tf).
+O NumeroLogIA é uma ferramenta de numerologia de ficheiro único (sistemas pitagórico e caldaico, números mestres, ciclos, grelha de nascimento, calculadora de nomes, compatibilidade, BaZi, biorritmo) em 9 línguas, com retratos guardados em localStorage. Um separador de IA opcional comunica apenas com um ponto de acesso que você configura (por predefinição: Ollama local em localhost:11434); com um ponto de acesso remoto, os seus dados seriam enviados para lá. Sem telemetria nem recursos de terceiros. Licença: MIT (veja o ficheiro LICENSE) (contacto: alexio@trom.tf).
 
 Ronda 3 (2026-10-11): acrescentada uma declaração de licença explícita (antes não declarada) (cabeçalho, rodapé, README); acrescentada a CSP; o tema esotérico e o armazenamento da chave API continuam a ser decisões do autor.

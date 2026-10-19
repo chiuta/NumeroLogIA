@@ -2,7 +2,9 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.1.0 · **Last updated:** 2026-10-14
+**Version:** 1.2.0 · **Last updated:** 2026-10-19
+
+Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
 Pythagorean and Chaldean numerology, with cycle analysis, compatibility and an optional AI oracle that runs on your own local model.
 
@@ -16,7 +18,7 @@ NumeroLogIA calculates a numerological "portrait" from the full birth name, the 
 
 ## Features
 
-- Interface in 7 languages: English, Romanian, Italian, Spanish, French, Portuguese, Catalan.
+- Interface in 9 languages: English, Romanian, Italian, Spanish, French, Portuguese, Catalan, German, Hungarian.
 - **Pythagoras / Chaldean** system switch; light/dark theme (the ◐ button); **⎙** for printing / saving as PDF.
 - Tabs: **Profile**, **Cycles**, **Birth grid**, **Name calculator**, **Compatibility**, **Universal & Reference**, **BaZi**, **Biorhythm**, **AI**, **Saved**.
 - Buttons in Profile: **Reveal the portrait**, **Save the portrait**, **Copy shareable link**, **Example**, **PDF report**.
@@ -85,6 +87,6 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 
 ## English summary
 
-NumeroLogIA is a single-file numerology tool (Pythagorean and Chaldean systems, master numbers, cycles, birth grid, name calculator, compatibility, BaZi, biorhythm) in 7 languages, with saved portraits in localStorage. An optional AI tab talks only to an endpoint you configure (default: local Ollama at localhost:11434); with a remote endpoint your inputs would be sent there. No telemetry or third-party resources. License: MIT (see the LICENSE file) (contact: alexio@trom.tf).
+NumeroLogIA is a single-file numerology tool (Pythagorean and Chaldean systems, master numbers, cycles, birth grid, name calculator, compatibility, BaZi, biorhythm) in 9 languages, with saved portraits in localStorage. An optional AI tab talks only to an endpoint you configure (default: local Ollama at localhost:11434); with a remote endpoint your inputs would be sent there. No telemetry or third-party resources. License: MIT (see the LICENSE file) (contact: alexio@trom.tf).
 
 Round 3 (2026-10-11): explicit license declaration (previously undeclared) added (header, footer, README); CSP added; the esoteric theme and the storage of the API key remain the author's decisions.

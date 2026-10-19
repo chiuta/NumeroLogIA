@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.1.0 · **Última actualización:** 2026-10-14
+**Versión:** 1.2.0 · **Última actualización:** 2026-10-19
+
+Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
 Numerología pitagórica y caldea, con análisis de ciclos, compatibilidad y un oráculo de IA opcional que funciona con tu modelo local.
 
@@ -16,7 +18,7 @@ NumeroLogIA calcula un «retrato» numerológico a partir del nombre completo de
 
 ## Funciones
 
-- Interfaz en 7 idiomas: inglés, rumano, italiano, español, francés, portugués, catalán.
+- Interfaz en 9 idiomas: inglés, rumano, italiano, español, francés, portugués, catalán, alemán, húngaro.
 - Conmutador de sistema **Pitágoras / Caldeo**; tema claro/oscuro (botón ◐); **⎙** para imprimir / guardar como PDF.
 - Pestañas: **Perfil**, **Ciclos**, **Cuadrícula de nacimiento**, **Calculadora de nombres**, **Compatibilidad**, **Universal y Referencia**, **BaZi**, **Biorritmo**, **IA**, **Guardados**.
 - Botones en Perfil: **Revelar el retrato**, **Guardar el retrato**, **Copiar enlace para compartir**, **Ejemplo**, **Informe PDF**.
@@ -85,6 +87,6 @@ Alexio — Alexandru-Ionuț Chiuță. Contacto: alexio@trom.tf
 
 ## Resumen en inglés
 
-NumeroLogIA es una herramienta de numerología en un solo archivo (sistemas pitagórico y caldeo, números maestros, ciclos, cuadrícula de nacimiento, calculadora de nombres, compatibilidad, BaZi, biorritmo) en 7 idiomas, con retratos guardados en localStorage. Una pestaña de IA opcional se comunica solo con un punto final que tú configuras (por defecto: Ollama local en localhost:11434); con un punto final remoto tus datos se enviarían allí. Sin telemetría ni recursos de terceros. Licencia: MIT (véase el archivo LICENSE) (contacto: alexio@trom.tf).
+NumeroLogIA es una herramienta de numerología en un solo archivo (sistemas pitagórico y caldeo, números maestros, ciclos, cuadrícula de nacimiento, calculadora de nombres, compatibilidad, BaZi, biorritmo) en 9 idiomas, con retratos guardados en localStorage. Una pestaña de IA opcional se comunica solo con un punto final que tú configuras (por defecto: Ollama local en localhost:11434); con un punto final remoto tus datos se enviarían allí. Sin telemetría ni recursos de terceros. Licencia: MIT (véase el archivo LICENSE) (contacto: alexio@trom.tf).
 
 Ronda 3 (2026-10-11): añadida una declaración de licencia explícita (antes no declarada) (cabecera, pie de página, README); añadida la CSP; el tema esotérico y el almacenamiento de la clave API siguen siendo decisiones del autor.

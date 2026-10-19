@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.1.0 · **Ultimo aggiornamento:** 2026-10-14
+**Versione:** 1.2.0 · **Ultimo aggiornamento:** 2026-10-19
+
+Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
 Numerologia pitagorica e caldea, con analisi dei cicli, compatibilità e un oracolo IA facoltativo che funziona sul tuo modello locale.
 
@@ -16,7 +18,7 @@ NumeroLogIA calcola un «ritratto» numerologico a partire dal nome completo all
 
 ## Funzionalità
 
-- Interfaccia in 7 lingue: inglese, rumeno, italiano, spagnolo, francese, portoghese, catalano.
+- Interfaccia in 9 lingue: inglese, rumeno, italiano, spagnolo, francese, portoghese, catalano, tedesco, ungherese.
 - Selettore di sistema **Pitagora / Caldeo**; tema chiaro/scuro (pulsante ◐); **⎙** per stampare / salvare in PDF.
 - Schede: **Profilo**, **Cicli**, **Griglia di nascita**, **Calcolatore di nomi**, **Compatibilità**, **Universale e Riferimento**, **BaZi**, **Bioritmo**, **IA**, **Salvati**.
 - Pulsanti nel Profilo: **Svela il ritratto**, **Salva il ritratto**, **Copia link condivisibile**, **Esempio**, **Rapporto PDF**.
@@ -85,6 +87,6 @@ Alexio — Alexandru-Ionuț Chiuță. Contatto: alexio@trom.tf
 
 ## Riepilogo in inglese
 
-NumeroLogIA è uno strumento di numerologia a file singolo (sistemi pitagorico e caldeo, numeri maestri, cicli, griglia di nascita, calcolatore di nomi, compatibilità, BaZi, bioritmo) in 7 lingue, con ritratti salvati in localStorage. Una scheda IA facoltativa comunica solo con un endpoint da te configurato (predefinito: Ollama locale su localhost:11434); con un endpoint remoto i tuoi dati verrebbero inviati lì. Nessuna telemetria né risorse di terze parti. Licenza: MIT (vedi il file LICENSE) (contatto: alexio@trom.tf).
+NumeroLogIA è uno strumento di numerologia a file singolo (sistemi pitagorico e caldeo, numeri maestri, cicli, griglia di nascita, calcolatore di nomi, compatibilità, BaZi, bioritmo) in 9 lingue, con ritratti salvati in localStorage. Una scheda IA facoltativa comunica solo con un endpoint da te configurato (predefinito: Ollama locale su localhost:11434); con un endpoint remoto i tuoi dati verrebbero inviati lì. Nessuna telemetria né risorse di terze parti. Licenza: MIT (vedi il file LICENSE) (contatto: alexio@trom.tf).
 
 Turno 3 (2026-10-11): aggiunta una dichiarazione di licenza esplicita (prima non dichiarata) (intestazione, piè di pagina, README); aggiunta la CSP; il tema esoterico e la memorizzazione della chiave API restano decisioni dell'autore.

@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.1.0 · **Utolsó frissítés:** 2026-10-14
+**Verzió:** 1.2.0 · **Utolsó frissítés:** 2026-10-19
+
+A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
 Püthagoraszi és káldeai numerológia cikluselemzéssel, kompatibilitással és egy opcionális MI-orákulummal, amely a saját helyi modelleden fut.
 
@@ -16,7 +18,7 @@ A NumeroLogIA numerológiai „portrét” számít a teljes születési névbő
 
 ## Funkciók
 
-- Felület 7 nyelven: angol, román, olasz, spanyol, francia, portugál, katalán.
+- Felület 9 nyelven: angol, román, olasz, spanyol, francia, portugál, katalán, német, magyar.
 - **Püthagorasz / Káldeai** rendszerváltó; világos/sötét téma (◐ gomb); **⎙** nyomtatáshoz / PDF-mentéshez.
 - Lapok: **Profil**, **Ciklusok**, **Születési rács**, **Névszámító**, **Kompatibilitás**, **Univerzális és Referencia**, **BaZi**, **Bioritmus**, **MI**, **Mentettek**.
 - Gombok a Profilban: **A portré feltárása**, **A portré mentése**, **Megosztható hivatkozás másolása**, **Példa**, **PDF-jelentés**.
@@ -85,6 +87,6 @@ Alexio — Alexandru-Ionuț Chiuță. Kapcsolat: alexio@trom.tf
 
 ## Angol nyelvű összefoglaló
 
-A NumeroLogIA egyfájlos numerológiai eszköz (püthagoraszi és káldeai rendszer, mesterszámok, ciklusok, születési rács, névszámító, kompatibilitás, BaZi, bioritmus) 7 nyelven, a mentett portrékat a localStorage-ban őrzi. Az opcionális MI-lap csak az általad beállított végponttal kommunikál (alapértelmezés: helyi Ollama a localhost:11434 címen); távoli végpont esetén a megadott adataid oda kerülnének. Nincs telemetria és harmadik fél erőforrása. Licenc: MIT (lásd a LICENSE fájlt) (kapcsolat: alexio@trom.tf).
+A NumeroLogIA egyfájlos numerológiai eszköz (püthagoraszi és káldeai rendszer, mesterszámok, ciklusok, születési rács, névszámító, kompatibilitás, BaZi, bioritmus) 9 nyelven, a mentett portrékat a localStorage-ban őrzi. Az opcionális MI-lap csak az általad beállított végponttal kommunikál (alapértelmezés: helyi Ollama a localhost:11434 címen); távoli végpont esetén a megadott adataid oda kerülnének. Nincs telemetria és harmadik fél erőforrása. Licenc: MIT (lásd a LICENSE fájlt) (kapcsolat: alexio@trom.tf).
 
 3. kör (2026-10-11): kifejezett licencnyilatkozat (korábban nem volt deklarálva) hozzáadva (fejléc, lábléc, README); CSP hozzáadva; az ezoterikus téma és az API-kulcs tárolása a szerző döntése marad.
