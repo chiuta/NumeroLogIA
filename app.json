@@ -28,10 +28,11 @@
     "num_ai_",
     "num_ai_key",
     "num_ai_keypersist",
-    "num_pref_"
+    "num_pref_",
+    "numerologie_saved_v1"
   ],
-  "sizeBytes": 467857,
-  "sha256": "9a2fd11f454d5393c7915b711f8a5fdffea9a3650946c9434d2fc2fb755d5d75",
+  "sizeBytes": 468516,
+  "sha256": "f045669798298bbb4127792bc0f5439b4f4d240589fa8a0cb960b2de1dc8f65e",
   "csp": {
     "present": true,
     "directives": {
@@ -70,7 +71,7 @@
     ]
   },
   "kit": {
-    "version": "1.0.0",
+    "version": "1.1.1",
     "modules": [
       "core",
       "label",
