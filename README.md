@@ -1,83 +1,85 @@
 # NumeroLogIA
 
-Numerologie pitagoreică și chaldeană, cu analiză a ciclurilor, compatibilitate și un oracol IA opțional care rulează pe modelul tău local.
+**English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Live:** https://chiuta.github.io/NumeroLogIA/
+**Version:** 1.1.0 · **Last updated:** 2026-10-14
 
-**Versiune:** 1.1.0 · **Ultima actualizare:** 14 octombrie 2026
+Pythagorean and Chaldean numerology, with cycle analysis, compatibility and an optional AI oracle that runs on your own local model.
 
-![Captura de ecran](screenshot.png)
+**Live app:** https://chiuta.github.io/NumeroLogIA/
 
-## Ce este
+![Screenshot](screenshot.png)
 
-NumeroLogIA calculează un „portret” numerologic pornind de la numele complet de la naștere, data nașterii și, opțional, ora nașterii. Aplicația folosește numerologia pitagoreică (cu opțiune chaldeană), păstrează numerele maestru 11/22/33 și marchează datoriile karmice 13/14/16/19; calculele sunt afișate pas cu pas. Aplicația precizează explicit că numerologia este un sistem simbolic tradițional, oferit pentru reflecție personală și explorare culturală, nu o știință.
+## What it is
 
-## Funcții
+NumeroLogIA calculates a numerological "portrait" from the full birth name, the date of birth and, optionally, the time of birth. The application uses Pythagorean numerology (with a Chaldean option), keeps the master numbers 11/22/33 and flags the karmic debts 13/14/16/19; the calculations are shown step by step. The application states explicitly that numerology is a traditional symbolic system, offered for personal reflection and cultural exploration, not a science.
 
-- Interfață în 7 limbi: engleză, română, italiană, spaniolă, franceză, portugheză, catalană.
-- Comutator de sistem **Pythagoras / Chaldean**; temă deschisă/închisă (butonul ◐); **⎙** pentru tipărire / salvare PDF.
-- File: **Profil**, **Cicluri**, **Grila nașterii**, **Calculator nume**, **Compatibilitate**, **Universal & Referință**, **BaZi**, **Bioritm**, **IA**, **Salvate**.
-- Butoane în Profil: **Dezvăluie portretul**, **Salvează portretul**, **Copiază link partajabil**, **Exemplu**, **Raport PDF**.
-- Calculator de valoare numerică pentru orice nume sau cuvânt, defalcat literă cu literă (vocale și consoane), în ambele sisteme, și compararea a două nume (nume de scenă, după căsătorie, pseudonime).
-- Compatibilitate între două persoane (Drumul Vieții, Expresia, Dorința Sufletului).
-- Numerele universale ale zilei și o referință completă a numerelor.
-- **Portrete salvate** în browser, cu **export / import JSON** (copie de siguranță; la import se validează numele, data și ora, se elimină duplicatele, maximum 50 de intrări, fișier sub 1 MB).
-- **Copiază rezumatul** (Profil): numerele principale ca text simplu, cu nota că numerologia nu are validare științifică; o dată introdusă invalidă produce acum un mesaj.
-- **Oracol IA** (opțional): sinteză de portret, ghidaj pentru azi, interpretare de compatibilitate și întrebări libere, trimise către un model lingvistic la o adresă pe care o setezi tu (implicit Ollama local). Poate lista modele instalate și descărca modele prin Ollama.
+## Features
 
-## Manual de utilizare
+- Interface in 7 languages: English, Romanian, Italian, Spanish, French, Portuguese, Catalan.
+- **Pythagoras / Chaldean** system switch; light/dark theme (the ◐ button); **⎙** for printing / saving as PDF.
+- Tabs: **Profile**, **Cycles**, **Birth grid**, **Name calculator**, **Compatibility**, **Universal & Reference**, **BaZi**, **Biorhythm**, **AI**, **Saved**.
+- Buttons in Profile: **Reveal the portrait**, **Save the portrait**, **Copy shareable link**, **Example**, **PDF report**.
+- Numeric-value calculator for any name or word, broken down letter by letter (vowels and consonants), in both systems, and comparison of two names (stage names, married names, pseudonyms).
+- Compatibility between two people (Life Path, Expression, Soul Urge).
+- The universal numbers of the day and a complete reference of the numbers.
+- **Saved portraits** in the browser, with **JSON export / import** (backup; on import the name, date and time are validated, duplicates are removed, maximum 50 entries, file under 1 MB).
+- **Copy the summary** (Profile): the main numbers as plain text, with the note that numerology has no scientific validation; an invalid date entered now produces a message.
+- **AI oracle** (optional): portrait synthesis, guidance for today, compatibility interpretation and free-form questions, sent to a language model at an address that you set yourself (default: local Ollama). It can list installed models and download models via Ollama.
 
-1. Alege limba din lista de limbi și sistemul (Pythagoras sau Chaldean).
-2. În „Profil”, introdu numele complet de la naștere (diacriticele sunt normalizate), data nașterii și, dacă vrei, ora; apasă **Dezvăluie portretul** (Enter în câmpuri face același lucru). **Exemplu** completează date demonstrative.
-3. Parcurge filele Cicluri, Grila nașterii, BaZi și Bioritm pentru restul analizei.
-4. Pentru un cuvânt oarecare, folosește „Calculator nume”; pentru două persoane, „Compatibilitate”.
-5. **Salvează portretul** îl păstrează în fila „Salvate”; **Copiază link partajabil** pune în link numele, data, ora, limba și sistemul.
-6. **Raport PDF** sau **⎙** deschid dialogul de tipărire al browserului, de unde poți salva PDF.
-7. Pentru fila IA: instalează Ollama (sau alt server compatibil OpenAI), pornește un model, deschide „Setări”, verifică adresa (implicit `http://localhost:11434/v1`) și modelul, apasă salvare / test, apoi alege o acțiune. Dacă pagina este servită de pe un site, aplicația indică pornirea Ollama cu `OLLAMA_ORIGINS=*` pentru a permite conexiunea din browser.
+## User guide
 
-## Avertisment
+1. Choose the language from the language list and the system (Pythagoras or Chaldean).
+2. In "Profile", enter the full birth name (diacritics are normalized), the date of birth and, if you wish, the time; press **Reveal the portrait** (Enter in the fields does the same). **Example** fills in demonstration data.
+3. Go through the Cycles, Birth grid, BaZi and Biorhythm tabs for the rest of the analysis.
+4. For any word, use "Name calculator"; for two people, "Compatibility".
+5. **Save the portrait** keeps it in the "Saved" tab; **Copy shareable link** puts the name, date, time, language and system in the link.
+6. **PDF report** or **⎙** open the browser's print dialog, from which you can save a PDF.
+7. For the AI tab: install Ollama (or another OpenAI-compatible server), start a model, open "Settings", check the address (default `http://localhost:11434/v1`) and the model, press save / test, then choose an action. If the page is served from a website, the application tells you to start Ollama with `OLLAMA_ORIGINS=*` to allow the connection from the browser.
 
-Conținut informativ/de divertisment, fără validare științifică: numerologia, BaZi, astrologia și bioritmul sunt sisteme simbolice tradiționale sau populare, nu științe, și nu oferă predicții sau sfaturi medicale, financiare ori juridice. Aplicația afișează o „Notă onestă" în subsol; textele generate de IA pot fi greșite sau inventate.
+## Disclaimer
 
-## Confidențialitate și rețea
+Informational/entertainment content, without scientific validation: numerology, BaZi, astrology and biorhythm are traditional or popular symbolic systems, not sciences, and offer no predictions or medical, financial or legal advice. The application displays an "Honest note" in the footer; AI-generated texts may be wrong or invented.
 
-- **Stocare locală (localStorage):** `numerologie_saved_v1` (portretele salvate), chei `num_pref_*` (limbă, sistem, temă) și `num_ai_*` (adresa, modelul și, dacă o introduci, cheia API a oracolului IA: implicit se păstrează doar în `sessionStorage` (până la închiderea filei) și ajunge necriptată în `localStorage` doar dacă bifezi „Reține cheia între sesiuni”; aplicația afișează acum un avertisment vizibil sub câmpul „Cheie API” din Setările IA, în toate cele 7 limbi).
-- **Rețea:** calculele numerologice nu fac cereri. Singurele cereri posibile sunt cele din fila IA, doar când apeși o acțiune IA (sau listare/descărcare de modele), către adresa configurată de tine, implicit `http://localhost:11434` (Ollama pe calculatorul tău). Dacă setezi o adresă la distanță, numele, datele și întrebările tale ajung la acel server. Aplicația nu include chei, analytics sau telemetrie și nu încarcă resurse de la terți; o politică CSP (`default-src 'none'`, `connect-src http: https:`) limitează paginii orice altă încărcare.
-- Linkul partajabil conține în partea de după `#` numele și data introduse (hash-ul se actualizează la fiecare calcul, deci apare și în bara de adrese/istoricul browserului, dar nu este trimis niciunui server); mesajul de confirmare la copiere spune acum explicit că linkul conține numele și data nașterii; partajează-l conștient.
+## Privacy and network
 
-## Rulare locală / offline
+- **Local storage (localStorage):** `numerologie_saved_v1` (the saved portraits), `num_pref_*` keys (language, system, theme) and `num_ai_*` (the address, the model and, if you enter it, the API key of the AI oracle: by default it is kept only in `sessionStorage` (until the tab is closed) and reaches `localStorage` unencrypted only if you tick "Remember the key between sessions"; the application now displays a visible warning under the "API key" field in the AI Settings, in all 7 languages).
+- **Network:** the numerological calculations make no requests. The only possible requests are those from the AI tab, only when you press an AI action (or model listing/download), to the address you configured, by default `http://localhost:11434` (Ollama on your own computer). If you set a remote address, your names, data and questions reach that server. The application includes no keys, analytics or telemetry and loads no third-party resources; a CSP policy (`default-src 'none'`, `connect-src http: https:`) restricts the page from any other loading.
+- The shareable link contains, in the part after `#`, the name and date entered (the hash is updated on every calculation, so it also appears in the address bar/browser history, but it is not sent to any server); the copy confirmation message now explicitly says that the link contains the name and date of birth; share it consciously.
 
-Descarcă `index.html` și deschide-l în browser; numerologia funcționează fără internet. Oracolul IA are nevoie de un server de modele local (de exemplu Ollama) sau de o adresă la alegerea ta.
+## Running locally / offline
 
-## Istoric / Changelog
+Download `index.html` and open it in a browser; numerology works without internet. The AI oracle needs a local model server (for example Ollama) or an address of your choice.
+
+## History / Changelog
 
 ### 1.1.0 — 2026-10-14
-- Copie de rezervă și etichetare date (fff-kit).
+- Backup and data labelling (fff-kit).
 
-### 12 octombrie 2026 (v1.0.0)
-- 1.0.0 — 2026-10-12: versiunea și data ultimei actualizări sunt afișate în aplicație
+### 12 October 2026 (v1.0.0)
+- 1.0.0 — 2026-10-12: the version and the last-updated date are shown in the app
 
-### 11 octombrie 2026 (a doua intrare)
-- Securitate: cheia API a oracolului IA se păstrează implicit doar în sesiune; stocarea în `localStorage` este opțiune explicită („Reține cheia între sesiuni”, 7 limbi), iar la salvare o cheie veche din `localStorage` este mutată în sesiune dacă opțiunea nu e bifată. Testat în browser.
+### 11 October 2026 (second entry)
+- Security: the AI oracle's API key is by default kept only for the session; storage in `localStorage` is an explicit option ("Remember the key between sessions", 7 languages), and on saving an old key in `localStorage` is moved to the session if the option is not ticked. Tested in the browser.
 
-### 11 octombrie 2026
-- Accesibilitate: conținutul încadrat în <main>, canvas-ul decorativ ascuns de cititoarele de ecran, etichete legate de câmpuri (axe: 0 violări).
-- Datele „azi” (numere universale, BaZi) se calculează dinamic din data curentă; nu există date fixe perimate. Atributele `on*` inline (22) au fost înlocuite cu un dispatcher delegat (`data-click` / `data-change` / `data-input` / `data-keydown`, listă albă de funcții, argumente JSON) iar CSP folosește hash pentru script, fără `'unsafe-inline'` la scripturi (rămâne la stiluri; `connect-src http: https:` rămâne pentru adresa configurabilă a modelului IA).
-- Nou: export/import JSON al portretelor salvate, „Copiază rezumatul”, mesaj pentru dată invalidă (în cele 7 limbi). Captura de ecran actualizată.
+### 11 October 2026
+- Accessibility: content wrapped in <main>, the decorative canvas hidden from screen readers, labels bound to fields (axe: 0 violations).
+- The "today" data (universal numbers, BaZi) are computed dynamically from the current date; there are no outdated fixed dates. The inline `on*` attributes (22) were replaced with a delegated dispatcher (`data-click` / `data-change` / `data-input` / `data-keydown`, allow-list of functions, JSON arguments) and the CSP uses a hash for the script, without `'unsafe-inline'` for scripts (it remains for styles; `connect-src http: https:` remains for the configurable AI model address).
+- New: JSON export/import of saved portraits, "Copy the summary", message for an invalid date (in the 7 languages). Screenshot updated.
 
-## Licență
+## License
 
-MIT — vezi fișierul `LICENSE`. © 2026 Alexandru-Ionuț Chiuță (Alexio). Eventualele biblioteci terțe incluse în fișier își păstrează licențele proprii.
+MIT — see the `LICENSE` file. © 2026 Alexandru-Ionuț Chiuță (Alexio). Any third-party libraries included in the file keep their own licenses.
 
 License: MIT (see the LICENSE file). Contact: alexio@trom.tf
 
-Aceeași declarație apare în antetul HTML și în subsolul aplicației (RO + EN). Textul licenței se află în fișierul LICENSE.
+The same statement appears in the HTML header and in the application footer (RO + EN). The license text is in the LICENSE file.
 
 ## Audit
 
-Audit: 2026-10-10 — verificat cu Playwright și axe-core (toate filele, ambele teme); verificat în cod: un singur `fetch` (fila IA, la acțiune, către adresa configurată); numele din linkul `#n=` și din câmpuri, testat cu `<img onerror>`, nu se execută (escape). Corectate: etichete lipsă la câmpurile de dată/oră, contrast în tema luminoasă, nume accesibil la glisorul de bioritm.
+Audit: 2026-10-10 — verified with Playwright and axe-core (all tabs, both themes); verified in the code: a single `fetch` (AI tab, on action, to the configured address); the name from the `#n=` link and from the fields, tested with `<img onerror>`, does not execute (escaped). Fixed: missing labels on the date/time fields, contrast in the light theme, accessible name on the biorhythm slider.
 
-## Autor
+## Author
 
 Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 
@@ -85,4 +87,4 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 
 NumeroLogIA is a single-file numerology tool (Pythagorean and Chaldean systems, master numbers, cycles, birth grid, name calculator, compatibility, BaZi, biorhythm) in 7 languages, with saved portraits in localStorage. An optional AI tab talks only to an endpoint you configure (default: local Ollama at localhost:11434); with a remote endpoint your inputs would be sent there. No telemetry or third-party resources. License: MIT (see the LICENSE file) (contact: alexio@trom.tf).
 
-Runda 3 (2026-10-11): declarație explicită de licență nedeclarată (antet, subsol, README); adăugat CSP; tema esoterică și stocarea cheii API rămân decizii ale autorului.
+Round 3 (2026-10-11): explicit license declaration (previously undeclared) added (header, footer, README); CSP added; the esoteric theme and the storage of the API key remain the author's decisions.
