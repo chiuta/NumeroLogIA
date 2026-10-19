@@ -85,8 +85,7 @@ Audit : 2026-10-10 — vérifié avec Playwright et axe-core (tous les onglets, 
 
 Alexio — Alexandru-Ionuț Chiuță. Contact : alexio@trom.tf
 
-## Résumé en anglais
-
+## Résumé
 NumeroLogIA est un outil de numérologie en un seul fichier (systèmes pythagoricien et chaldéen, nombres maîtres, cycles, grille de naissance, calculateur de nom, compatibilité, BaZi, biorythme) en 9 langues, avec des portraits enregistrés dans localStorage. Un onglet IA facultatif ne communique qu'avec un point de terminaison que vous configurez (par défaut : Ollama local sur localhost:11434) ; avec un point de terminaison distant, vos saisies y seraient envoyées. Aucune télémétrie ni ressource tierce. Licence : MIT (voir le fichier LICENSE) (contact : alexio@trom.tf).
 
 Tour 3 (2026-10-11) : déclaration de licence explicite (auparavant non déclarée) ajoutée (en-tête, pied de page, README) ; CSP ajoutée ; le thème ésotérique et le stockage de la clé API restent des décisions de l'auteur.

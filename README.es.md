@@ -85,7 +85,7 @@ Auditoría: 2026-10-10 — verificado con Playwright y axe-core (todas las pesta
 
 Alexio — Alexandru-Ionuț Chiuță. Contacto: alexio@trom.tf
 
-## Resumen en inglés
+## Resumen
 
 NumeroLogIA es una herramienta de numerología en un solo archivo (sistemas pitagórico y caldeo, números maestros, ciclos, cuadrícula de nacimiento, calculadora de nombres, compatibilidad, BaZi, biorritmo) en 9 idiomas, con retratos guardados en localStorage. Una pestaña de IA opcional se comunica solo con un punto final que tú configuras (por defecto: Ollama local en localhost:11434); con un punto final remoto tus datos se enviarían allí. Sin telemetría ni recursos de terceros. Licencia: MIT (véase el archivo LICENSE) (contacto: alexio@trom.tf).
 

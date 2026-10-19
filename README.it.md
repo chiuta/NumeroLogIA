@@ -85,8 +85,7 @@ Audit: 2026-10-10 — verificato con Playwright e axe-core (tutte le schede, ent
 
 Alexio — Alexandru-Ionuț Chiuță. Contatto: alexio@trom.tf
 
-## Riepilogo in inglese
-
+## Riepilogo
 NumeroLogIA è uno strumento di numerologia a file singolo (sistemi pitagorico e caldeo, numeri maestri, cicli, griglia di nascita, calcolatore di nomi, compatibilità, BaZi, bioritmo) in 9 lingue, con ritratti salvati in localStorage. Una scheda IA facoltativa comunica solo con un endpoint da te configurato (predefinito: Ollama locale su localhost:11434); con un endpoint remoto i tuoi dati verrebbero inviati lì. Nessuna telemetria né risorse di terze parti. Licenza: MIT (vedi il file LICENSE) (contatto: alexio@trom.tf).
 
 Turno 3 (2026-10-11): aggiunta una dichiarazione di licenza esplicita (prima non dichiarata) (intestazione, piè di pagina, README); aggiunta la CSP; il tema esoterico e la memorizzazione della chiave API restano decisioni dell'autore.

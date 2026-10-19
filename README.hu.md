@@ -85,8 +85,7 @@ Audit: 2026-10-10 — Playwright-tal és axe-core-ral ellenőrizve (minden lap, 
 
 Alexio — Alexandru-Ionuț Chiuță. Kapcsolat: alexio@trom.tf
 
-## Angol nyelvű összefoglaló
-
+## Összefoglaló
 A NumeroLogIA egyfájlos numerológiai eszköz (püthagoraszi és káldeai rendszer, mesterszámok, ciklusok, születési rács, névszámító, kompatibilitás, BaZi, bioritmus) 9 nyelven, a mentett portrékat a localStorage-ban őrzi. Az opcionális MI-lap csak az általad beállított végponttal kommunikál (alapértelmezés: helyi Ollama a localhost:11434 címen); távoli végpont esetén a megadott adataid oda kerülnének. Nincs telemetria és harmadik fél erőforrása. Licenc: MIT (lásd a LICENSE fájlt) (kapcsolat: alexio@trom.tf).
 
 3. kör (2026-10-11): kifejezett licencnyilatkozat (korábban nem volt deklarálva) hozzáadva (fejléc, lábléc, README); CSP hozzáadva; az ezoterikus téma és az API-kulcs tárolása a szerző döntése marad.
