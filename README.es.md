@@ -10,7 +10,7 @@ Numerología pitagórica y caldea, con análisis de ciclos, compatibilidad y un 
 
 **Aplicación en línea:** https://chiuta.github.io/NumeroLogIA/
 
-![Captura de pantalla](screenshot.png)
+![Captura de pantalla](screenshot.es.png)
 
 ## Qué es
 

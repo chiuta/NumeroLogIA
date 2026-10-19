@@ -10,7 +10,7 @@ Numerologia pitagorica e caldea, con analisi dei cicli, compatibilità e un orac
 
 **App online:** https://chiuta.github.io/NumeroLogIA/
 
-![Schermata](screenshot.png)
+![Schermata](screenshot.it.png)
 
 ## Che cos'è
 

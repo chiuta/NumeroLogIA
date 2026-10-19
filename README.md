@@ -10,7 +10,7 @@ Pythagorean and Chaldean numerology, with cycle analysis, compatibility and an o
 
 **Live app:** https://chiuta.github.io/NumeroLogIA/
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot.en.png)
 
 ## What it is
 

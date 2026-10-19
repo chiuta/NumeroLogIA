@@ -10,7 +10,7 @@ Numerologia pitagórica e caldaica, com análise de ciclos, compatibilidade e um
 
 **Aplicação online:** https://chiuta.github.io/NumeroLogIA/
 
-![Captura de ecrã](screenshot.png)
+![Captura de ecrã](screenshot.pt.png)
 
 ## O que é
 

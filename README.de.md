@@ -10,7 +10,7 @@ Pythagoreische und chaldäische Numerologie mit Zyklenanalyse, Kompatibilität u
 
 **Online-App:** https://chiuta.github.io/NumeroLogIA/
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot.de.png)
 
 ## Was es ist
 

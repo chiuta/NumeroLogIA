@@ -10,7 +10,7 @@ Numérologie pythagoricienne et chaldéenne, avec analyse des cycles, compatibil
 
 **Application en ligne :** https://chiuta.github.io/NumeroLogIA/
 
-![Capture d'écran](screenshot.png)
+![Capture d'écran](screenshot.fr.png)
 
 ## Présentation
 

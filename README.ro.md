@@ -10,7 +10,7 @@ Numerologie pitagoreică și chaldeană, cu analiză a ciclurilor, compatibilita
 
 **Live:** https://chiuta.github.io/NumeroLogIA/
 
-![Captura de ecran](screenshot.png)
+![Captura de ecran](screenshot.ro.png)
 
 ## Ce este
 

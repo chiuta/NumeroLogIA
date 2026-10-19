@@ -10,7 +10,7 @@ Püthagoraszi és káldeai numerológia cikluselemzéssel, kompatibilitással é
 
 **Online alkalmazás:** https://chiuta.github.io/NumeroLogIA/
 
-![Képernyőkép](screenshot.png)
+![Képernyőkép](screenshot.hu.png)
 
 ## Mi ez
 
