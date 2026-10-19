@@ -85,8 +85,8 @@ Audit: 2026-10-10 — verificat cu Playwright și axe-core (toate filele, ambele
 
 Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 
-## English summary
+## Rezumat
 
-NumeroLogIA is a single-file numerology tool (Pythagorean and Chaldean systems, master numbers, cycles, birth grid, name calculator, compatibility, BaZi, biorhythm) in 9 languages, with saved portraits in localStorage. An optional AI tab talks only to an endpoint you configure (default: local Ollama at localhost:11434); with a remote endpoint your inputs would be sent there. No telemetry or third-party resources. License: MIT (see the LICENSE file) (contact: alexio@trom.tf).
+NumeroLogIA este un instrument de numerologie într-un singur fișier (sisteme pitagoreic și caldeean, numere-maestru, cicluri, grila nașterii, calculator de nume, compatibilitate, BaZi, bioritm) în 9 limbi, cu portrete salvate în localStorage. O filă AI opțională comunică doar cu un punct final configurat de tine (implicit: Ollama local la localhost:11434); cu un punct final la distanță, datele introduse ar fi trimise acolo. Fără telemetrie sau resurse terțe. Licență: MIT (vezi fișierul LICENSE) (contact: alexio@trom.tf).
 
 Runda 3 (2026-10-11): declarație explicită de licență nedeclarată (antet, subsol, README); adăugat CSP; tema esoterică și stocarea cheii API rămân decizii ale autorului.
