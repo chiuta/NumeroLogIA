@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 1.2.4 · **Última atualização:** 2026-10-22
+**Versão:** 1.2.5 · **Última atualização:** 2026-10-22
 
 Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -54,6 +54,10 @@ Conteúdo informativo/de entretenimento, sem validação científica: a numerolo
 Transfira `index.html` e abra-o num navegador; a numerologia funciona sem internet. O oráculo de IA precisa de um servidor de modelos local (por exemplo, Ollama) ou de um endereço à sua escolha.
 
 ## Histórico / Changelog
+
+### 1.2.5 — 2026-10-22
+
+fff-kit 1.1.4: alvos de toque e tamanho mínimo do texto.
 
 ### 1.2.4 — 2026-10-22
 - fff-kit 1.1.2: PBKDF2 com 600.000 iterações, proteção anti-clickjacking

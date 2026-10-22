@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 1.2.4 · **Dernière mise à jour :** 2026-10-22
+**Version :** 1.2.5 · **Dernière mise à jour :** 2026-10-22
 
 Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -54,6 +54,10 @@ Contenu informatif/de divertissement, sans validation scientifique : la numérol
 Téléchargez `index.html` et ouvrez-le dans un navigateur ; la numérologie fonctionne sans internet. L'oracle IA a besoin d'un serveur de modèles local (par exemple Ollama) ou d'une adresse de votre choix.
 
 ## Historique / Changelog
+
+### 1.2.5 — 2026-10-22
+
+fff-kit 1.1.4 : cibles tactiles et taille de texte minimale.
 
 ### 1.2.4 — 2026-10-22
 - fff-kit 1.1.2 : PBKDF2 à 600 000 itérations, protection anti-clickjacking
