@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 1.2.2 · **Dernière mise à jour :** 2026-10-22
+**Version :** 1.2.3 · **Dernière mise à jour :** 2026-10-22
 
 Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -54,6 +54,9 @@ Contenu informatif/de divertissement, sans validation scientifique : la numérol
 Téléchargez `index.html` et ouvrez-le dans un navigateur ; la numérologie fonctionne sans internet. L'oracle IA a besoin d'un serveur de modèles local (par exemple Ollama) ou d'une adresse de votre choix.
 
 ## Historique / Changelog
+
+### 1.2.3 — 2026-10-22
+- Avant que l'oracle IA n'envoie des données personnelles (date de naissance, nom), l'adresse du modèle est validée (http/https uniquement) et, pour tout serveur qui n'est ni sur cet appareil ni sur le réseau local, un consentement explicite est demandé (mémorisé par hôte pour la session); confirmation de suppression dans une boîte de dialogue propre; texte des indications à 12 px.
 
 ### 1.2.2 — 2026-10-22
 - La note de licence/contact du pied de page est traduite dans toutes les langues de l'interface.

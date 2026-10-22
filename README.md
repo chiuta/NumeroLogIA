@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.2.2 · **Last updated:** 2026-10-22
+**Version:** 1.2.3 · **Last updated:** 2026-10-22
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -54,6 +54,9 @@ Informational/entertainment content, without scientific validation: numerology, 
 Download `index.html` and open it in a browser; numerology works without internet. The AI oracle needs a local model server (for example Ollama) or an address of your choice.
 
 ## History / Changelog
+
+### 1.2.3 — 2026-10-22
+- Before the AI oracle sends personal data (birth date, name), the model address is validated (http/https only) and, for any server that is not on this device or the local network, explicit consent is requested (remembered per host for the session); delete confirmation as an own dialog; hint text at 12 px.
 
 ### 1.2.2 — 2026-10-22
 - Translated the license/contact note in the footer into all interface languages.
