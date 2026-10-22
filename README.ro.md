@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.2.6 · **Ultima actualizare:** 2026-10-23
+**Versiune:** 1.2.7 · **Ultima actualizare:** 2026-10-23
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -45,7 +45,7 @@ Conținut informativ/de divertisment, fără validare științifică: numerologi
 
 ## Confidențialitate și rețea
 
-- **Stocare locală (localStorage):** `numerologie_saved_v1` (portretele salvate), chei `num_pref_*` (limbă, sistem, temă) și `num_ai_*` (adresa, modelul și, dacă o introduci, cheia API a oracolului IA: implicit se păstrează doar în `sessionStorage` (până la închiderea filei) și ajunge necriptată în `localStorage` doar dacă bifezi „Reține cheia între sesiuni”; aplicația afișează acum un avertisment vizibil sub câmpul „Cheie API” din Setările IA, în toate cele 7 limbi).
+- **Stocare locală (localStorage):** `numerologia.saved_v1` (portretele salvate), chei `numerologia.pref.*` (limbă, sistem, temă) și `numerologia.ai.*` (adresa, modelul și, dacă o introduci, cheia API a oracolului IA: implicit se păstrează doar în `sessionStorage` (până la închiderea filei) și ajunge necriptată în `localStorage` doar dacă bifezi „Reține cheia între sesiuni”; aplicația afișează acum un avertisment vizibil sub câmpul „Cheie API” din Setările IA, în toate cele 7 limbi).
 - **Rețea:** calculele numerologice nu fac cereri. Singurele cereri posibile sunt cele din fila IA, doar când apeși o acțiune IA (sau listare/descărcare de modele), către adresa configurată de tine, implicit `http://localhost:11434` (Ollama pe calculatorul tău). Dacă setezi o adresă la distanță, numele, datele și întrebările tale ajung la acel server. Aplicația nu include chei, analytics sau telemetrie și nu încarcă resurse de la terți; o politică CSP (`default-src 'none'`, `connect-src http: https:`) limitează paginii orice altă încărcare.
 - Linkul partajabil conține în partea de după `#` numele și data introduse (hash-ul se actualizează la fiecare calcul, deci apare și în bara de adrese/istoricul browserului, dar nu este trimis niciunui server); mesajul de confirmare la copiere spune acum explicit că linkul conține numele și data nașterii; partajează-l conștient.
 
@@ -54,6 +54,10 @@ Conținut informativ/de divertisment, fără validare științifică: numerologi
 Descarcă `index.html` și deschide-l în browser; numerologia funcționează fără internet. Oracolul IA are nevoie de un server de modele local (de exemplu Ollama) sau de o adresă la alegerea ta.
 
 ## Istoric / Changelog
+
+### 1.2.7 — 2026-10-23
+
+- Stocare: cheile poartă acum prefixul aplicației (`numerologia.saved_v1`, `numerologia.pref.*`, `numerologia.ai.*`); datele existente se mută automat la pornire din cheile vechi (`numerologie_saved_v1`, `num_pref_*`, `num_ai_*`), iar copiile `.fff.json` mai vechi se importă în continuare (fff-kit 1.2.0).
 
 ### 1.2.5 — 2026-10-22
 

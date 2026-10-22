@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.2.6 · **Utolsó frissítés:** 2026-10-23
+**Verzió:** 1.2.7 · **Utolsó frissítés:** 2026-10-23
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -45,7 +45,7 @@ Tájékoztató/szórakoztató tartalom, tudományos érvényesítés nélkül: a
 
 ## Adatvédelem és hálózat
 
-- **Helyi tárolás (localStorage):** `numerologie_saved_v1` (a mentett portrék), `num_pref_*` kulcsok (nyelv, rendszer, téma) és `num_ai_*` (a cím, a modell és, ha megadod, az MI-orákulum API-kulcsa: alapértelmezés szerint csak a `sessionStorage`-ban marad (a lap bezárásáig), és csak akkor kerül titkosítatlanul a `localStorage`-ba, ha bejelölöd a „Kulcs megjegyzése munkamenetek között” opciót; az alkalmazás mostantól jól látható figyelmeztetést jelenít meg az MI-beállítások „API-kulcs” mezője alatt, mind a 7 nyelven).
+- **Helyi tárolás (localStorage):** `numerologia.saved_v1` (a mentett portrék), `numerologia.pref.*` kulcsok (nyelv, rendszer, téma) és `numerologia.ai.*` (a cím, a modell és, ha megadod, az MI-orákulum API-kulcsa: alapértelmezés szerint csak a `sessionStorage`-ban marad (a lap bezárásáig), és csak akkor kerül titkosítatlanul a `localStorage`-ba, ha bejelölöd a „Kulcs megjegyzése munkamenetek között” opciót; az alkalmazás mostantól jól látható figyelmeztetést jelenít meg az MI-beállítások „API-kulcs” mezője alatt, mind a 7 nyelven).
 - **Hálózat:** a numerológiai számítások nem küldenek kéréseket. Az egyetlen lehetséges kérések az MI lapról származnak, csak amikor MI-műveletet (vagy modelllistázást/-letöltést) indítasz, az általad beállított címre, alapértelmezés szerint `http://localhost:11434` (Ollama a saját számítógépeden). Ha távoli címet adsz meg, a neveid, adataid és kérdéseid arra a szerverre jutnak. Az alkalmazás nem tartalmaz kulcsokat, analitikát vagy telemetriát, és nem tölt be harmadik fél erőforrásait; egy CSP-szabályzat (`default-src 'none'`, `connect-src http: https:`) minden egyéb betöltést megtilt az oldalnak.
 - A megosztható hivatkozás a `#` utáni részben tartalmazza a megadott nevet és dátumot (a hash minden számításkor frissül, így megjelenik a címsorban/böngészőelőzményekben is, de nem kerül elküldésre egyetlen szervernek sem); a másolás visszaigazoló üzenete mostantól kifejezetten közli, hogy a hivatkozás a nevet és a születési dátumot tartalmazza; tudatosan oszd meg.
 
@@ -54,6 +54,10 @@ Tájékoztató/szórakoztató tartalom, tudományos érvényesítés nélkül: a
 Töltsd le az `index.html` fájlt, és nyisd meg böngészőben; a numerológia internet nélkül is működik. Az MI-orákulumhoz helyi modellszerver (például Ollama) vagy az általad választott cím szükséges.
 
 ## Előzmények / Changelog
+
+### 1.2.7 — 2026-10-23
+
+- Tárolás: a kulcsok mostantól az alkalmazás előtagját viselik (`numerologia.saved_v1`, `numerologia.pref.*`, `numerologia.ai.*`); a meglévő adatok indításkor automatikusan átkerülnek a régi kulcsokból (`numerologie_saved_v1`, `num_pref_*`, `num_ai_*`), a régebbi `.fff.json` mentések pedig továbbra is importálhatók (fff-kit 1.2.0).
 
 ### 1.2.5 — 2026-10-22
 

@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.2.6 · **Ultimo aggiornamento:** 2026-10-23
+**Versione:** 1.2.7 · **Ultimo aggiornamento:** 2026-10-23
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -45,7 +45,7 @@ Contenuto informativo/di intrattenimento, privo di validazione scientifica: la n
 
 ## Privacy e rete
 
-- **Archiviazione locale (localStorage):** `numerologie_saved_v1` (i ritratti salvati), chiavi `num_pref_*` (lingua, sistema, tema) e `num_ai_*` (l'indirizzo, il modello e, se la inserisci, la chiave API dell'oracolo IA: per impostazione predefinita viene conservata solo in `sessionStorage` (fino alla chiusura della scheda) e arriva non cifrata in `localStorage` solo se spunti «Ricorda la chiave tra le sessioni»; l'applicazione mostra ora un avviso ben visibile sotto il campo «Chiave API» nelle Impostazioni IA, in tutte e 7 le lingue).
+- **Archiviazione locale (localStorage):** `numerologia.saved_v1` (i ritratti salvati), chiavi `numerologia.pref.*` (lingua, sistema, tema) e `numerologia.ai.*` (l'indirizzo, il modello e, se la inserisci, la chiave API dell'oracolo IA: per impostazione predefinita viene conservata solo in `sessionStorage` (fino alla chiusura della scheda) e arriva non cifrata in `localStorage` solo se spunti «Ricorda la chiave tra le sessioni»; l'applicazione mostra ora un avviso ben visibile sotto il campo «Chiave API» nelle Impostazioni IA, in tutte e 7 le lingue).
 - **Rete:** i calcoli numerologici non effettuano richieste. Le uniche richieste possibili sono quelle della scheda IA, solo quando premi un'azione IA (o l'elenco/scaricamento di modelli), verso l'indirizzo da te configurato, per impostazione predefinita `http://localhost:11434` (Ollama sul tuo computer). Se imposti un indirizzo remoto, i tuoi nomi, dati e domande arrivano a quel server. L'applicazione non include chiavi, analytics né telemetria e non carica risorse di terze parti; una policy CSP (`default-src 'none'`, `connect-src http: https:`) impedisce alla pagina qualsiasi altro caricamento.
 - Il link condivisibile contiene, nella parte dopo `#`, il nome e la data inseriti (l'hash viene aggiornato a ogni calcolo, quindi compare anche nella barra degli indirizzi/cronologia del browser, ma non viene inviato a nessun server); il messaggio di conferma della copia dice ora esplicitamente che il link contiene il nome e la data di nascita; condividilo consapevolmente.
 
@@ -54,6 +54,10 @@ Contenuto informativo/di intrattenimento, privo di validazione scientifica: la n
 Scarica `index.html` e aprilo in un browser; la numerologia funziona senza internet. L'oracolo IA richiede un server di modelli locale (per esempio Ollama) o un indirizzo a tua scelta.
 
 ## Cronologia / Changelog
+
+### 1.2.7 — 2026-10-23
+
+- Archiviazione: le chiavi ora hanno il prefisso dell'app (`numerologia.saved_v1`, `numerologia.pref.*`, `numerologia.ai.*`); i dati esistenti vengono migrati automaticamente all'avvio dalle vecchie chiavi (`numerologie_saved_v1`, `num_pref_*`, `num_ai_*`) e i vecchi backup `.fff.json` si importano ancora (fff-kit 1.2.0).
 
 ### 1.2.5 — 2026-10-22
 

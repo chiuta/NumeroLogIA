@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.2.6 · **Zuletzt aktualisiert:** 2026-10-23
+**Version:** 1.2.7 · **Zuletzt aktualisiert:** 2026-10-23
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -45,7 +45,7 @@ Informations-/Unterhaltungsinhalt ohne wissenschaftliche Validierung: Numerologi
 
 ## Datenschutz und Netzwerk
 
-- **Lokaler Speicher (localStorage):** `numerologie_saved_v1` (die gespeicherten Porträts), Schlüssel `num_pref_*` (Sprache, System, Thema) und `num_ai_*` (die Adresse, das Modell und, falls du ihn eingibst, der API-Schlüssel des KI-Orakels: Standardmäßig wird er nur in `sessionStorage` gehalten (bis zum Schließen des Tabs) und gelangt unverschlüsselt in `localStorage` nur, wenn du „Schlüssel zwischen Sitzungen merken“ ankreuzt; die Anwendung zeigt jetzt in allen 7 Sprachen einen sichtbaren Hinweis unter dem Feld „API-Schlüssel“ in den KI-Einstellungen).
+- **Lokaler Speicher (localStorage):** `numerologia.saved_v1` (die gespeicherten Porträts), Schlüssel `numerologia.pref.*` (Sprache, System, Thema) und `numerologia.ai.*` (die Adresse, das Modell und, falls du ihn eingibst, der API-Schlüssel des KI-Orakels: Standardmäßig wird er nur in `sessionStorage` gehalten (bis zum Schließen des Tabs) und gelangt unverschlüsselt in `localStorage` nur, wenn du „Schlüssel zwischen Sitzungen merken“ ankreuzt; die Anwendung zeigt jetzt in allen 7 Sprachen einen sichtbaren Hinweis unter dem Feld „API-Schlüssel“ in den KI-Einstellungen).
 - **Netzwerk:** Die numerologischen Berechnungen stellen keine Anfragen. Die einzigen möglichen Anfragen stammen aus dem KI-Tab, nur wenn du eine KI-Aktion (oder das Auflisten/Herunterladen von Modellen) auslöst, an die von dir konfigurierte Adresse, standardmäßig `http://localhost:11434` (Ollama auf deinem eigenen Rechner). Legst du eine entfernte Adresse fest, gelangen deine Namen, Daten und Fragen an diesen Server. Die Anwendung enthält keine Schlüssel, Analytics oder Telemetrie und lädt keine Drittressourcen; eine CSP-Richtlinie (`default-src 'none'`, `connect-src http: https:`) beschränkt die Seite bei jedem anderen Laden.
 - Der teilbare Link enthält im Teil nach `#` den eingegebenen Namen und das Datum (der Hash wird bei jeder Berechnung aktualisiert, erscheint also auch in der Adressleiste/im Verlauf des Browsers, wird aber an keinen Server gesendet); die Bestätigungsmeldung beim Kopieren sagt nun ausdrücklich, dass der Link Namen und Geburtsdatum enthält; teile ihn bewusst.
 
@@ -54,6 +54,10 @@ Informations-/Unterhaltungsinhalt ohne wissenschaftliche Validierung: Numerologi
 Lade `index.html` herunter und öffne sie in einem Browser; die Numerologie funktioniert ohne Internet. Das KI-Orakel benötigt einen lokalen Modellserver (z. B. Ollama) oder eine Adresse deiner Wahl.
 
 ## Verlauf / Changelog
+
+### 1.2.7 — 2026-10-23
+
+- Speicher: Die Schlüssel tragen jetzt das App-Präfix (`numerologia.saved_v1`, `numerologia.pref.*`, `numerologia.ai.*`); vorhandene Daten werden beim Start automatisch von den alten Schlüsseln (`numerologie_saved_v1`, `num_pref_*`, `num_ai_*`) übernommen, und ältere `.fff.json`-Sicherungen lassen sich weiterhin importieren (fff-kit 1.2.0).
 
 ### 1.2.5 — 2026-10-22
 

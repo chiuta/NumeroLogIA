@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.2.6 · **Last updated:** 2026-10-23
+**Version:** 1.2.7 · **Last updated:** 2026-10-23
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -45,7 +45,7 @@ Informational/entertainment content, without scientific validation: numerology, 
 
 ## Privacy and network
 
-- **Local storage (localStorage):** `numerologie_saved_v1` (the saved portraits), `num_pref_*` keys (language, system, theme) and `num_ai_*` (the address, the model and, if you enter it, the API key of the AI oracle: by default it is kept only in `sessionStorage` (until the tab is closed) and reaches `localStorage` unencrypted only if you tick "Remember the key between sessions"; the application now displays a visible warning under the "API key" field in the AI Settings, in all 7 languages).
+- **Local storage (localStorage):** `numerologia.saved_v1` (the saved portraits), `numerologia.pref.*` keys (language, system, theme) and `numerologia.ai.*` (the address, the model and, if you enter it, the API key of the AI oracle: by default it is kept only in `sessionStorage` (until the tab is closed) and reaches `localStorage` unencrypted only if you tick "Remember the key between sessions"; the application now displays a visible warning under the "API key" field in the AI Settings, in all 7 languages).
 - **Network:** the numerological calculations make no requests. The only possible requests are those from the AI tab, only when you press an AI action (or model listing/download), to the address you configured, by default `http://localhost:11434` (Ollama on your own computer). If you set a remote address, your names, data and questions reach that server. The application includes no keys, analytics or telemetry and loads no third-party resources; a CSP policy (`default-src 'none'`, `connect-src http: https:`) restricts the page from any other loading.
 - The shareable link contains, in the part after `#`, the name and date entered (the hash is updated on every calculation, so it also appears in the address bar/browser history, but it is not sent to any server); the copy confirmation message now explicitly says that the link contains the name and date of birth; share it consciously.
 
@@ -54,6 +54,10 @@ Informational/entertainment content, without scientific validation: numerology, 
 Download `index.html` and open it in a browser; numerology works without internet. The AI oracle needs a local model server (for example Ollama) or an address of your choice.
 
 ## History / Changelog
+
+### 1.2.7 — 2026-10-23
+
+- Storage: keys now carry the app prefix (`numerologia.saved_v1`, `numerologia.pref.*`, `numerologia.ai.*`); existing data is migrated automatically at startup from the old key(s) (`numerologie_saved_v1`, `num_pref_*`, `num_ai_*`), and older `.fff.json` backups still import (fff-kit 1.2.0).
 
 ### 1.2.5 — 2026-10-22
 

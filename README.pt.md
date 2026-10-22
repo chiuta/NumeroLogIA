@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 1.2.6 · **Última atualização:** 2026-10-23
+**Versão:** 1.2.7 · **Última atualização:** 2026-10-23
 
 Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -45,7 +45,7 @@ Conteúdo informativo/de entretenimento, sem validação científica: a numerolo
 
 ## Privacidade e rede
 
-- **Armazenamento local (localStorage):** `numerologie_saved_v1` (os retratos guardados), chaves `num_pref_*` (língua, sistema, tema) e `num_ai_*` (o endereço, o modelo e, se a introduzir, a chave API do oráculo de IA: por predefinição é mantida apenas em `sessionStorage` (até fechar o separador) e chega sem cifra ao `localStorage` somente se assinalar «Memorizar a chave entre sessões»; a aplicação apresenta agora um aviso visível por baixo do campo «Chave API» nas Definições de IA, nas 7 línguas).
+- **Armazenamento local (localStorage):** `numerologia.saved_v1` (os retratos guardados), chaves `numerologia.pref.*` (língua, sistema, tema) e `numerologia.ai.*` (o endereço, o modelo e, se a introduzir, a chave API do oráculo de IA: por predefinição é mantida apenas em `sessionStorage` (até fechar o separador) e chega sem cifra ao `localStorage` somente se assinalar «Memorizar a chave entre sessões»; a aplicação apresenta agora um aviso visível por baixo do campo «Chave API» nas Definições de IA, nas 7 línguas).
 - **Rede:** os cálculos numerológicos não fazem pedidos. Os únicos pedidos possíveis são os do separador de IA, apenas quando prime uma ação de IA (ou a listagem/transferência de modelos), para o endereço que configurou, por predefinição `http://localhost:11434` (Ollama no seu próprio computador). Se definir um endereço remoto, os seus nomes, dados e perguntas chegam a esse servidor. A aplicação não inclui chaves, análise de dados nem telemetria e não carrega recursos de terceiros; uma política CSP (`default-src 'none'`, `connect-src http: https:`) impede a página de qualquer outro carregamento.
 - A ligação partilhável contém, na parte após `#`, o nome e a data introduzidos (o hash é atualizado a cada cálculo, pelo que aparece também na barra de endereços/histórico do navegador, mas não é enviado a nenhum servidor); a mensagem de confirmação da cópia diz agora explicitamente que a ligação contém o nome e a data de nascimento; partilhe-a conscientemente.
 
@@ -54,6 +54,10 @@ Conteúdo informativo/de entretenimento, sem validação científica: a numerolo
 Transfira `index.html` e abra-o num navegador; a numerologia funciona sem internet. O oráculo de IA precisa de um servidor de modelos local (por exemplo, Ollama) ou de um endereço à sua escolha.
 
 ## Histórico / Changelog
+
+### 1.2.7 — 2026-10-23
+
+- Armazenamento: as chaves passam a ter o prefixo da aplicação (`numerologia.saved_v1`, `numerologia.pref.*`, `numerologia.ai.*`); os dados existentes são migrados automaticamente no arranque a partir das chaves antigas (`numerologie_saved_v1`, `num_pref_*`, `num_ai_*`) e as cópias `.fff.json` antigas continuam a ser importadas (fff-kit 1.2.0).
 
 ### 1.2.5 — 2026-10-22
 

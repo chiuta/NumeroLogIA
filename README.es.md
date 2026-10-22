@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.2.6 · **Última actualización:** 2026-10-23
+**Versión:** 1.2.7 · **Última actualización:** 2026-10-23
 
 Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -45,7 +45,7 @@ Contenido informativo/de entretenimiento, sin validación científica: la numero
 
 ## Privacidad y red
 
-- **Almacenamiento local (localStorage):** `numerologie_saved_v1` (los retratos guardados), claves `num_pref_*` (idioma, sistema, tema) y `num_ai_*` (la dirección, el modelo y, si la introduces, la clave API del oráculo de IA: por defecto solo se conserva en `sessionStorage` (hasta cerrar la pestaña) y llega sin cifrar a `localStorage` únicamente si marcas «Recordar la clave entre sesiones»; la aplicación muestra ahora una advertencia visible bajo el campo «Clave API» de los Ajustes de IA, en los 7 idiomas).
+- **Almacenamiento local (localStorage):** `numerologia.saved_v1` (los retratos guardados), claves `numerologia.pref.*` (idioma, sistema, tema) y `numerologia.ai.*` (la dirección, el modelo y, si la introduces, la clave API del oráculo de IA: por defecto solo se conserva en `sessionStorage` (hasta cerrar la pestaña) y llega sin cifrar a `localStorage` únicamente si marcas «Recordar la clave entre sesiones»; la aplicación muestra ahora una advertencia visible bajo el campo «Clave API» de los Ajustes de IA, en los 7 idiomas).
 - **Red:** los cálculos numerológicos no realizan peticiones. Las únicas peticiones posibles son las de la pestaña de IA, solo cuando pulsas una acción de IA (o el listado/descarga de modelos), hacia la dirección que hayas configurado, por defecto `http://localhost:11434` (Ollama en tu propio ordenador). Si configuras una dirección remota, tus nombres, datos y preguntas llegan a ese servidor. La aplicación no incluye claves, analítica ni telemetría y no carga recursos de terceros; una política CSP (`default-src 'none'`, `connect-src http: https:`) impide a la página cualquier otra carga.
 - El enlace para compartir contiene, en la parte posterior a `#`, el nombre y la fecha introducidos (el hash se actualiza en cada cálculo, por lo que también aparece en la barra de direcciones/historial del navegador, pero no se envía a ningún servidor); el mensaje de confirmación de copia dice ahora explícitamente que el enlace contiene el nombre y la fecha de nacimiento; compártelo conscientemente.
 
@@ -54,6 +54,10 @@ Contenido informativo/de entretenimiento, sin validación científica: la numero
 Descarga `index.html` y ábrelo en un navegador; la numerología funciona sin internet. El oráculo de IA necesita un servidor de modelos local (por ejemplo Ollama) o una dirección de tu elección.
 
 ## Historial / Changelog
+
+### 1.2.7 — 2026-10-23
+
+- Almacenamiento: las claves llevan ahora el prefijo de la aplicación (`numerologia.saved_v1`, `numerologia.pref.*`, `numerologia.ai.*`); los datos existentes se migran automáticamente al iniciar desde las claves antiguas (`numerologie_saved_v1`, `num_pref_*`, `num_ai_*`) y las copias `.fff.json` antiguas se siguen importando (fff-kit 1.2.0).
 
 ### 1.2.5 — 2026-10-22
 

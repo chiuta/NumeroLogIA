@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 1.2.6 · **Dernière mise à jour :** 2026-10-23
+**Version :** 1.2.7 · **Dernière mise à jour :** 2026-10-23
 
 Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -45,7 +45,7 @@ Contenu informatif/de divertissement, sans validation scientifique : la numérol
 
 ## Confidentialité et réseau
 
-- **Stockage local (localStorage) :** `numerologie_saved_v1` (les portraits enregistrés), clés `num_pref_*` (langue, système, thème) et `num_ai_*` (l'adresse, le modèle et, si vous la saisissez, la clé API de l'oracle IA : par défaut elle n'est conservée que dans `sessionStorage` (jusqu'à la fermeture de l'onglet) et n'arrive non chiffrée dans `localStorage` que si vous cochez « Mémoriser la clé entre les sessions » ; l'application affiche désormais un avertissement visible sous le champ « Clé API » des Paramètres IA, dans les 7 langues).
+- **Stockage local (localStorage) :** `numerologia.saved_v1` (les portraits enregistrés), clés `numerologia.pref.*` (langue, système, thème) et `numerologia.ai.*` (l'adresse, le modèle et, si vous la saisissez, la clé API de l'oracle IA : par défaut elle n'est conservée que dans `sessionStorage` (jusqu'à la fermeture de l'onglet) et n'arrive non chiffrée dans `localStorage` que si vous cochez « Mémoriser la clé entre les sessions » ; l'application affiche désormais un avertissement visible sous le champ « Clé API » des Paramètres IA, dans les 7 langues).
 - **Réseau :** les calculs numérologiques n'effectuent aucune requête. Les seules requêtes possibles sont celles de l'onglet IA, uniquement lorsque vous appuyez sur une action IA (ou sur la liste/le téléchargement de modèles), vers l'adresse que vous avez configurée, par défaut `http://localhost:11434` (Ollama sur votre propre ordinateur). Si vous définissez une adresse distante, vos noms, données et questions parviennent à ce serveur. L'application n'inclut ni clés, ni analytique, ni télémétrie et ne charge aucune ressource tierce ; une politique CSP (`default-src 'none'`, `connect-src http: https:`) interdit à la page tout autre chargement.
 - Le lien partageable contient, dans la partie après `#`, le nom et la date saisis (le hash est mis à jour à chaque calcul, il apparaît donc aussi dans la barre d'adresse/l'historique du navigateur, mais n'est envoyé à aucun serveur) ; le message de confirmation de copie indique désormais explicitement que le lien contient le nom et la date de naissance ; partagez-le en connaissance de cause.
 
@@ -54,6 +54,10 @@ Contenu informatif/de divertissement, sans validation scientifique : la numérol
 Téléchargez `index.html` et ouvrez-le dans un navigateur ; la numérologie fonctionne sans internet. L'oracle IA a besoin d'un serveur de modèles local (par exemple Ollama) ou d'une adresse de votre choix.
 
 ## Historique / Changelog
+
+### 1.2.7 — 2026-10-23
+
+- Stockage : les clés portent désormais le préfixe de l'application (`numerologia.saved_v1`, `numerologia.pref.*`, `numerologia.ai.*`) ; les données existantes sont migrées automatiquement au démarrage depuis les anciennes clés (`numerologie_saved_v1`, `num_pref_*`, `num_ai_*`), et les anciennes sauvegardes `.fff.json` s'importent toujours (fff-kit 1.2.0).
 
 ### 1.2.5 — 2026-10-22
 
