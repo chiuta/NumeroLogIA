@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.2.3 · **Ultimo aggiornamento:** 2026-10-22
+**Versione:** 1.2.4 · **Ultimo aggiornamento:** 2026-10-22
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -54,6 +54,9 @@ Contenuto informativo/di intrattenimento, privo di validazione scientifica: la n
 Scarica `index.html` e aprilo in un browser; la numerologia funziona senza internet. L'oracolo IA richiede un server di modelli locale (per esempio Ollama) o un indirizzo a tua scelta.
 
 ## Cronologia / Changelog
+
+### 1.2.4 — 2026-10-22
+- fff-kit 1.1.2: PBKDF2 con 600.000 iterazioni, protezione anti-clickjacking
 
 ### 1.2.3 — 2026-10-22
 - Prima che l'oracolo IA invii dati personali (data di nascita, nome), l'indirizzo del modello viene validato (solo http/https) e, per qualsiasi server che non sia su questo dispositivo o sulla rete locale, viene richiesto un consenso esplicito (ricordato per host durante la sessione); conferma di eliminazione in una finestra di dialogo propria; testo dei suggerimenti a 12 px.
