@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.2.1 · **Última actualización:** 2026-10-19
+**Versión:** 1.2.2 · **Última actualización:** 2026-10-22
 
 Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -54,6 +54,9 @@ Contenido informativo/de entretenimiento, sin validación científica: la numero
 Descarga `index.html` y ábrelo en un navegador; la numerología funciona sin internet. El oráculo de IA necesita un servidor de modelos local (por ejemplo Ollama) o una dirección de tu elección.
 
 ## Historial / Changelog
+
+### 1.2.2 — 2026-10-22
+- La nota de licencia/contacto del pie de página está traducida a todos los idiomas de la interfaz.
 
 ### 1.1.0 — 2026-10-14
 - Copia de seguridad y etiquetado de datos (fff-kit).

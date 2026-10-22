@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.2.1 · **Utolsó frissítés:** 2026-10-19
+**Verzió:** 1.2.2 · **Utolsó frissítés:** 2026-10-22
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -54,6 +54,9 @@ Tájékoztató/szórakoztató tartalom, tudományos érvényesítés nélkül: a
 Töltsd le az `index.html` fájlt, és nyisd meg böngészőben; a numerológia internet nélkül is működik. Az MI-orákulumhoz helyi modellszerver (például Ollama) vagy az általad választott cím szükséges.
 
 ## Előzmények / Changelog
+
+### 1.2.2 — 2026-10-22
+- A láblécben lévő licenc-/kapcsolati megjegyzés az összes felületi nyelvre le van fordítva.
 
 ### 1.1.0 — 2026-10-14
 - Adatmentés és adatcímkézés (fff-kit).

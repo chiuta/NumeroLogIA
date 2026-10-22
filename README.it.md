@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.2.1 · **Ultimo aggiornamento:** 2026-10-19
+**Versione:** 1.2.2 · **Ultimo aggiornamento:** 2026-10-22
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -54,6 +54,9 @@ Contenuto informativo/di intrattenimento, privo di validazione scientifica: la n
 Scarica `index.html` e aprilo in un browser; la numerologia funziona senza internet. L'oracolo IA richiede un server di modelli locale (per esempio Ollama) o un indirizzo a tua scelta.
 
 ## Cronologia / Changelog
+
+### 1.2.2 — 2026-10-22
+- La nota su licenza/contatto nel piè di pagina è tradotta in tutte le lingue dell'interfaccia.
 
 ### 1.1.0 — 2026-10-14
 - Backup ed etichettatura dei dati (fff-kit).

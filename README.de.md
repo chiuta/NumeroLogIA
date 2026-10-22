@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.2.1 · **Zuletzt aktualisiert:** 2026-10-19
+**Version:** 1.2.2 · **Zuletzt aktualisiert:** 2026-10-22
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -54,6 +54,9 @@ Informations-/Unterhaltungsinhalt ohne wissenschaftliche Validierung: Numerologi
 Lade `index.html` herunter und öffne sie in einem Browser; die Numerologie funktioniert ohne Internet. Das KI-Orakel benötigt einen lokalen Modellserver (z. B. Ollama) oder eine Adresse deiner Wahl.
 
 ## Verlauf / Changelog
+
+### 1.2.2 — 2026-10-22
+- Der Lizenz-/Kontakthinweis in der Fußzeile ist in alle Oberflächensprachen übersetzt.
 
 ### 1.1.0 — 2026-10-14
 - Datensicherung und Datenkennzeichnung (fff-kit).
