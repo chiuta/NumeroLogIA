@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.2.7 · **Ultima actualizare:** 2026-10-23
+**Versiune:** 1.2.8 · **Ultima actualizare:** 2026-10-23
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -54,6 +54,10 @@ Conținut informativ/de divertisment, fără validare științifică: numerologi
 Descarcă `index.html` și deschide-l în browser; numerologia funcționează fără internet. Oracolul IA are nevoie de un server de modele local (de exemplu Ollama) sau de o adresă la alegerea ta.
 
 ## Istoric / Changelog
+
+### 1.2.8 — 2026-10-23
+
+Audit: accesibilitate. Titlurile de secțiune au nivel de titlu consecvent (aria-level, fără schimbare vizuală), iar linia „tulpinilor ascunse” din stâlpii BaZi respectă contrastul (11 px, fără opacitate redusă). axe: 0 încălcări în cele zece file la 360 px, întunecat și luminos.
 
 ### 1.2.7 — 2026-10-23
 
