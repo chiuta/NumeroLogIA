@@ -1,0 +1,37 @@
+// Explicatorul metodei (v2.0.0): calcul pas cu pas, verificat față de regula de reducere. Rulare: node tests/metoda.test.mjs
+import {createRequire} from 'module'; import path from 'node:path'; import {fileURLToPath} from 'node:url';
+const require = createRequire(process.env.PW_ROOT || import.meta.url); const {chromium} = require('playwright');
+const HERE = path.dirname(fileURLToPath(import.meta.url)); const FILE = 'file://' + path.join(HERE, '..', 'index.html');
+let ok = 0, bad = 0; const t = (n, c, x) => { if (c) { ok++; console.log('  ok  ', n); } else { bad++; console.log('  FAIL', n, x ?? ''); } };
+const b = await chromium.launch({executablePath: process.env.CHROMIUM_PATH || undefined, args: ['--no-sandbox']});
+const ctx = await b.newContext({viewport: {width: 1100, height: 800}, locale: 'en-US', acceptDownloads: true});
+const net = []; await ctx.route(/^https?:/, r => { net.push(r.request().url()); r.abort(); });
+const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
+p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
+await p.goto(FILE); await p.waitForTimeout(800);
+await p.selectOption('#langSel', 'en');
+await p.fill('#inName', 'Maria Ionescu'); await p.fill('#inDate', '1988-07-23');
+await p.click('#calcBtn'); await p.click('nav.tabs button[data-tab="metoda"]');
+const txt = await p.textContent('#methodOut');
+t('tab Metoda vizibil', await p.isVisible('#panel-metoda'));
+t('data: ziua 23 -> 2+3 = 5', /23: .*2\+3 = 5/.test(txt), txt.slice(0, 300));
+t('anul 1988 -> 1+9+8+8 = 26 -> 2+6 = 8', /1\+9\+8\+8 = 26/.test(txt) && /2\+6 = 8/.test(txt));
+t('suma 5 + 7 + 8 = 20 -> 2', /5 \+ 7 \+ 8 = 20/.test(txt));
+t('numărul Drumului Vieții = 2', /Life Path number:\s*2/.test(txt), txt.match(/Life Path number:.{0,6}/)?.[0]);
+const calc = await p.evaluate(() => ({expr: profile.nn.sumRaw, rows: [...document.querySelectorAll('#methodOut table.mx-tbl tbody tr')].map(r => [r.querySelector('th').textContent, +r.querySelector('td:last-child').textContent])}));
+t('subtotaluri pe cuvinte însumează la Σ din motor', calc.rows.reduce((s, r) => s + r[1], 0) === calc.expr, calc);
+t('două cuvinte în tabel', calc.rows.length === 2);
+t('avertisment: aritmetică, nu predicție', /not a prediction/.test(txt));
+t('comparație pitagoreic vs chaldean', /Same name, two systems/.test(txt));
+await p.click('nav.tabs button[data-tab="metoda"]'); await p.click('#sysSeg button[data-sys="chal"]');
+const cal2 = await p.evaluate(() => profile && profile.nn ? profile.nn.sumRaw : null);
+t('sistem chaldean reevaluat', typeof cal2 === 'number');
+// numere maestru
+await p.fill('#inDate', '1980-11-29'); await p.click('#calcBtn');
+const t2 = await p.textContent('#methodOut'); t('număr maestru 11 rămâne (luna 11)', /11 \(master number/.test(t2), t2.slice(0, 400));
+const [dl] = await Promise.all([p.waitForEvent('download'), p.click('#mxSave')]);
+t('export .txt', dl.suggestedFilename() === 'numerologia-calcul.txt');
+await p.selectOption('#langSel', 'ro'); await p.waitForTimeout(100);
+t('RO: titlu tradus', /pas cu pas/.test(await p.textContent('#methodOut')));
+t('fără erori JS/CSP', errs.length === 0, errs); t('0 cereri de rețea', net.length === 0, net);
+await b.close(); console.log(`\n${ok} reușite, ${bad} eșuate`); process.exit(bad ? 1 : 0);

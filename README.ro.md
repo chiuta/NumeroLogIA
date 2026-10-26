@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.2.9 · **Ultima actualizare:** 2026-10-26
+**Versiune:** 2.0.0 · **Ultima actualizare:** 2026-10-26
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -54,6 +54,10 @@ Conținut informativ/de divertisment, fără validare științifică: numerologi
 Descarcă `index.html` și deschide-l în browser; numerologia funcționează fără internet. Oracolul IA are nevoie de un server de modele local (de exemplu Ollama) sau de o adresă la alegerea ta.
 
 ## Istoric / Changelog
+
+### 2.0.0 — 2026-10-26
+
+Fila nouă „Metoda": explicator al calculului pas cu pas (reducerea datei, valoarea fiecărei litere, subtotaluri pe cuvinte, numere maestru, comparație pitagoreic/caldeean), cu copiere și export .txt. Arată că e aritmetică, nu predicție. Test: `tests/metoda.test.mjs`.
 
 ### 1.2.8 — 2026-10-23
 
