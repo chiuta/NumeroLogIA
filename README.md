@@ -2,7 +2,9 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 2.0.0 · **Last updated:** 2026-10-26
+**Version:** 2.0.1 · **Last updated:** 2026-10-27
+
+**Status:** stable; explains tool vs. course and links to Numerologie · **Offline:** complete (no network requests)
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -52,6 +54,10 @@ Informational/entertainment content, without scientific validation: numerology, 
 ## Running locally / offline
 
 Download `index.html` and open it in a browser; numerology works without internet. The AI oracle needs a local model server (for example Ollama) or an address of your choice.
+
+## NumeroLogIA vs. Numerologie: tool vs. course (2026-10-27)
+
+A short note at the bottom of the app (9 languages) explains the difference and links to the sibling app: **NumeroLogIA is a tool** (numeric portrait, cycles, compatibility, BaZi), while **[Numerologie](https://chiuta.github.io/Numerologie/) is a course** (history, Pythagorean/Chaldean/Kabbalistic systems, exercises, quiz). They are complementary, separate apps: **they were not merged** and no content was removed.
 
 ## History / Changelog
 

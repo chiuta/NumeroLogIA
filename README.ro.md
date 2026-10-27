@@ -2,7 +2,9 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 2.0.0 · **Ultima actualizare:** 2026-10-26
+**Versiune:** 2.0.1 · **Ultima actualizare:** 2026-10-27
+
+**Stare:** stabil; explică unealtă vs. curs și trimite la Numerologie · **Offline:** complet (fără cereri de rețea)
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Català, Deutsch, Magyar**
 
@@ -52,6 +54,10 @@ Conținut informativ/de divertisment, fără validare științifică: numerologi
 ## Rulare locală / offline
 
 Descarcă `index.html` și deschide-l în browser; numerologia funcționează fără internet. Oracolul IA are nevoie de un server de modele local (de exemplu Ollama) sau de o adresă la alegerea ta.
+
+## NumeroLogIA vs. Numerologie: unealtă vs. curs (2026-10-27)
+
+O notă scurtă în partea de jos a aplicației (9 limbi) explică diferența și trimite la aplicația-soră: **NumeroLogIA este o unealtă** (portret numeric, cicluri, compatibilitate, BaZi), iar **[Numerologie](https://chiuta.github.io/Numerologie/) este un curs** (istoric, sistemele pitagoreic/caldeean/cabalistic, exerciții, test). Sunt aplicații separate, complementare: **nu au fost fuzionate** și nu s-a șters conținut.
 
 ## Istoric / Changelog
 
