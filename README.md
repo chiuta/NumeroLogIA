@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 2.0.6 · **Last updated:** 2026-11-10
+**Version:** 2.0.7 · **Last updated:** 2026-11-13
 
 **Status:** stable; explains tool vs. course and links to Numerologie · **Offline:** complete (no network requests)
 
