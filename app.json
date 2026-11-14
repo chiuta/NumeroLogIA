@@ -22,7 +22,8 @@
   "permissions": [
     "clipboard",
     "serviceWorker",
-    "localStorage"
+    "localStorage",
+    "WebGL"
   ],
   "storageKeys": [
     "numerologia.ai.",
@@ -31,13 +32,13 @@
     "numerologia.pref.",
     "numerologia.saved_v1"
   ],
-  "sizeBytes": 850020,
-  "sha256": "069e2fc4383a5297be008263d16db2460535e2a79a90a534c53d026846c802ff",
+  "sizeBytes": 901663,
+  "sha256": "24c994f3f312afc63ac53debbd572c9ae6258d37d494565fff2cd38b681588ff",
   "csp": {
     "present": true,
     "directives": {
       "default-src": "'none'",
-      "script-src": "sha256×4",
+      "script-src": "sha256×5",
       "style-src": "'unsafe-inline'",
       "img-src": "'self' data:",
       "connect-src": "http: https:",
