@@ -2,7 +2,7 @@
   "schema": 1,
   "slug": "numerologia",
   "name": "NumeroLogIA — Numerologie + IA",
-  "version": "2.0.8",
+  "version": "2.1.0",
   "updated": "2026-11-15",
   "description": "Numerologie pitagoreică și chaldeană, cu analiză a ciclurilor, compatibilitate și un oracol IA opțional care rulează pe modelul tău local.",
   "egress": [
@@ -32,8 +32,8 @@
     "numerologia.pref.",
     "numerologia.saved_v1"
   ],
-  "sizeBytes": 906951,
-  "sha256": "b5123d910df4a59c2feeca0ecfa9f4f08b59b6562b627291fe2ddd7d972a4feb",
+  "sizeBytes": 944973,
+  "sha256": "dc48d09491f636110403fba772e3c20e342cf01d271252543a2cf92e940eb37b",
   "csp": {
     "present": true,
     "directives": {
@@ -73,6 +73,7 @@
       "dialog",
       "exit",
       "view",
+      "a11y",
       "ux",
       "label",
       "bundle",
@@ -83,13 +84,14 @@
     ]
   },
   "kit": {
-    "version": "1.5.0",
+    "version": "1.6.0",
     "modules": [
       "core",
       "store",
       "dialog",
       "exit",
       "view",
+      "a11y",
       "ux",
       "label",
       "bundle",
